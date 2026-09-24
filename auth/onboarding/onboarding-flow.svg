@@ -1,49 +1,139 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 925" role="img" aria-labelledby="title desc">
-<title id="title">Onboarding Flow</title>
-<desc id="desc">Flow diagram matching the Mermaid source in the adjacent architecture document.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1110 1520" role="img" aria-labelledby="title desc">
+<title id="title">Email onboarding: automatic confirmation and manual code fallback</title>
+<desc id="desc">The original client automatically confirms with A and B. A client without A asks the user to enter C from the email and submit B and C. Both paths validate the transaction, establish a session, and continue to passkey setup.</desc>
 <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#176B64" stroke-width="1.5"/></marker></defs>
-<rect width="980" height="925" fill="#F7F8F8"/>
-<path d="M350 82 L350 110" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 162 L350 190" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 242 L350 270" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 322 L350 350" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 402 L350 430" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<text x="363" y="420.0" font-family="Arial,sans-serif" font-size="12" fill="#4E5B60">Yes</text>
-<path d="M480 376 L525.0 376 L525.0 376 L570 376" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<text x="530.0" y="368" font-family="Arial,sans-serif" font-size="12" fill="#4E5B60">Later</text>
-<path d="M350 482 L350 510" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 562 L350 590" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<text x="363" y="580.0" font-family="Arial,sans-serif" font-size="12" fill="#4E5B60">Yes</text>
-<path d="M480 536 L525.0 536 L525.0 536 L570 536" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<text x="530.0" y="528" font-family="Arial,sans-serif" font-size="12" fill="#4E5B60">Expired</text>
-<path d="M570 536 L525.0 536 L525.0 616 L480 616" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 642 L350 670" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 722 L350 750" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<path d="M350 802 L350 830" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="220" y="30" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="57.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Enter email</text>
-<rect x="220" y="110" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="137.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">POST /signup</text>
-<rect x="220" y="190" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="217.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">SES email with app-domain link</text>
-<rect x="220" y="270" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="297.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Open confirmation screen</text>
-<rect x="220" y="350" width="260" height="52" rx="12" fill="#E7F1EF" stroke="#176B64" stroke-width="1.5"/>
-<text x="350" y="377.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="600" fill="#20282B">User taps Verify?</text>
-<rect x="220" y="430" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="457.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">POST /confirm</text>
-<rect x="220" y="510" width="260" height="52" rx="12" fill="#E7F1EF" stroke="#176B64" stroke-width="1.5"/>
-<text x="350" y="537.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="600" fill="#20282B">Session exchange succeeds?</text>
-<rect x="220" y="590" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="617.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Authenticated session</text>
-<rect x="220" y="670" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="697.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Create platform passkey</text>
-<rect x="220" y="750" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="777.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">POST /passkeys/complete</text>
-<rect x="220" y="830" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="350" y="857.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Invite identity check or skip</text>
-<rect x="570" y="350" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="700" y="377.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Return or resend</text>
-<rect x="570" y="510" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
-<text x="700" y="537.0" text-anchor="middle" dominant-baseline="middle" font-family="Arial,sans-serif" font-size="14" font-weight="500" fill="#20282B">Email OTP recovery</text>
+<rect width="1110" height="1520" fill="#F7F8F8"/>
+<text x="555" y="38" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="600" fill="#20282B">Email confirmation and passkey setup</text>
+<text x="555" y="61" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#4E5B60">Automatic in the original client; enter the email code elsewhere</text>
+<g data-edge-source="S" data-edge-target="T" data-edge-label="">
+<path d="M555 132 V168" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="T" data-edge-target="M" data-edge-label="">
+<path d="M555 222 V258" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="M" data-edge-target="L" data-edge-label="">
+<path d="M555 312 V348" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="L" data-edge-target="D" data-edge-label="">
+<path d="M555 402 V432" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="D" data-edge-target="P" data-edge-label="Yes">
+<path d="M375 475 H275 V551" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="317" y="461" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">Yes</text>
+</g>
+<g data-edge-source="D" data-edge-target="Q" data-edge-label="No">
+<path d="M735 475 H835 V551" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="785" y="461" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">No</text>
+</g>
+<g data-edge-source="Q" data-edge-target="R" data-edge-label="">
+<path d="M835 609 V643" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="P" data-edge-target="V" data-edge-label="">
+<path d="M275 609 V728 H555 V747" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="R" data-edge-target="V" data-edge-label="">
+<path d="M835 697 V728 H555 V747" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="V" data-edge-target="E" data-edge-label="No">
+<path d="M385 790 H205 V886" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="304" y="776" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">No</text>
+</g>
+<g data-edge-source="V" data-edge-target="F" data-edge-label="Yes">
+<path d="M555 833 V886" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="574" y="866" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">Yes</text>
+</g>
+<g data-edge-source="F" data-edge-target="G" data-edge-label="">
+<path d="M555 944 V972" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="G" data-edge-target="O" data-edge-label="No">
+<path d="M705 1015 H750" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="727" y="1001" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">No</text>
+</g>
+<g data-edge-source="G" data-edge-target="H" data-edge-label="Yes">
+<path d="M555 1058 V1103" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="574" y="1086" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">Yes</text>
+</g>
+<g data-edge-source="O" data-edge-target="H" data-edge-label="">
+<path d="M880 1042 V1130 H725" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="H" data-edge-target="J" data-edge-label="">
+<path d="M555 1157 V1193" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="J" data-edge-target="K" data-edge-label="">
+<path d="M555 1247 V1283" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-edge-source="K" data-edge-target="N" data-edge-label="">
+<path d="M555 1337 V1373" fill="none" stroke="#176B64" stroke-width="2" marker-end="url(#arrow)"/>
+</g>
+<g data-node-id="S" data-node-label="Enter email; generate and retain A">
+<rect x="380" y="78" width="350" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="110" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Enter email; generate and retain A</text>
+</g>
+<g data-node-id="T" data-node-label="POST /signup with A challenge">
+<rect x="380" y="168" width="350" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="200" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">POST /signup with A challenge</text>
+</g>
+<g data-node-id="M" data-node-label="Email link B and separate code C">
+<rect x="380" y="258" width="350" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="290" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Email link B and separate code C</text>
+</g>
+<g data-node-id="L" data-node-label="Open app or website">
+<rect x="380" y="348" width="350" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="380" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Open app or website</text>
+</g>
+<g data-node-id="D" data-node-label="Matching A available locally?">
+<path d="M375 475 L555 432 L735 475 L555 518 Z" fill="#E7F1EF" stroke="#176B64" stroke-width="1.5"/>
+<text x="555" y="471" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="600" fill="#20282B">Matching A available</text>
+<text x="555" y="489" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="600" fill="#20282B">locally?</text>
+</g>
+<g data-node-id="P" data-node-label="Automatically POST /confirm with A+B">
+<rect x="95" y="551" width="360" height="58" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="275" y="585" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Automatically POST /confirm with A+B</text>
+</g>
+<g data-node-id="Q" data-node-label="Enter C from email; tap Verify email">
+<rect x="655" y="551" width="360" height="58" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="835" y="585" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Enter C from email; tap Verify email</text>
+</g>
+<g data-node-id="R" data-node-label="POST /confirm with B+C">
+<rect x="655" y="643" width="360" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="835" y="675" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">POST /confirm with B+C</text>
+</g>
+<g data-node-id="V" data-node-label="Proofs valid and unused?">
+<path d="M385 790 L555 747 L725 790 L555 833 Z" fill="#E7F1EF" stroke="#176B64" stroke-width="1.5"/>
+<text x="555" y="795" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="600" fill="#20282B">Proofs valid and unused?</text>
+</g>
+<g data-node-id="E" data-node-label="Retry, code entry, or resend">
+<rect x="55" y="886" width="300" height="58" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="205" y="920" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Retry, code entry, or resend</text>
+</g>
+<g data-node-id="F" data-node-label="Confirm email and exchange session">
+<rect x="385" y="886" width="340" height="58" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="920" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Confirm email and exchange session</text>
+</g>
+<g data-node-id="G" data-node-label="Session available?">
+<path d="M405 1015 L555 972 L705 1015 L555 1058 Z" fill="#E7F1EF" stroke="#176B64" stroke-width="1.5"/>
+<text x="555" y="1020" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="600" fill="#20282B">Session available?</text>
+</g>
+<g data-node-id="O" data-node-label="Email OTP recovery">
+<rect x="750" y="988" width="260" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="880" y="1020" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Email OTP recovery</text>
+</g>
+<g data-node-id="H" data-node-label="Authenticated session">
+<rect x="385" y="1103" width="340" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="1135" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Authenticated session</text>
+</g>
+<g data-node-id="J" data-node-label="Create platform passkey">
+<rect x="385" y="1193" width="340" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="1225" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Create platform passkey</text>
+</g>
+<g data-node-id="K" data-node-label="POST /passkeys/complete">
+<rect x="385" y="1283" width="340" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="1315" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">POST /passkeys/complete</text>
+</g>
+<g data-node-id="N" data-node-label="Invite identity check or skip">
+<rect x="385" y="1373" width="340" height="54" rx="12" fill="#FFFFFF" stroke="#DCE2E3" stroke-width="1.5"/>
+<text x="555" y="1405" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="400" fill="#20282B">Invite identity check or skip</text>
+</g>
+<text x="555" y="1471" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">GET / HEAD never confirm. B alone is insufficient. All proofs are bound to one transaction.</text>
+<text x="555" y="1493" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#4E5B60">A stays in the original client. B is in the email link. C is shown separately in the email.</text>
 </svg>

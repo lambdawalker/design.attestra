@@ -2,32 +2,44 @@
 
 Read [shared auth DESIGN.md](../DESIGN.md) first. Generate responsive website views and corresponding native mobile layouts for this flow. Use the [architecture](architecture.md) for state transitions. Screen mockups are design specifications, not proof that app/web clients have been implemented. Use a neutral editable product label; avoid invented logos, legal claims, bank branding, and identity approval badges.
 
+**Revision:** Automatic confirmation in the original signup context, with manual email-code fallback when that context is unavailable. Backend and client implementation of this revision is pending.
+
 ## One-line Stitch prompt
 
-> Design an app-domain email signup and passkey setup for a trusted digital service. Start with one email input. Send a branded verification email, open its HTTPS link in the app or website, wait for the user to tap Verify email, issue a session, then create a platform passkey. Finish by offering identity verification or Skip for now. Use the shared DESIGN.md palette and typography; include concise recovery and accessibility states. Never show Cognito-hosted UI or treat opening the link as confirmation.
+> Design an app-domain email signup and passkey setup for a trusted digital service. Start with one email input. Send a branded email with a verification link and a separate verification code. When the link opens in the original signup context, show a brief verifying state and automatically advance to passkey setup after the server confirms. Otherwise show an empty code field and a Verify email button; the user enters the code from that same email and submits it. Both paths reach the same Create passkey screen. Finish with identity verification or Skip for now. Use shared DESIGN.md styling, recovery and accessibility states. Never show technical token names or Cognito-hosted UI.
 
 ## Screens and variants
 
 | Screen | Required visual content | Primary action | Secondary / failure states |
 | --- | --- | --- | --- |
-| 1. Enter email | Left-aligned heading “Start with your email”; editable email field, one-sentence delivery explanation | Continue | Invalid email inline; submission in progress; generic result if email already exists |
-| 2. Check your email | Masked or fully shown address according to privacy context, link/code arrival instructions; clear way to correct email | Open email app (only if supported) or return to app | Resend after rate-limit window, change email, delayed/delivery failure copy; never assert delivery merely from HTTP 202 |
-| 3. Review verification link | On the app/website domain: email being verified, action summary, optional editable code fallback. Rendering has no side effect | Verify email | Expired code → resend; mismatch → retry; link opened elsewhere; already-confirmed account → email OTP login |
-| 4. Create passkey | “Protect your account with a passkey”; concise explanation of device/password-manager choice and platform prompt | Create passkey | Platform cancellation, unsupported device, retry, **Do this later** with explicit email OTP return path |
-| 5. Ready for next step | Separate status rows “Email verified” and “Passkey added”; invitation to submit ID later | Continue to identity verification | Skip for now; if passkey creation was deferred, show “Passkey not added” and re-entry action instead of a success state |
+| 1. Enter email | Left-aligned heading “Start with your email”; editable email field and one-sentence delivery explanation | Continue | Invalid email inline; submission in progress; generic result for existing addresses |
+| 2. Check your email | Address according to privacy context; instructions to open the link and keep the email's code available if asked | Open email app, only if supported | Throttled resend, change email, delayed/delivery failure copy; never assert delivery merely from HTTP 202 |
+| Email template | One verification link and a separately displayed verification code; explain that the code is needed if prompted after opening the link | Verify email link | Expiry and newest-email guidance; the code is text, not embedded in the link |
+| 3a. Automatic verification | “Verifying your email…” with a restrained progress state; no confirmation button | Automatic transition after successful confirmation/session issuance | Retry for network failure; code-entry variant if local proof is stale; expiry/resend; already-confirmed account recovery |
+| 3b. Enter verification code | “Verify your email”; empty labeled “Verification code” input; “Enter the code from the email you just opened.” | Verify email | Wrong code, attempt limit, expired/replaced link, throttled resend, invalid-link state |
+| 4. Create passkey | “Protect your account with a passkey”; concise explanation of device/password-manager choice and platform prompt | Create passkey | Platform cancellation, unsupported device, retry, **Do this later** with email OTP return path |
+| 5. Ready for next step | Separate status rows “Email verified” and “Passkey added”; invitation to submit ID later | Continue to identity verification | Skip for now; if passkey creation was deferred show “Passkey not added” and a re-entry action |
+
+Screens 3a and 3b are alternatives selected automatically, not consecutive steps. Users do not choose an authentication mode or need to understand why a code is requested.
 
 ## Interaction details
 
-- Step 3 is a review screen. Trigger `POST /confirm` **only after** the explicit user action. Link scanners and the system browser's GET cannot consume the code. On 409 `confirmed_sign_in_required`, move to the email OTP login recovery state rather than looping confirmation.
-- Step 4 uses the browser/native credential UI. Do not draw a fake fingerprint or passkey approval modal. Loading should say “Opening your passkey manager” and allow a clear return path if the platform prompt is dismissed.
-- After `POST /passkeys/complete` succeeds, show separate email and passkey status. A user may skip identity verification without losing access to features that do not require it. Do not imply a completed identity or address check.
-- On native, deep links and the web route share wording and recovery behavior. The browser fallback stays on the application domain. On desktop, the form occupies a compact left column with a restrained right side explaining security only when space permits.
-- Verify on small devices, large text, keyboard-only web navigation, reduced motion, screen reader announcements, OTP paste/autofill, and an offline or slow network state. Controls must remain at least 44px high.
+- After the email link opens, the client checks for its matching retained signup secret A. With A, automatically send A+B to `POST /confirm`; without A, render screen 3b. GET/HEAD requests themselves have no confirmation side effects.
+- In screen 3b, the user supplies C while B is retained from the link. Submit B+C only after **Verify email** is activated. Support manual entry, full-code paste, leading zeros, and platform autofill as one accessible input; filling the field never submits automatically. C is not recoverable from B and is never prefilled by a backend lookup.
+- Keep the token labels A/B/C, request identifiers, hashes, provider names, and raw errors out of the product UI. The automatic screen needs no extra “Continue” button.
+- Both paths advance only after the backend confirms and establishes a session. On `409 confirmed_sign_in_required`, offer email OTP sign-in recovery; do not loop confirmation. If confirmation succeeded but session exchange failed, acknowledge verified email separately from the sign-in step.
+- Incorrect/stale A may transition to 3b without consuming the link. Invalid or expired B needs a new email. Resending replaces both the link and code: instruct users to open the newest email rather than combining an old link with a new code.
+- Only the confirming client gets the session. Do not redirect the original waiting client based solely on polling email-verification status.
+- Step 4 uses the browser/native credential UI and retains its own **Create passkey** action. Do not draw a fake biometric prompt or launch passkey creation merely because automatic email confirmation finished. Loading should say “Opening your passkey manager” and allow a return path if dismissed.
+- After `POST /passkeys/complete` succeeds, show separate email and passkey status. Skipping identity verification never implies a completed identity/address check.
+- On native and web, use the same wording and recovery states. A link claimed by an app can use the automatic path only if that app holds the matching A. A browser fallback may require code entry even on the same physical device.
+- Verify small screens, large text, keyboard navigation, reduced motion, screen-reader status announcements, OTP paste/autofill, and offline/slow-network states. Controls must remain at least 44px high.
 
 ## Content and state checks for generated screens
 
-1. There is exactly one primary action per screen; the recovery action is visible and text-labeled.
-2. The confirmation screen never says “verified” before `/confirm` succeeds.
-3. Passkey and identity outcomes are not conflated. Skipped identity is shown as a later choice, not as failure.
-4. Token values, OTP values, raw error messages, and full verification URLs are never used as mock decorative text.
-5. Use names like “you” and realistic editable field labels; avoid fabricated user identities or unsupported trust numbers.
+1. Each actionable screen has one primary action and visible recovery. Automatic verification has progress and recovery when needed, with no redundant confirmation action.
+2. No “Email verified” claim appears before the server confirms. Do not show passkey setup before a usable session is available.
+3. The email template includes the verification code as functional content; the manual landing screen starts empty and requires submission.
+4. No technical token labels, raw secret values, full verification URLs, or provider errors are used as decorative mock text.
+5. Passkey and identity outcomes are not conflated. Skipped identity is a later choice, not failure.
+6. Use names like “you” and realistic editable labels; avoid fabricated identities or unsupported trust numbers.
