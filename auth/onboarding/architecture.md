@@ -1,18 +1,37 @@
 # Authentication / onboarding architecture
 
-**Status:** Backend implemented in [go.onboarding](https://github.com/lambdawalker/go.onboarding/pull/1) using Go and Pulumi; application screens, deep-link association, and platform passkey adapters remain integration work. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [API reference in the implementation branch](https://github.com/lambdawalker/go.onboarding/blob/feat/aws-onboarding/README.md#api).
+**Status:** Design revision for automatic A+B confirmation and manual B+C confirmation. The existing [Go backend draft](https://github.com/lambdawalker/go.onboarding/pull/1) implements the earlier email/code flow; the three-token protocol below, email generation, transaction storage, and client branching still require implementation. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Current implementation API](https://github.com/lambdawalker/go.onboarding/blob/feat/aws-onboarding/README.md#api).
 
 ## Goal and boundaries
 
-Create an account by verifying an email address and then registering a passkey. Let the user reach an authenticated session from the original email proof without asking for another OTP. The app and website own every visible screen; Cognito does not host the UI. Onboarding completion means email confirmed and passkey registered. It never implies identity or address verification.
+Create an account by verifying an email address and then registering a passkey. When the email link opens in the client that started signup, confirm automatically and advance to passkey setup. When the original client secret is unavailable, ask for the code displayed in that same email and confirm after the user submits it. Do not send a second email challenge on either successful path.
+
+The app and website own every visible screen; Cognito does not host the UI. Onboarding completion means email confirmed and passkey registered. It never implies identity or address verification.
 
 | Responsibility | Owner |
 | --- | --- |
-| Signup, code validation, confirmation session, access/refresh tokens, WebAuthn credentials | Cognito User Pool |
-| Email sending and sender identity | Cognito with a verified SES domain; Custom Message Go Lambda supplies the app-domain link |
-| API orchestration and safe error codes | Go onboarding Lambda and HTTP API Gateway |
-| HTTPS verification screen, user tap, passkey platform calls, session protection | Website and native applications |
-| AWS infrastructure | Pulumi Go stack in [`go.onboarding/infra`](https://github.com/lambdawalker/go.onboarding/tree/feat/aws-onboarding/infra) |
+| Account state, authentication session, access/refresh tokens, WebAuthn credentials | Cognito User Pool |
+| A+B / B+C proof validation, transaction expiry, retry limits, single use, and Cognito orchestration | Go onboarding backend and transaction store |
+| Independent B and C generation and email composition | Backend email integration using the verified SES sender |
+| Generate and retain A, route the email link, automatic confirmation or code-entry fallback | Website and native applications |
+| Passkey platform calls and session protection | Website and native applications |
+| AWS infrastructure | Pulumi Go stack in [go.onboarding/infra](https://github.com/lambdawalker/go.onboarding/tree/feat/aws-onboarding/infra) |
+
+## Tokens and transaction binding
+
+| Value | Created by | Stored or delivered where | Purpose |
+| --- | --- | --- | --- |
+| A: client secret | Client, using a cryptographically secure generator | Retained only in the initiating client until confirmation; never emailed or placed in URLs | Proves possession of the original signup context |
+| A challenge | Client: base64url(SHA256(A)), using S256 semantics | Sent at signup and retained by the backend | Lets the backend check A without receiving A at signup |
+| B: link token | Backend, independently of A and C | Email HTTPS link; backend stores a hash | Identifies and proves possession of the specific email link |
+| C: manual code | Backend, independently of A and B | Displayed as text in the email, outside the link; user enters it on the fallback screen | Allows confirmation when A is unavailable |
+| request_id | Backend | Returned to the initiating client and included in the email link | Non-secret handle to locate the matching locally stored A |
+
+Generate A and B with at least 256 bits of cryptographic randomness. For C, use a cryptographically generated eight-digit decimal string, preserving leading zeros. Store a keyed digest of C scoped to its transaction; its short code space makes an ordinary unkeyed hash insufficient protection against offline guessing.
+
+Bind the normalized email, request_id, A challenge, B hash, C digest, expiry, resend generation, attempt counters, and state to one transaction. Accept **B plus exactly one of A or C** for that transaction. Reject mixed, missing, mismatched, expired, replaced, or reused proofs. The backend determines the account from the transaction, never from a client-supplied email in the final confirmation.
+
+C must not appear in the link, redirect parameters, page HTML, or any response obtainable with B alone. The fallback screen starts with an empty code field. Token names A, B, and C are implementation vocabulary and never appear in user-facing copy.
 
 ## Flow
 
@@ -22,45 +41,87 @@ The SVG is a static rendering of the same steps below; GitHub also renders the M
 
 ```mermaid
 flowchart TD
-    A["Enter email"] --> B["POST /signup"]
-    B --> C["SES email with app-domain link"]
-    C --> D["Open confirmation screen"]
-    D --> E{"User taps Verify?"}
-    E -->|Yes| F["POST /confirm"]
-    E -->|Later| R["Return or resend"]
-    F --> G{"Session exchange succeeds?"}
+    S["Enter email; generate and retain A"] --> T["POST /signup with A challenge"]
+    T --> M["Email link B and separate code C"]
+    M --> L["Open app or website"]
+    L --> D{"Matching A available locally?"}
+    D -->|Yes| P["Automatically POST /confirm with A+B"]
+    D -->|No| Q["Enter C from email; tap Verify email"]
+    Q --> R["POST /confirm with B+C"]
+    P --> V{"Proofs valid and unused?"}
+    R --> V
+    V -->|No| E["Retry, code entry, or resend"]
+    V -->|Yes| F["Confirm email and exchange session"]
+    F --> G{"Session available?"}
+    G -->|No| O["Email OTP recovery"]
     G -->|Yes| H["Authenticated session"]
-    G -->|Expired| I["Email OTP recovery"]
-    I --> H
+    O --> H
     H --> J["Create platform passkey"]
     J --> K["POST /passkeys/complete"]
-    K --> L["Invite identity check or skip"]
+    K --> N["Invite identity check or skip"]
 ```
 
-1. `POST /signup` with an email creates an unconfirmed, passwordless Cognito account. Signup for an existing address responds with the same generic 202 as a new signup. The response does not guarantee an email was sent.
-2. Cognito sends a confirmation code through SES. The Go Custom Message Lambda builds `https://<app-host>/verify-email?email=...&code=...`, retaining Cognito's literal code placeholder for substitution. It customizes signup and resend messages; authentication OTP emails use Cognito's configured behavior.
-3. The HTTPS route opens a confirmation screen in the installed app through Android App Links/iOS Universal Links where associated, or on the website otherwise. **GET, link preview, prefetch, and page render do not confirm.** The screen offers an explicit **Verify email** action.
-4. A deliberate tap sends `POST /confirm` with email and code. The backend calls `ConfirmSignUp`, then starts `USER_AUTH` with its returned `Session` and `USERNAME`. A successful exchange returns a Cognito token set without another email challenge.
-5. A confirmed account whose session exchange cannot finish receives `409 confirmed_sign_in_required`. Start email OTP sign-in through [login](../login/architecture.md); do not replay `ConfirmSignUp` against an already confirmed account.
-6. With the Cognito access token, call `POST /passkeys/options`, use browser WebAuthn or Android/iOS credential APIs to create a passkey for the configured RP ID, then submit the resulting registration JSON to `POST /passkeys/complete`. Show success only after that endpoint returns `registered: true`.
-7. Offer a clear **Continue to identity verification** and **Skip for now**. Skipping preserves the authenticated account and does not alter identity/address assurance. Feature-specific gates can invite continuation later.
+1. The client generates A and sends the email, A challenge, and S256 method to `POST /signup`. Retain A in local pending state; associate it with request_id when the response arrives. Signup creates an unconfirmed, passwordless account where appropriate. New and existing addresses receive the same generic 202 response shape with an opaque request_id; this does not guarantee an email was sent. Signup must never become a sign-in shortcut for an already confirmed account.
+2. For an eligible pending account, the backend creates B and C and sends one email containing both a link and a separately displayed code. The link is `https://<app-host>/verify-email?request_id=...&b=...`. Neither A nor C is in the URL.
+3. Android App Links/iOS Universal Links route to the installed app where associated; otherwise the website handles the route. **GET and HEAD never confirm or consume anything.** After the client loads, it looks up A for this request_id.
+4. If matching local A exists, show “Verifying your email…” and automatically send `POST /confirm` with B and A. No confirmation button is required on this path. A's local presence only selects the path; the backend still validates the proof.
+5. If A is unavailable, show an empty “Verification code” field and a **Verify email** button. The user enters C from the email; submission sends B and C. Paste and platform autofill may fill the field, but must not submit it automatically.
+6. Both paths validate their proofs before changing Cognito state. A successful confirmation obtains an authenticated session and advances directly to **Create passkey**. Only the client that completed proof receives the session; the original client cannot obtain it merely by polling request_id.
+7. If email confirmation succeeds but session exchange fails or expires, return `409 confirmed_sign_in_required` and start email OTP recovery through [login](../login/architecture.md). Do not replay confirmation or reopen the consumed transaction.
+8. With the access token, call `POST /passkeys/options`, use browser WebAuthn or Android/iOS credential APIs, then submit registration JSON to `POST /passkeys/complete`. Keep the **Create passkey** action for the platform prompt; automatic email confirmation does not automatically create a passkey. Show success only after `registered: true`.
+9. Offer **Continue to identity verification** and **Skip for now**. Skipping preserves the authenticated account and does not change identity/address assurance.
+
+## Proposed API changes
+
+These request shapes are design targets, not claims about the current Go implementation.
+
+| Endpoint | Request | Behavior |
+| --- | --- | --- |
+| `POST /signup` | `{email, code_challenge, code_challenge_method: "S256"}` | Generic 202 with request_id; eligible pending signup receives an email containing link B and code C |
+| `POST /confirm` automatic | `{request_id, token_b, token_a}` | Validate A+B for this transaction, confirm, and return the session |
+| `POST /confirm` manual | `{request_id, token_b, token_c}` | Validate B+C for this transaction, confirm, and return the session |
+| `POST /resend` | `{request_id}` | Generic 202; for an eligible pending transaction rotate B and C together and send a replacement email |
+
+Resend retains request_id and its A challenge, so the initiating client can use its existing A with the new B. A new signup creates a separate request_id; never replace a challenge based only on an email match. Resend invalidates the previous B and C together. A limited resend policy must prevent unlimited code guesses or indefinite transaction renewal.
 
 ## Recovery and edge cases
 
-| Situation | Client behavior |
+| Situation | Client and backend behavior |
 | --- | --- |
-| Expired confirmation code (`code_expired`) | Explain expiry and offer `POST /resend` |
-| Incorrect code (`code_mismatch`) | Keep the email, allow correction; rate limit repeats |
-| Throttled (`rate_limited`) or delivery failed (`delivery_failed`) | Give a retry path and avoid promising delivery |
-| Link opens on a different device | The confirming device receives the new session; no session or token is placed in the link |
-| Link opened by a scanner | Nothing is consumed until explicit `POST /confirm` |
-| Email confirmed, passkey cancelled or device unsupported | Keep the account confirmed; use email OTP login later to resume enrollment |
-| Duplicate signup or unknown address during resend | Show a neutral delivery status to avoid revealing account existence |
+| Different browser, device, isolated email browser, or cleared local storage | A is missing: show code entry and submit B+C; the confirming client receives the session |
+| A exists but belongs to another transaction or fails validation | No confirmation or consumption; discard the stale association and offer manual code entry without an automatic retry loop |
+| Scanner opens B without A | Render the empty manual form; B alone cannot confirm, consume the transaction, or spend C guesses |
+| Incorrect C | Keep the form and B, show a safe mismatch error; increment the manual attempt counter |
+| Manual attempts exhausted | Disable further B+C attempts for that generation and offer a throttled resend; a valid A+B proof may still succeed |
+| Expired or replaced B/C | Explain that the link/code is no longer usable; resend when eligible and use the newest email |
+| Missing or malformed B | Show an invalid-link state and request a new email; C alone is insufficient |
+| Concurrent A+B and B+C submissions | At most one confirmation/session issuance wins; the other receives an in-progress or already-used result without another token set |
+| Network failure or reload | Avoid parallel/repeated submits; use the server outcome, and if confirmation completed without a recoverable session, use email OTP recovery |
+| Email confirmed, passkey cancelled or unsupported | Keep email confirmed and allow email OTP login later to resume enrollment |
+| Duplicate signup, unknown resend, throttling, or delivery failure | Preserve neutral account-existence copy and expose only safe retry/delivery status |
+| Email link opened again after completion | Continue only if this client already has the matching authenticated session; otherwise offer sign-in |
 
 ## Security and integration requirements
 
-- Deliver the link over HTTPS on the configured app domain. Publish Android and iOS association files for the deep-link host and appropriate association files for the WebAuthn RP ID. A subdomain and its parent RP ID are distinct association targets.
-- Treat URL codes as sensitive. Avoid third-party assets/analytics on the confirmation screen, strip the query from subsequent navigation, set a restrictive referrer policy, and do not log raw URLs.
-- The Go API returns tokens as JSON with `Cache-Control: no-store`. The website needs a secure session strategy (for example a backend session with Secure, HttpOnly, SameSite cookies); native clients should use platform-protected credential storage. Tokens never enter email links.
-- Keep signup, email confirmation, passkey registration, and later identity/address decisions as distinct facts. Cognito `sub` is the stable account identifier for future verification records.
-- The backend and Pulumi stack exist in `go.onboarding`, but production DNS, SES verification, AWS deployment, mobile association files, and live end-to-end verification are still outstanding.
+- The backend accepts A+B or B+C, never B alone. Validate expiry and the bound transaction before any Cognito confirmation or session exchange. Remove or migrate the earlier `{email, code}` shortcut so it cannot bypass this rule.
+- Use a ten-minute validity window for each delivered B/C generation and at most five incorrect C submissions per generation as initial policy. Enforce resend/account/source throttles across generations; invalid or absent A/B requests must not consume proofs or increment C's guess counter.
+- Make both paths share a transaction state machine with an atomic claim before provider side effects. Track confirmation and session issuance separately so races, crashes, and retries cannot mint sessions twice or turn a confirmed account back into a pending one.
+- B and C are application proofs. Do not expose a Cognito confirmation code as B or C or allow a publicly callable Cognito path to bypass application proof validation. The implementation must choose and validate a server-controlled Cognito confirmation/session strategy; do not assume that the existing Custom Message Lambda can simply provide this protocol. Preserve `ConfirmSignUp` followed by `USER_AUTH` with its returned Session only where that integration remains valid, otherwise use an explicitly designed session bridge. Administrative confirmation alone is not a substitute for an authenticated session.
+- A standard remote link fetch lacks A and sees no C on the page. **This protects against ordinary link prefetching, not an email provider or scanner that reads C from the full message and submits B+C.** B and C are in the same email and are not independent authentication factors. A preview operating in the original client's storage context may also complete A+B; this flow is email verification, not proof of a deliberate tap or document-signing consent.
+- Web storage for A must survive an email opening a new tab on the intended origin; tab-scoped sessionStorage alone is insufficient. Keep A per request, short-lived, and protected against script injection. A server-backed pending browser session is another option. Native apps retain A in platform-protected pending storage. Clear A when completed or expired.
+- Serve the link over HTTPS on the app domain and publish the Android/iOS associations for the link host and WebAuthn RP ID. Keep redirects fixed or allowlisted. Never transfer A through a URL to work around browser isolation.
+- Treat all proof values as secrets. Avoid third-party assets/analytics on the landing screen; redact proof fields and raw URLs in logs, set a restrictive referrer policy, strip B from the address bar after capturing it, and use `Cache-Control: no-store`. Preserve B only in bounded pending client state if navigation/reload recovery needs it.
+- Return session tokens only to the successful confirming client. Use protected native storage or secure web sessions, with CSRF protection where cookies authenticate requests. Access/refresh tokens never enter email links or browser navigation.
+- Keep signup, email confirmation, passkey registration, and identity/address decisions separate. Cognito `sub` remains the stable account identifier.
+- The earlier Go backend and Pulumi stack are the baseline. Implement this transaction protocol and email integration, then complete deployment, DNS/SES setup, mobile associations, and live end-to-end verification.
+
+## Acceptance checks for implementation
+
+1. A matching A+B confirms automatically and opens passkey setup without an extra Verify button.
+2. Missing A presents an empty C field; valid B+C confirms only after submission and opens the same next step.
+3. Fetching the email link or submitting B alone has no confirmation, consumption, or session side effect.
+4. Swapping A, B, C, or request_id between two transactions never succeeds; wrong A does not exhaust manual attempts.
+5. The email link and landing responses never contain C; signup/resend responses never expose B or C.
+6. Expiry, leading-zero C values, five failed manual attempts, resend rotation, throttling, duplicate requests, and concurrent paths behave as specified.
+7. Two tabs in one browser, separate browser profiles, app-to-browser fallback, and another device exercise the expected automatic/manual branches.
+8. Cognito failure and partial confirmation recover without a bypass, replayed confirmation, or duplicate session issuance.

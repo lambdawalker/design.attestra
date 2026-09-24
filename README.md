@@ -4,7 +4,7 @@ This repository is the central home for product flows, architecture decisions, a
 
 | Feature | Architecture | Stitch screen spec | Implementation |
 | --- | --- | --- | --- |
-| Auth / onboarding | [Email confirmation and passkey creation](auth/onboarding/architecture.md) | [Onboarding](auth/onboarding/stitch.md) | [go.onboarding](https://github.com/lambdawalker/go.onboarding/pull/1) draft PR |
+| Auth / onboarding | [Email confirmation and passkey creation](auth/onboarding/architecture.md) | [Onboarding](auth/onboarding/stitch.md) | [go.onboarding](https://github.com/lambdawalker/go.onboarding/pull/1) baseline draft; A+B / B+C confirmation revision pending |
 | Auth / login | [Passkey login and email OTP fallback](auth/login/architecture.md) | [Login](auth/login/stitch.md) | [go.onboarding](https://github.com/lambdawalker/go.onboarding/pull/1) draft PR |
 | Verification / identity | [AI auto report and third-party check](verification/identity/architecture.md) | Pending policy/provider choices | Architecture proposed |
 | Verification / address | [AI auto report, third-party check, and expiry](verification/address/architecture.md) | Pending policy/provider choices | Architecture proposed |

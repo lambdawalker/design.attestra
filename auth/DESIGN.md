@@ -45,7 +45,7 @@ Provide dark-mode equivalents using the same zinc/teal family. Preserve readable
 - Web: `max-width: 72rem` overall; active form column `min(100%, 28rem)`, left-aligned within a two-column shell only where supporting context earns the space. Native: one column with comfortable safe-area insets.
 - Use a spacing rhythm of 8, 12, 16, 24, 32, and 48px. Place the primary action immediately after the task form, then recovery actions.
 - Below 768px, collapse to one column. No horizontal scrolling or forced viewport-height cards. Support keyboard opening without obscuring the action or OTP entry.
-- The `/verify-email` landing view may present the pending email and a confirm action; simply rendering that view never sends the verification request.
+- The `/verify-email` landing view follows the onboarding architecture: with the matching locally retained signup secret, show “Verifying your email…” and automatically confirm before advancing. Without it, show an empty verification-code field and a **Verify email** button. GET/HEAD requests and the email link alone never confirm. Technical token names stay out of the UI.
 - When the installed app claims the HTTPS link, render the same state as the website. If the app does not claim it, the website handles it on the application domain.
 
 ## 6. Motion & Interaction
@@ -57,4 +57,4 @@ Provide dark-mode equivalents using the same zinc/teal family. Preserve readable
 
 ## 7. Anti-Patterns (Banned)
 
-No emojis, neon or purple glows, oversaturated gradients, pure black, custom cursors, spinning success badges, decorative biometrics, three equal feature cards, invented trust statistics, marketing clichés, or generic placeholder identities. No page-load request that confirms email. No raw Cognito error text in the UI. No promise of “identity verified” or “address verified” after only email or passkey completion.
+No emojis, neon or purple glows, oversaturated gradients, pure black, custom cursors, spinning success badges, decorative biometrics, three equal feature cards, invented trust statistics, marketing clichés, or generic placeholder identities. No automatic confirmation using the email link alone. Automatic confirmation requires the matching local signup secret; the manual fallback requires code entry and explicit submission. No raw Cognito error text in the UI. No promise of “identity verified” or “address verified” after only email or passkey completion.
