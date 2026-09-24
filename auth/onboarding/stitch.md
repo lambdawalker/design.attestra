@@ -2,6 +2,8 @@
 
 Read [shared auth DESIGN.md](../DESIGN.md) first. Generate responsive website views and corresponding native mobile layouts for this flow. Use the [architecture](architecture.md) for state transitions. Screen mockups are design specifications, not proof that app/web clients have been implemented. Use a neutral editable product label; avoid invented logos, legal claims, bank branding, and identity approval badges.
 
+The supplied [screen references and coverage review](ui-reference/README.md) map the six mockups to this flow. They are visual references; use the architecture for security and state transitions.
+
 **Revision:** Automatic confirmation in the original signup context, with manual email-code fallback when that context is unavailable. Backend and client implementation of this revision is pending.
 
 ## One-line Stitch prompt

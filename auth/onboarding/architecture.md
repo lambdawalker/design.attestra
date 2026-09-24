@@ -35,31 +35,9 @@ C must not appear in the link, redirect parameters, page HTML, or any response o
 
 ## Flow
 
-The SVG is a static rendering of the same steps below; GitHub also renders the Mermaid block directly.
+The [Mermaid source](onboarding-flow.md) is kept separately from this page. The SVG below renders the same flow.
 
 ![Rendered onboarding flow](onboarding-flow.svg)
-
-```mermaid
-flowchart TD
-    S["Enter email; generate and retain A"] --> T["POST /signup with A challenge"]
-    T --> M["Email link B and separate code C"]
-    M --> L["Open app or website"]
-    L --> D{"Matching A available locally?"}
-    D -->|Yes| P["Automatically POST /confirm with A+B"]
-    D -->|No| Q["Enter C from email; tap Verify email"]
-    Q --> R["POST /confirm with B+C"]
-    P --> V{"Proofs valid and unused?"}
-    R --> V
-    V -->|No| E["Retry, code entry, or resend"]
-    V -->|Yes| F["Confirm email and exchange session"]
-    F --> G{"Session available?"}
-    G -->|No| O["Email OTP recovery"]
-    G -->|Yes| H["Authenticated session"]
-    O --> H
-    H --> J["Create platform passkey"]
-    J --> K["POST /passkeys/complete"]
-    K --> N["Invite identity check or skip"]
-```
 
 1. The client generates A and sends the email, A challenge, and S256 method to `POST /signup`. Retain A in local pending state; associate it with request_id when the response arrives. Signup creates an unconfirmed, passwordless account where appropriate. New and existing addresses receive the same generic 202 response shape with an opaque request_id; this does not guarantee an email was sent. Signup must never become a sign-in shortcut for an already confirmed account.
 2. For an eligible pending account, the backend creates B and C and sends one email containing both a link and a separately displayed code. The link is `https://<app-host>/verify-email?request_id=...&b=...`. Neither A nor C is in the URL.
