@@ -27,7 +27,7 @@ The app and website own every visible screen; Cognito does not host the UI. Onbo
 | C: manual code | Backend, independently of A and B | Displayed as text in the email, outside the link; user enters it on the fallback screen | Allows confirmation when A is unavailable |
 | request_id | Backend | Returned to the initiating client and included in the email link | Non-secret handle to locate the matching locally stored A |
 
-Generate A and B with at least 256 bits of cryptographic randomness. For C, use a cryptographically generated eight-digit decimal string, preserving leading zeros. Store a keyed digest of C scoped to its transaction; its short code space makes an ordinary unkeyed hash insufficient protection against offline guessing.
+Generate A and B with at least 256 bits of cryptographic randomness. For C, use a cryptographically generated six-digit decimal string, preserving leading zeros. Store a keyed digest of C scoped to its transaction; its short code space makes an ordinary unkeyed hash insufficient protection against offline guessing. Six digits are acceptable here only with the matching high-entropy B, short validity, single use, and failed-attempt limits that persist across resends.
 
 Bind the normalized email, request_id, A challenge, B hash, C digest, expiry, resend generation, attempt counters, and state to one transaction. Accept **B plus exactly one of A or C** for that transaction. Reject mixed, missing, mismatched, expired, replaced, or reused proofs. The backend determines the account from the transaction, never from a client-supplied email in the final confirmation.
 
@@ -35,41 +35,19 @@ C must not appear in the link, redirect parameters, page HTML, or any response o
 
 ## Flow
 
-The SVG is a static rendering of the same steps below; GitHub also renders the Mermaid block directly.
+The [Mermaid source](onboarding-flow.md) is kept separately from this page. The SVG below renders the same flow.
 
 ![Rendered onboarding flow](onboarding-flow.svg)
-
-```mermaid
-flowchart TD
-    S["Enter email; generate and retain A"] --> T["POST /signup with A challenge"]
-    T --> M["Email link B and separate code C"]
-    M --> L["Open app or website"]
-    L --> D{"Matching A available locally?"}
-    D -->|Yes| P["Automatically POST /confirm with A+B"]
-    D -->|No| Q["Enter C from email; tap Verify email"]
-    Q --> R["POST /confirm with B+C"]
-    P --> V{"Proofs valid and unused?"}
-    R --> V
-    V -->|No| E["Retry, code entry, or resend"]
-    V -->|Yes| F["Confirm email and exchange session"]
-    F --> G{"Session available?"}
-    G -->|No| O["Email OTP recovery"]
-    G -->|Yes| H["Authenticated session"]
-    O --> H
-    H --> J["Create platform passkey"]
-    J --> K["POST /passkeys/complete"]
-    K --> N["Invite identity check or skip"]
-```
 
 1. The client generates A and sends the email, A challenge, and S256 method to `POST /signup`. Retain A in local pending state; associate it with request_id when the response arrives. Signup creates an unconfirmed, passwordless account where appropriate. New and existing addresses receive the same generic 202 response shape with an opaque request_id; this does not guarantee an email was sent. Signup must never become a sign-in shortcut for an already confirmed account.
 2. For an eligible pending account, the backend creates B and C and sends one email containing both a link and a separately displayed code. The link is `https://<app-host>/verify-email?request_id=...&b=...`. Neither A nor C is in the URL.
 3. Android App Links/iOS Universal Links route to the installed app where associated; otherwise the website handles the route. **GET and HEAD never confirm or consume anything.** After the client loads, it looks up A for this request_id.
-4. If matching local A exists, show “Verifying your email…” and automatically send `POST /confirm` with B and A. No confirmation button is required on this path. A's local presence only selects the path; the backend still validates the proof.
+4. If matching local A exists, show “Verifying your email…” and automatically send `POST /confirm` with B and A asynchronously. Keep the progress state visible while confirmation and session exchange are pending; do not freeze the UI thread or navigate to passkey setup before the server responds. On timeout or failure, show a recovery action instead of leaving the progress state indefinitely. No confirmation button is required on this path. A's local presence only selects the path; the backend still validates the proof.
 5. If A is unavailable, show an empty “Verification code” field and a **Verify email** button. The user enters C from the email; submission sends B and C. Paste and platform autofill may fill the field, but must not submit it automatically.
 6. Both paths validate their proofs before changing Cognito state. A successful confirmation obtains an authenticated session and advances directly to **Create passkey**. Only the client that completed proof receives the session; the original client cannot obtain it merely by polling request_id.
 7. If email confirmation succeeds but session exchange fails or expires, return `409 confirmed_sign_in_required` and start email OTP recovery through [login](../login/architecture.md). Do not replay confirmation or reopen the consumed transaction.
 8. With the access token, call `POST /passkeys/options`, use browser WebAuthn or Android/iOS credential APIs, then submit registration JSON to `POST /passkeys/complete`. Keep the **Create passkey** action for the platform prompt; automatic email confirmation does not automatically create a passkey. Show success only after `registered: true`.
-9. Offer **Continue to identity verification** and **Skip for now**. Skipping preserves the authenticated account and does not change identity/address assurance.
+9. Offer **Continue to identity verification** and **Skip for now**. Continuing hands off to the selected ID capture plugin, which owns its capture screens. The host handles launch, cancellation, failures, and the returned images/data before the separate ID review and verification flow. Skipping preserves the authenticated account and does not change identity/address assurance.
 
 ## Proposed API changes
 
@@ -104,7 +82,7 @@ Resend retains request_id and its A challenge, so the initiating client can use 
 ## Security and integration requirements
 
 - The backend accepts A+B or B+C, never B alone. Validate expiry and the bound transaction before any Cognito confirmation or session exchange. Remove or migrate the earlier `{email, code}` shortcut so it cannot bypass this rule.
-- Use a ten-minute validity window for each delivered B/C generation and at most five incorrect C submissions per generation as initial policy. Enforce resend/account/source throttles across generations; invalid or absent A/B requests must not consume proofs or increment C's guess counter.
+- Use a ten-minute validity window for each delivered B/C generation and at most five incorrect C submissions per generation as initial policy. Apply an account-level failed-attempt budget across generations, so resending B/C does not reset the number of guesses available during the cooldown window. Enforce resend and source throttles; invalid or absent A/B requests must not consume proofs or increment C's guess counter.
 - Make both paths share a transaction state machine with an atomic claim before provider side effects. Track confirmation and session issuance separately so races, crashes, and retries cannot mint sessions twice or turn a confirmed account back into a pending one.
 - B and C are application proofs. Do not expose a Cognito confirmation code as B or C or allow a publicly callable Cognito path to bypass application proof validation. The implementation must choose and validate a server-controlled Cognito confirmation/session strategy; do not assume that the existing Custom Message Lambda can simply provide this protocol. Preserve `ConfirmSignUp` followed by `USER_AUTH` with its returned Session only where that integration remains valid, otherwise use an explicitly designed session bridge. Administrative confirmation alone is not a substitute for an authenticated session.
 - A standard remote link fetch lacks A and sees no C on the page. **This protects against ordinary link prefetching, not an email provider or scanner that reads C from the full message and submits B+C.** B and C are in the same email and are not independent authentication factors. A preview operating in the original client's storage context may also complete A+B; this flow is email verification, not proof of a deliberate tap or document-signing consent.
@@ -122,6 +100,6 @@ Resend retains request_id and its A challenge, so the initiating client can use 
 3. Fetching the email link or submitting B alone has no confirmation, consumption, or session side effect.
 4. Swapping A, B, C, or request_id between two transactions never succeeds; wrong A does not exhaust manual attempts.
 5. The email link and landing responses never contain C; signup/resend responses never expose B or C.
-6. Expiry, leading-zero C values, five failed manual attempts, resend rotation, throttling, duplicate requests, and concurrent paths behave as specified.
+6. Six-digit C values (including leading zeros), expiry, five failed manual attempts, resend rotation without resetting the account-level guess budget, throttling, duplicate requests, and concurrent paths behave as specified.
 7. Two tabs in one browser, separate browser profiles, app-to-browser fallback, and another device exercise the expected automatic/manual branches.
 8. Cognito failure and partial confirmation recover without a bypass, replayed confirmation, or duplicate session issuance.

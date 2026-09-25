@@ -9,6 +9,6 @@ This repository is the central home for product flows, architecture decisions, a
 | Verification / identity | [AI auto report and third-party check](verification/identity/architecture.md) | Pending policy/provider choices | Architecture proposed |
 | Verification / address | [AI auto report, third-party check, and expiry](verification/address/architecture.md) | Pending policy/provider choices | Architecture proposed |
 
-Auth screens share the [Stitch design system](auth/DESIGN.md). Architecture documents contain Mermaid source and a matching SVG rendering. The [original AWS onboarding implementation plan](auth/onboarding/history/2026-09-24-aws-onboarding.md) is retained as history; its initial TypeScript/Node approach was subsequently converted to Go.
+Auth screens share the [Stitch design system](auth/DESIGN.md). The [onboarding screen references and coverage review](auth/onboarding/ui-reference/README.md) contain the supplied mockups. The onboarding [Mermaid source](auth/onboarding/onboarding-flow.md) is separate from its SVG rendering in the architecture. The [original AWS onboarding implementation plan](auth/onboarding/history/2026-09-24-aws-onboarding.md) is retained as history; its initial TypeScript/Node approach was subsequently converted to Go.
 
 For the current API and deployment instructions, see the [go.onboarding code repository](https://github.com/lambdawalker/go.onboarding/tree/feat/aws-onboarding).
