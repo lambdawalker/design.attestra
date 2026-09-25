@@ -1,5 +1,7 @@
 # Authentication / onboarding architecture
 
+The onboarding journey has [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md) subfeatures. This document describes the transitions across all three.
+
 **Status:** Design revision for automatic A+B confirmation and manual B+C confirmation. The existing [Go backend draft](https://github.com/lambdawalker/go.onboarding/pull/1) implements the earlier email/code flow; the three-token protocol below, email generation, transaction storage, and client branching still require implementation. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Current implementation API](https://github.com/lambdawalker/go.onboarding/blob/feat/aws-onboarding/README.md#api).
 
 ## Goal and boundaries
