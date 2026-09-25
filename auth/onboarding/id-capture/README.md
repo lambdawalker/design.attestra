@@ -1,5 +1,7 @@
 # ID capture
 
+[Subflow](flow.md) · [UI](ui.md) · [Architecture](architecture.md) · [AWS strategy](aws.md)
+
 This optional subfeature starts after the account is authenticated. The selected capture plugin owns camera permission and document capture; Attestra handles its launch, cancel/error/return states, extracted data review, submission, and status. The broader [identity verification architecture](../../../verification/identity/architecture.md) defines later identity decisions. See the [onboarding architecture](../architecture.md) and [development order](../order-of-development.md) for the handoff.
 
 | Reference | Role |

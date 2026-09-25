@@ -1,5 +1,7 @@
 # Passkey creation
 
+[Subflow](flow.md) · [UI](ui.md) · [Architecture](architecture.md) · [AWS strategy](aws.md)
+
 This subfeature begins only after email confirmation yields an authenticated session. The browser or operating system supplies its credential picker. A passkey is shown as added only after the server confirms registration; cancellation or deferral leaves email confirmed. See the [onboarding architecture](../architecture.md) and [development order](../order-of-development.md).
 
 | Reference | Role |
