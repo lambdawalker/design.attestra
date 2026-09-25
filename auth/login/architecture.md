@@ -1,10 +1,10 @@
 # Authentication / login architecture
 
-**Status:** Go API endpoints implemented in [go.onboarding](https://github.com/lambdawalker/go.onboarding/pull/1); website/native clients still need a login UI and platform credential adapters. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [API reference in the implementation branch](https://github.com/lambdawalker/go.onboarding/blob/feat/aws-onboarding/README.md#api).
+**Status:** Planned for [go.attestra.aws.auth](https://github.com/lambdawalker/go.attestra.aws.auth); the new repo implements email verification and configures Cognito email OTP, but login endpoints and platform adapters still need implementation. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md).
 
 ## Scope
 
-The user enters an email and attempts a passkey sign-in first. Email OTP is the fallback when a passkey cannot be used, is lost, or has not yet been registered. This stack enables `USER_AUTH` with `WEB_AUTHN` and `EMAIL_OTP`; it does not define a password login or Cognito-hosted UI. A login grants an authenticated session, not identity or address assurance.
+The user enters an email and attempts a passkey sign-in first. Email OTP is the fallback when a passkey cannot be used, is lost, or has not yet been registered. The current pool enables `USER_AUTH` with `EMAIL_OTP`; adding `WEB_AUTHN` and the login endpoints is the next auth feature. It does not define a password login or Cognito-hosted UI. A login grants an authenticated session, not identity or address assurance.
 
 ![Rendered login flow](login-flow.svg)
 
@@ -46,4 +46,4 @@ The client keeps the opaque auth session only for its matching challenge. Never 
 
 ## Outstanding client decisions
 
-Decide whether web sessions will be converted to secure server cookies, how native tokens are stored and refreshed, which passkey cancellation cases should show fallback immediately, and which future features need recent reauthentication. None of those client policies is enforced by the current Go onboarding API.
+Decide whether web sessions will be converted to secure server cookies, how native tokens are stored and refreshed, which passkey cancellation cases should show fallback immediately, and which future features need recent reauthentication. None of those client policies is enforced by the new email confirmation API.

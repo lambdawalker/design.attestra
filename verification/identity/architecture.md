@@ -1,6 +1,6 @@
 # Verification / identity architecture
 
-**Status:** Proposed architecture. The [go.onboarding implementation](https://github.com/lambdawalker/go.onboarding/pull/1) does not include ID upload, AI auto report, third-party check, verification store, or feature gate. [Documentation index](../../README.md) · [Auth onboarding](../../auth/onboarding/architecture.md).
+**Status:** Proposed architecture. The [new auth repository](https://github.com/lambdawalker/go.attestra.aws.auth) does not include ID upload, AI auto report, third-party check, verification store, or feature gate. [Documentation index](../../README.md) · [Auth onboarding](../../auth/onboarding/architecture.md).
 
 ## Purpose
 
