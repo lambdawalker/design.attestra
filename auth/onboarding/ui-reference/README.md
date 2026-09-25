@@ -1,26 +1,28 @@
 # Onboarding UI references
 
+Screens are grouped under [email confirmation](../email-confirmation/README.md), [passkey creation](../passkey-creation/README.md), and [ID capture](../id-capture/README.md). The loading view and logo below are shared across the three subfeatures.
+
 These are visual HTML prototypes from the supplied onboarding archives. The six original PNGs remain for reference; the latest ZIP includes some empty image placeholders and screenshots with sample identity data, so its corrected views are included as HTML only. Prefer the HTML for revised wording. None of these prototypes performs a real backend request, passkey registration, or identity decision. Use the [architecture](../architecture.md) for security and transitions and the [Stitch brief](../stitch.md) for the shared visual and loading states.
 
 | Screen | HTML | Role |
 | --- | --- | --- |
-| Email verification - start | [Open](email_verification_start/code.html) | Entry and generic signup response |
-| Email verification - wait | [Open](email_verification_wait/code.html) | Waiting for a link; resend or change email |
-| Email verification - manual code input | [Open](email_verification_manual_code_input/code.html) | Empty six-digit fallback form when local signup context is unavailable |
-| Email verification - incorrect code | [Open](email_verification_incorrect_code/code.html) | Correct and retry the entered code |
-| Email verification - attempt limit | [Open](email_verification_attempt_limit/code.html) | Request a new email when permitted; show server cooldown when limited |
-| Email verification - unusable link | [Open](email_verification_link_unusable/code.html) | Request a new email; never retry the expired/replaced link |
+| Email verification - start | [Open](../email-confirmation/ui-reference/email_verification_start/code.html) | Entry and generic signup response |
+| Email verification - wait | [Open](../email-confirmation/ui-reference/email_verification_wait/code.html) | Waiting for a link; resend or change email |
+| Email verification - manual code input | [Open](../email-confirmation/ui-reference/email_verification_manual_code_input/code.html) | Empty six-digit fallback form when local signup context is unavailable |
+| Email verification - incorrect code | [Open](../email-confirmation/ui-reference/email_verification_incorrect_code/code.html) | Correct and retry the entered code |
+| Email verification - attempt limit | [Open](../email-confirmation/ui-reference/email_verification_attempt_limit/code.html) | Request a new email when permitted; show server cooldown when limited |
+| Email verification - unusable link | [Open](../email-confirmation/ui-reference/email_verification_link_unusable/code.html) | Request a new email; never retry the expired/replaced link |
 | Onboarding - processing | [Open](onboarding_loading/code.html) | One reusable wait view for all active backend and processing work |
-| Passkey setup - start | [Open](passkey_setup_start/code.html) | Start platform passkey setup |
-| Passkey setup - failed | [Open](passkey_setup_failed/code.html) | Retry or continue without a passkey |
-| Passkey setup - unsupported device | [Open](passkey_setup_unsupported_device/code.html) | Continue without a passkey; recheck only if capability changes |
-| Identity verification - start | [Open](identity_verification_start/code.html) | Optional identity check or dashboard |
-| Identity verification - review details | [Open](identity_verification_review_details/code.html) | Correct extracted details after the capture plugin returns |
-| Identity verification - submission failed | [Open](identity_verification_submission_failed/code.html) | Retry the submission or leave for dashboard |
-| Identity verification - unreadable document | [Open](identity_verification_document_unreadable/code.html) | Reopen plugin to retake images |
-| Identity verification - success | [Open](identity_verification_success/code.html) | Show a completed identity result only when returned by the identity service |
+| Passkey setup - start | [Open](../passkey-creation/ui-reference/passkey_setup_start/code.html) | Start platform passkey setup |
+| Passkey setup - failed | [Open](../passkey-creation/ui-reference/passkey_setup_failed/code.html) | Retry or continue without a passkey |
+| Passkey setup - unsupported device | [Open](../passkey-creation/ui-reference/passkey_setup_unsupported_device/code.html) | Continue without a passkey; recheck only if capability changes |
+| Identity verification - start | [Open](../id-capture/ui-reference/identity_verification_start/code.html) | Optional identity check or dashboard |
+| Identity verification - review details | [Open](../id-capture/ui-reference/identity_verification_review_details/code.html) | Correct extracted details after the capture plugin returns |
+| Identity verification - submission failed | [Open](../id-capture/ui-reference/identity_verification_submission_failed/code.html) | Retry the submission or leave for dashboard |
+| Identity verification - unreadable document | [Open](../id-capture/ui-reference/identity_verification_document_unreadable/code.html) | Reopen plugin to retake images |
+| Identity verification - success | [Open](../id-capture/ui-reference/identity_verification_success/code.html) | Show a completed identity result only when returned by the identity service |
 
-The earlier [ID processing reference](identity_verification_reading_document/code.html) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
+The earlier [ID processing reference](../id-capture/ui-reference/identity_verification_reading_document/code.html) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
 
 ## Shared loading view
 

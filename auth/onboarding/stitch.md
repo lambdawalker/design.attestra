@@ -1,5 +1,7 @@
 # Stitch brief: email onboarding and passkey setup
 
+Reference screens are grouped under [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md). The shared loading view remains in the [onboarding screen index](ui-reference/README.md).
+
 Read [shared auth DESIGN.md](../DESIGN.md) first. Generate responsive website views and corresponding native mobile layouts for this flow. Use the [architecture](architecture.md) for state transitions. Screen mockups are design specifications, not proof that app/web clients have been implemented. Use a neutral editable product label; avoid invented logos, legal claims, bank branding, and identity approval badges.
 
 The supplied [screen references and coverage review](ui-reference/README.md) map the updated screen variants to this flow. They are visual references; use the architecture for security and state transitions.
