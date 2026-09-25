@@ -2,7 +2,7 @@
 
 Read [shared auth DESIGN.md](../DESIGN.md) first. Generate responsive website views and corresponding native mobile layouts for this flow. Use the [architecture](architecture.md) for state transitions. Screen mockups are design specifications, not proof that app/web clients have been implemented. Use a neutral editable product label; avoid invented logos, legal claims, bank branding, and identity approval badges.
 
-The supplied [screen references and coverage review](ui-reference/README.md) map the six mockups to this flow. They are visual references; use the architecture for security and state transitions.
+The supplied [screen references and coverage review](ui-reference/README.md) map the updated screen variants to this flow. They are visual references; use the architecture for security and state transitions.
 
 **Revision:** Automatic confirmation in the original signup context, with manual email-code fallback when that context is unavailable. Backend and client implementation of this revision is pending.
 
@@ -23,6 +23,12 @@ The supplied [screen references and coverage review](ui-reference/README.md) map
 | 5. Ready for next step | Separate status rows “Email verified” and “Passkey added”; invitation to submit ID later | Continue to identity verification | Skip for now; if passkey creation was deferred show “Passkey not added” and a re-entry action |
 
 Screens 3a and 3b are alternatives selected automatically, not consecutive steps. Users do not choose an authentication mode or need to understand why a code is requested.
+
+## One shared loading view
+
+Use [one reusable loading layout](ui-reference/processing_verification/code.html) for every in-flight backend call or processing task. Preserve the title, spinner icon, and card structure, but **change the title and card text for the actual task**. The host app supplies the title, description, optional context, and accessible status; the example email text is not universal. Use the screen for email confirmation, resend requests, passkey registration, ID extraction after the plugin returns, submission of reviewed ID details, and a pending identity-provider check. The exact copy and outcome mapping are in [the UI reference inventory](ui-reference/README.md).
+
+Never claim fixed duration or show invented percentages. The server or processing task determines success; timeout and failure lead to their relevant retry screen, while a long-running identity check may show pending with a dashboard exit. Do not show the loading screen while a person is reading, editing, or waiting for an email to arrive.
 
 ## Interaction details
 

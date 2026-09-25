@@ -1,36 +1,48 @@
-# Onboarding UI references and coverage
+# Onboarding UI references
 
-These eight screen mockups and their HTML prototypes come from the supplied `onboarding_design.zip` (first six) and `screens.zip` (two processing views). The six previously supplied PNGs preserve the original artwork; the HTML has revised copy and neutral data placeholders, so use the HTML for current wording. The processing views are provided as HTML only because their original PNGs contain realistic sample identity data. These are design references, not production views or evidence that the backend or clients implement the flow. The [architecture](../architecture.md) defines confirmation and session behavior; the [Stitch brief](../stitch.md) defines intended UI states. Source HTML contains demo interactions, external fonts, scripts, and images. Replace these with local assets and actual product behavior before implementation.
+These are visual HTML prototypes from the supplied onboarding archives. The six original PNGs remain for reference; the latest ZIP includes some empty image placeholders and screenshots with sample identity data, so its corrected views are included as HTML only. Prefer the HTML for revised wording. None of these prototypes performs a real backend request, passkey registration, or identity decision. Use the [architecture](../architecture.md) for security and transitions and the [Stitch brief](../stitch.md) for the shared visual and loading states.
 
-| Supplied screen | Reference files | Intended place in the flow | Coverage |
+| Screen | HTML | Role |
+| --- | --- | --- |
+| Start with your email | [Open](start_with_your_email/code.html) | Entry and generic signup response |
+| Check your email | [Open](confirm_verification/code.html) | Waiting for a link; resend or change email |
+| Complete email verification | [Open](complete_email_verification/code.html) | Empty six-digit fallback form when local signup context is unavailable |
+| Incorrect confirmation code | [Open](email_code_incorrect/code.html) | Correct and retry the entered code |
+| Too many code attempts | [Open](email_verification_attempts_exhausted/code.html) | Request a new email when permitted; show server cooldown when limited |
+| Confirmation link unusable | [Open](confirmation_link_unusable/code.html) | Request a new email; never retry the expired/replaced link |
+| Shared loading | [Open](processing_verification/code.html) | One reusable wait view for all active backend and processing work |
+| Create passkey | [Open](create_passkey/code.html) | Start platform passkey setup |
+| Passkey setup interrupted | [Open](passkey_setup_retry/code.html) | Retry or continue without a passkey |
+| Passkeys unavailable | [Open](passkey_setup_unsupported_device/code.html) | Continue without a passkey; recheck only if capability changes |
+| Ready for next step | [Open](ready_for_next_step/code.html) | Optional identity check or dashboard |
+| Review ID details | [Open](verify_id_details/code.html) | Correct extracted details after the capture plugin returns |
+| ID submission interrupted | [Open](error_saving_id_details/code.html) | Retry the submission or leave for dashboard |
+| Document images unreadable | [Open](id_document_unreadable/code.html) | Reopen plugin to retake images |
+| Identity check complete | [Open](identity_check_success/code.html) | Show a completed identity result only when returned by the identity service |
+
+The earlier [ID processing reference](processing_id_document/code.html) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
+
+## Shared loading view
+
+Use the same title, spinner icon, and card layout whenever the app is waiting on the backend or a processing task. **Change the title, card text, optional context row, and screen-reader status according to the active task.** The host sets `loading-title`, `loading-description`, `loading-help`, and `loading-icon` on the reusable view; the default email wording is just one example. Do not claim a fixed duration or invent a completion percentage. Show a retry or recovery action if the operation fails or times out. A task result, rather than animation, decides when to navigate.
+
+| Active task | Title | Card text | Completion or recovery |
 | --- | --- | --- | --- |
-| Start with your email | [Image](start_with_your_email/screen.png) · [HTML](start_with_your_email/code.html) | Email entry and signup | Main view present; invalid/submitting and generic result need state designs |
-| Check your inbox | [Image](confirm_verification/screen.png) · [HTML](confirm_verification/code.html) | Await the email link | Main view present; resend cooldown, edit email, and delayed delivery need variants |
-| Complete email verification | [Image](complete_email_verification/screen.png) · [HTML](complete_email_verification/code.html) | Manual B+C path after opening the link without A | Six-digit input present; mismatch/expiry/attempt-limit variants need design |
-| Verifying your email | [HTML](processing_verification/code.html) | Async A+B confirmation or submitted B+C, followed by session exchange | Shared wait view present; timeout/retry and transition to passkey need variants |
-| Protect your account with a passkey | [Image](create_passkey/screen.png) · [HTML](create_passkey/code.html) | After an authenticated confirmation session | Main view present; cancellation, unsupported device, retry, and deferral need variants |
-| Confirm your ID | [Image](ready_for_next_step/screen.png) · [HTML](ready_for_next_step/code.html) | Choice after email and passkey setup | Continue/skip view present; completed email/passkey statuses and deferred-passkey state need variants |
-| Processing ID document | [HTML](processing_id_document/code.html) | After capture plugin return, while reading images and extracting details | Wait view present; plugin failure/timeout needs a recovery variant; processing does not establish identity |
-| Review Extracted ID Data | [Image](verify_id_details/screen.png) · [HTML](verify_id_details/code.html) | Identity verification after the capture plugin returns; this is a separate optional continuation | Review view present; host plugin handoff and submission/result states need design |
+| Email confirmation with A+B or submitted B+C | Verifying your email | We are confirming your email. This may take a moment. | Only proceed to passkey setup after the authenticated session is available. If confirmation completed without a session, use email sign-in recovery. |
+| Request a new confirmation email | Requesting another email | We are processing your request. | Give a neutral response; respect resend limits and advise opening the newest email. |
+| Start passkey registration | Opening your passkey manager | Follow your device or password manager to create a passkey. | Return to setup on cancellation; display passkey success only after server registration. |
+| Finish passkey registration | Saving your passkey | We are adding this passkey to your account. | Show “Passkey added” only after the server confirms completion. |
+| Return from ID capture plugin | Reading your document | We are extracting details for you to review. | Open ID review after extraction; offer plugin retake/recovery if unreadable. This is not an identity decision. |
+| Submit reviewed ID details | Submitting your ID details | We are sending your reviewed details for an identity check. | Avoid duplicate submissions; on timeout reconcile server state before retrying. |
+| Wait for identity provider | Checking your identity | Your details have been submitted. We will show the result when it is available. | If processing continues, show pending with a dashboard exit. Approval or failure comes from the actual provider result. |
 
-The supplied [logo](logo.svg) is a reference asset. The HTML prototypes use some remotely hosted images and fonts and should not be copied into an authentication page without replacing external dependencies.
+Show loading only for genuine in-flight work. Do not display it while a person is reading instructions or editing a field. Do not freeze the UI thread. Avoid a permanent spinner: each task needs a bounded timeout or pending state with a safe path away. Treat retry actions as new user actions and respect transaction limits.
 
-## Pending screens and integration
+## Coverage and outstanding variants
 
-1. **Verification email template (not an app screen):** Show the clickable link containing B and a separately printed six-digit C. Explain that C may be requested after opening the link; C must never appear in the link or previewable landing-page content. Include expiry and resend wording. This design is still missing.
-2. **Identity status/result (one reusable app screen with variants):** After the user submits reviewed details, show pending while the identity workflow runs, then approved, needs another attempt, or cannot complete. Offer a safe dashboard exit and a retry path where appropriate. OCR extraction and user review alone must not say “identity verified.” The identity service's actual result drives this screen.
-3. **ID capture plugin handoff:** “Scan government ID” launches the selected plugin, which provides its own permission, camera, front/back capture, and quality flow. The host needs launch/cancel/error/return states and a defined data handoff before the supplied ID processing/review views. No custom Attestra capture screen is required; plugin integration is forthcoming. This is an optional identity continuation, not completion of email onboarding.
-
-## Needed variants and corrections in supplied views
-
-- **Manual verification:** The mockup's six-digit presentation is now the requirement. This screen is used when A is unavailable after a link containing B has opened. Keep one accessible code input with a segmented six-slot presentation, paste/autofill, and an empty initial value. Show expired/replaced link, wrong code, attempt limit, and resend states. Only the explicit Verify action submits B+C. The HTML's sample submit animation does not perform a real confirmation.
-- **Check inbox:** The secondary action now reads “Change email address”; wire it to email entry. A generic signup response must not assert that an email was definitely sent. Provide resend cooldown. Do not grant a session or passkey setup because another device confirmed the same address.
-- **Email processing:** The processing view works for A+B and B+C, and appears only while the confirmation request/session exchange is pending. Do not infer completion from a progress animation or automatically turn an informational polling response into a session. Show an error with manual-entry or resend action on failure/timeout; advance only on authenticated session exchange.
-- **Passkey:** The mockup has no visible “Do this later” path, while the architecture supports deferral and email OTP return. The platform credential picker is owned by the OS/browser; show retry and deferral after cancel or unsupported device. Do not show “Passkey added” until `POST /passkeys/complete` succeeds.
-- **Ready for next step:** Add explicit “Email verified” and “Passkey added” status rows (or “Passkey not added” when deferred). Avoid specific feature entitlements until a feature policy is documented; preserve “Skip for now” for account onboarding.
-- **ID processing and review:** The processing screen reads captured images and leads to the review screen; neither is an identity decision. Use a separate identity verification progress indicator instead of a mandatory signup step count. The sample identity and document data are placeholders. Confirmed edits should be submitted to the actual identity verification workflow and receive an explicit result or pending state.
-- **Design system:** These mockups use Attestra branding, a dark blue palette, and Inter. The existing [shared auth DESIGN.md](../../DESIGN.md) still specifies neutral branding, zinc/teal, and Geist. Treat the mockups as a proposed visual direction until the shared system is intentionally reconciled for onboarding and login together. Avoid unsupported legal or cryptographic claims in visible copy.
-
-## Coverage boundary
-
-The eight supplied views now cover the main entry, confirmation, passkey, and optional ID review path, including both wait states. The remaining distinct visual deliverable is an identity outcome/status screen; the verification email template is separate from the app. Error/recovery variants and the capture plugin handoff remain integration/design work. “Email confirmed,” “passkey registered,” and “identity verified” are separate backend outcomes. A person can skip the optional identity continuation without changing their authenticated account.
+- The email template is still needed: link B and separate six-digit C, expiration guidance, and no C in the link or preview.
+- The new identity success view is valid only after the identity service approves. A **final unsuccessful identity decision** still needs its own result variant with a dashboard exit and retry only if permitted. The supplied “Document images unreadable” screen is a capture retry, not that decision. The shared loading view covers in-progress checks.
+- The capture plugin owns camera permissions, front/back capture, and quality flow. Attestra handles plugin launch, cancel/error, return data, and the review and result screens.
+- Incorrect code, exhausted code attempts, expired link, save interruption, and passkey interruption are separate recoveries. Failed C attempts are limited per generation and across resends; a resend cannot bypass an account-level cooldown. Never promise a fixed 24-hour wait unless returned by the backend.
+- Only the client that completes A+B or B+C confirmation receives a session. The “Change email address” action on the waiting screen must not sign in a different device by polling status.
+- Passkey and identity checks are separate from email verification. “Do this later” preserves the account; passkey deferral uses the documented email sign-in route. Show a passkey success row only when the backend confirms registration.
