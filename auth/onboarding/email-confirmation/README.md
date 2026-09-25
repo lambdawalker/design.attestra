@@ -1,5 +1,7 @@
 # Email confirmation
 
+[Subflow](flow.md) · [UI](ui.md) · [Architecture](architecture.md) · [AWS strategy](aws.md)
+
 This subfeature covers email entry, waiting for the message, and confirming the address with A+B in the initiating client or B+C when the original client context is unavailable. The link alone never confirms the address. The [onboarding architecture](../architecture.md) owns the protocol and session recovery rules; the [development order](../order-of-development.md) gives implementation sequence.
 
 | Reference | Role |
