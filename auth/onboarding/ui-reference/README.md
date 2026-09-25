@@ -4,23 +4,23 @@ These are visual HTML prototypes from the supplied onboarding archives. The six 
 
 | Screen | HTML | Role |
 | --- | --- | --- |
-| Start with your email | [Open](start_with_your_email/code.html) | Entry and generic signup response |
-| Check your email | [Open](confirm_verification/code.html) | Waiting for a link; resend or change email |
-| Complete email verification | [Open](complete_email_verification/code.html) | Empty six-digit fallback form when local signup context is unavailable |
-| Incorrect confirmation code | [Open](email_code_incorrect/code.html) | Correct and retry the entered code |
-| Too many code attempts | [Open](email_verification_attempts_exhausted/code.html) | Request a new email when permitted; show server cooldown when limited |
-| Confirmation link unusable | [Open](confirmation_link_unusable/code.html) | Request a new email; never retry the expired/replaced link |
-| Shared loading | [Open](processing_verification/code.html) | One reusable wait view for all active backend and processing work |
-| Create passkey | [Open](create_passkey/code.html) | Start platform passkey setup |
-| Passkey setup interrupted | [Open](passkey_setup_retry/code.html) | Retry or continue without a passkey |
-| Passkeys unavailable | [Open](passkey_setup_unsupported_device/code.html) | Continue without a passkey; recheck only if capability changes |
-| Ready for next step | [Open](ready_for_next_step/code.html) | Optional identity check or dashboard |
-| Review ID details | [Open](verify_id_details/code.html) | Correct extracted details after the capture plugin returns |
-| ID submission interrupted | [Open](error_saving_id_details/code.html) | Retry the submission or leave for dashboard |
-| Document images unreadable | [Open](id_document_unreadable/code.html) | Reopen plugin to retake images |
-| Identity check complete | [Open](identity_check_success/code.html) | Show a completed identity result only when returned by the identity service |
+| Email verification - start | [Open](email_verification_start/code.html) | Entry and generic signup response |
+| Email verification - wait | [Open](email_verification_wait/code.html) | Waiting for a link; resend or change email |
+| Email verification - manual code input | [Open](email_verification_manual_code_input/code.html) | Empty six-digit fallback form when local signup context is unavailable |
+| Email verification - incorrect code | [Open](email_verification_incorrect_code/code.html) | Correct and retry the entered code |
+| Email verification - attempt limit | [Open](email_verification_attempt_limit/code.html) | Request a new email when permitted; show server cooldown when limited |
+| Email verification - unusable link | [Open](email_verification_link_unusable/code.html) | Request a new email; never retry the expired/replaced link |
+| Onboarding - processing | [Open](onboarding_loading/code.html) | One reusable wait view for all active backend and processing work |
+| Passkey setup - start | [Open](passkey_setup_start/code.html) | Start platform passkey setup |
+| Passkey setup - failed | [Open](passkey_setup_failed/code.html) | Retry or continue without a passkey |
+| Passkey setup - unsupported device | [Open](passkey_setup_unsupported_device/code.html) | Continue without a passkey; recheck only if capability changes |
+| Identity verification - start | [Open](identity_verification_start/code.html) | Optional identity check or dashboard |
+| Identity verification - review details | [Open](identity_verification_review_details/code.html) | Correct extracted details after the capture plugin returns |
+| Identity verification - submission failed | [Open](identity_verification_submission_failed/code.html) | Retry the submission or leave for dashboard |
+| Identity verification - unreadable document | [Open](identity_verification_document_unreadable/code.html) | Reopen plugin to retake images |
+| Identity verification - success | [Open](identity_verification_success/code.html) | Show a completed identity result only when returned by the identity service |
 
-The earlier [ID processing reference](processing_id_document/code.html) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
+The earlier [ID processing reference](identity_verification_reading_document/code.html) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
 
 ## Shared loading view
 
