@@ -1,6 +1,6 @@
 # Passkey creation architecture
 
-**Status:** The [Go onboarding baseline](https://github.com/lambdawalker/go.onboarding/tree/feat/aws-onboarding) contains passkey registration endpoints and Cognito WebAuthn configuration. The client handoff, platform integration, and end-to-end behavior still require implementation and verification.
+**Status:** Planned for [go.attestra.aws.auth](https://github.com/lambdawalker/go.attestra.aws.auth). Its first release implements email confirmation and a Cognito user pool with email OTP; passkey endpoints, WebAuthn configuration, client handoff, and end-to-end checks are future work.
 
 ## Boundaries
 
