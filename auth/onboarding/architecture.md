@@ -2,7 +2,7 @@
 
 The onboarding journey has [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md) subfeatures. This document describes the transitions across all three.
 
-**Status:** Design revision for automatic A+B confirmation and manual B+C confirmation. The existing [Go backend draft](https://github.com/lambdawalker/go.onboarding/pull/1) implements the earlier email/code flow; the three-token protocol below, email generation, transaction storage, and client branching still require implementation. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Current implementation API](https://github.com/lambdawalker/go.onboarding/blob/feat/aws-onboarding/README.md#api).
+**Status:** The [new auth repository](https://github.com/lambdawalker/go.attestra.aws.auth) implements the email proof API and Pulumi stack. Web/native link handling, passkey registration, ID capture, deployment, and live end-to-end checks remain. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Email API](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#protocol).
 
 ## Goal and boundaries
 
@@ -17,7 +17,7 @@ The app and website own every visible screen; Cognito does not host the UI. Onbo
 | Independent B and C generation and email composition | Backend email integration using the verified SES sender |
 | Generate and retain A, route the email link, automatic confirmation or code-entry fallback | Website and native applications |
 | Passkey platform calls and session protection | Website and native applications |
-| AWS infrastructure | Pulumi Go stack in [go.onboarding/infra](https://github.com/lambdawalker/go.onboarding/tree/feat/aws-onboarding/infra) |
+| AWS infrastructure | Pulumi Go stack in [go.attestra.aws.auth/infra](https://github.com/lambdawalker/go.attestra.aws.auth/tree/main/infra) |
 
 ## Tokens and transaction binding
 
@@ -41,7 +41,7 @@ The [Mermaid source](onboarding-flow.md) is kept separately from this page. The 
 
 ![Rendered onboarding flow](onboarding-flow.svg)
 
-1. The client generates A and sends the email, A challenge, and S256 method to `POST /signup`. Retain A in local pending state; associate it with request_id when the response arrives. Signup creates an unconfirmed, passwordless account where appropriate. New and existing addresses receive the same generic 202 response shape with an opaque request_id; this does not guarantee an email was sent. Signup must never become a sign-in shortcut for an already confirmed account.
+1. The client generates A and sends the email, A challenge, and S256 method to `POST /signup`. Retain A in local pending state; associate it with request_id when the response arrives. The backend retains a pending application transaction and creates a passwordless Cognito account only after proof validation. New and existing addresses receive the same generic 202 response shape with an opaque request_id; this does not guarantee an email was sent. Signup must never become a sign-in shortcut for an already confirmed account.
 2. For an eligible pending account, the backend creates B and C and sends one email containing both a link and a separately displayed code. The link is `https://<app-host>/verify-email?request_id=...&b=...`. Neither A nor C is in the URL.
 3. Android App Links/iOS Universal Links route to the installed app where associated; otherwise the website handles the route. **GET and HEAD never confirm or consume anything.** After the client loads, it looks up A for this request_id.
 4. If matching local A exists, show “Verifying your email…” and automatically send `POST /confirm` with B and A asynchronously. Keep the progress state visible while confirmation and session exchange are pending; do not freeze the UI thread or navigate to passkey setup before the server responds. On timeout or failure, show a recovery action instead of leaving the progress state indefinitely. No confirmation button is required on this path. A's local presence only selects the path; the backend still validates the proof.
@@ -86,14 +86,14 @@ Resend retains request_id and its A challenge, so the initiating client can use 
 - The backend accepts A+B or B+C, never B alone. Validate expiry and the bound transaction before any Cognito confirmation or session exchange. Remove or migrate the earlier `{email, code}` shortcut so it cannot bypass this rule.
 - Use a ten-minute validity window for each delivered B/C generation and at most five incorrect C submissions per generation as initial policy. Apply an account-level failed-attempt budget across generations, so resending B/C does not reset the number of guesses available during the cooldown window. Enforce resend and source throttles; invalid or absent A/B requests must not consume proofs or increment C's guess counter.
 - Make both paths share a transaction state machine with an atomic claim before provider side effects. Track confirmation and session issuance separately so races, crashes, and retries cannot mint sessions twice or turn a confirmed account back into a pending one.
-- B and C are application proofs. Do not expose a Cognito confirmation code as B or C or allow a publicly callable Cognito path to bypass application proof validation. The implementation must choose and validate a server-controlled Cognito confirmation/session strategy; do not assume that the existing Custom Message Lambda can simply provide this protocol. Preserve `ConfirmSignUp` followed by `USER_AUTH` with its returned Session only where that integration remains valid, otherwise use an explicitly designed session bridge. Administrative confirmation alone is not a substitute for an authenticated session.
+- B and C are application proofs. Do not expose a Cognito confirmation code as B or C or allow a publicly callable Cognito path to bypass application proof validation. The new auth backend creates a passwordless verified Cognito user only after a valid application proof, then exchanges a one-use server grant through Cognito custom-challenge triggers. Validate the grant, user binding, and email OTP recovery against a deployed pool; administrative user creation alone does not yield a session.
 - A standard remote link fetch lacks A and sees no C on the page. **This protects against ordinary link prefetching, not an email provider or scanner that reads C from the full message and submits B+C.** B and C are in the same email and are not independent authentication factors. A preview operating in the original client's storage context may also complete A+B; this flow is email verification, not proof of a deliberate tap or document-signing consent.
 - Web storage for A must survive an email opening a new tab on the intended origin; tab-scoped sessionStorage alone is insufficient. Keep A per request, short-lived, and protected against script injection. A server-backed pending browser session is another option. Native apps retain A in platform-protected pending storage. Clear A when completed or expired.
 - Serve the link over HTTPS on the app domain and publish the Android/iOS associations for the link host and WebAuthn RP ID. Keep redirects fixed or allowlisted. Never transfer A through a URL to work around browser isolation.
 - Treat all proof values as secrets. Avoid third-party assets/analytics on the landing screen; redact proof fields and raw URLs in logs, set a restrictive referrer policy, strip B from the address bar after capturing it, and use `Cache-Control: no-store`. Preserve B only in bounded pending client state if navigation/reload recovery needs it.
 - Return session tokens only to the successful confirming client. Use protected native storage or secure web sessions, with CSRF protection where cookies authenticate requests. Access/refresh tokens never enter email links or browser navigation.
 - Keep signup, email confirmation, passkey registration, and identity/address decisions separate. Cognito `sub` remains the stable account identifier.
-- The earlier Go backend and Pulumi stack are the baseline. Implement this transaction protocol and email integration, then complete deployment, DNS/SES setup, mobile associations, and live end-to-end verification.
+- The [new auth repository](https://github.com/lambdawalker/go.attestra.aws.auth) owns the backend and Pulumi stack. Complete deployment, DNS/SES setup, mobile associations, and live end-to-end verification before relying on this implementation in production.
 
 ## Acceptance checks for implementation
 

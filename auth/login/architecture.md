@@ -1,6 +1,6 @@
 # Authentication / login architecture
 
-**Status:** Go API endpoints implemented in [go.onboarding](https://github.com/lambdawalker/go.onboarding/pull/1); website/native clients still need a login UI and platform credential adapters. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [API reference in the implementation branch](https://github.com/lambdawalker/go.onboarding/blob/feat/aws-onboarding/README.md#api).
+**Status:** Planned for [go.attestra.aws.auth](https://github.com/lambdawalker/go.attestra.aws.auth); the new repo implements email verification and configures Cognito email OTP, but login endpoints and platform adapters still need implementation. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md).
 
 ## Scope
 

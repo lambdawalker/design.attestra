@@ -1,6 +1,6 @@
 # ID capture architecture
 
-**Status:** Proposed application integration. The [Go onboarding baseline](https://github.com/lambdawalker/go.onboarding/tree/feat/aws-onboarding) has no ID evidence storage or provider workflow. The [identity verification architecture](../../../verification/identity/architecture.md) governs the downstream reports and policy; capture and review are only the onboarding entry point.
+**Status:** Proposed application integration for [go.attestra.aws.auth](https://github.com/lambdawalker/go.attestra.aws.auth), which currently has no ID evidence storage or provider workflow. The [identity verification architecture](../../../verification/identity/architecture.md) governs downstream reports and policy; capture and review are only the onboarding entry point.
 
 1. After authenticated start, hand camera/document capture to the chosen plugin. Treat cancellation, permission denial, retake, and plugin errors as recoverable capture outcomes. Skip leaves the identity check `not_started` without changing the confirmed-email or passkey status.
 2. Receive plugin outputs through a narrow adapter: evidence assets, capture metadata, and extracted fields. Validate the output and show extracted data for review. Preserve source values and user corrections separately; do not silently replace the original extraction.

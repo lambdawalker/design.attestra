@@ -1,6 +1,6 @@
 # Verification / address architecture
 
-**Status:** Proposed architecture. The [go.onboarding implementation](https://github.com/lambdawalker/go.onboarding/pull/1) does not include bill upload, AI auto report, third-party check, expiry policy, or feature gate. [Documentation index](../../README.md) · [Identity check](../identity/architecture.md).
+**Status:** Proposed architecture. The [new auth repository](https://github.com/lambdawalker/go.attestra.aws.auth) does not include bill upload, AI auto report, third-party check, expiry policy, or feature gate. [Documentation index](../../README.md) · [Identity check](../identity/architecture.md).
 
 ## Purpose
 
