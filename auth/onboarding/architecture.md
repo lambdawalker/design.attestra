@@ -2,7 +2,7 @@
 
 The onboarding journey has [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md) subfeatures. This document describes the transitions across all three.
 
-**Status:** The [new auth repository](https://github.com/lambdawalker/go.attestra.aws.auth) implements the email proof API and Pulumi stack. Web/native link handling, passkey registration, ID capture, deployment, and live end-to-end checks remain. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Email API](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#protocol).
+**Status:** Email confirmation, Android App Links, passkey registration, email/passkey sign-in, and session refresh are implemented in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth) and [Android client](https://github.com/lambdawalker/android.attestra.auth). ID capture/provider integration and web/iOS clients remain separate work. Source availability does not establish deployment or end-to-end readiness. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Backend API reference](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#protocol).
 
 ## Goal and boundaries
 
@@ -51,18 +51,19 @@ The [Mermaid source](onboarding-flow.md) is kept separately from this page. The 
 8. With the access token, call `POST /passkeys/options`, use browser WebAuthn or Android/iOS credential APIs, then submit registration JSON to `POST /passkeys/complete`. Keep the **Create passkey** action for the platform prompt; automatic email confirmation does not automatically create a passkey. Show success only after `registered: true`.
 9. Offer **Continue to identity verification** and **Skip for now**. Continuing hands off to the selected ID capture plugin, which owns its capture screens. The host handles launch, cancellation, failures, and the returned images/data before the separate ID review and verification flow. Skipping preserves the authenticated account and does not change identity/address assurance.
 
-## Proposed API changes
+## Email API responsibilities
 
-These request shapes are design targets, not claims about the current Go implementation.
+These operations implement the proof boundary described above. Exact JSON fields, status codes, and implementation limits are maintained in the [backend API reference](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#protocol).
 
-| Endpoint | Request | Behavior |
-| --- | --- | --- |
-| `POST /signup` | `{email, code_challenge, code_challenge_method: "S256"}` | Generic 202 with request_id; eligible pending signup receives an email containing link B and code C |
-| `POST /confirm` automatic | `{request_id, token_b, token_a}` | Validate A+B for this transaction, confirm, and return the session |
-| `POST /confirm` manual | `{request_id, token_b, token_c}` | Validate B+C for this transaction, confirm, and return the session |
-| `POST /resend` | `{request_id}` | Generic 202; for an eligible pending transaction rotate B and C together and send a replacement email |
+| Operation | Architectural responsibility |
+| --- | --- |
+| Signup | Bind a new pending proof to the client challenge; preserve neutral account-existence responses |
+| Confirm | Accept matching A+B or B+C, atomically claim the proof, and issue a session only to the successful claimant |
+| Resend | Rotate both delivered proofs without replacing the initiating client's challenge |
 
 Resend retains request_id and its A challenge, so the initiating client can use its existing A with the new B. A new signup creates a separate request_id; never replace a challenge based only on an email match. Resend invalidates the previous B and C together. A limited resend policy must prevent unlimited code guesses or indefinite transaction renewal.
+
+For app restart, expired sessions, and the welcome destination after skipping ID capture, see [returning users and session recovery](resume.md).
 
 ## Recovery and edge cases
 

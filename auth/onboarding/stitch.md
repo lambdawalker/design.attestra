@@ -6,7 +6,7 @@ Read [shared auth DESIGN.md](../DESIGN.md) first. Generate responsive website vi
 
 The supplied [screen references and coverage review](ui-reference/README.md) map the updated screen variants to this flow. They are visual references; use the architecture for security and state transitions.
 
-**Revision:** Automatic confirmation in the original signup context, with manual email-code fallback when that context is unavailable. Backend and client implementation of this revision is pending.
+**Revision:** Automatic confirmation in the original signup context, with manual email-code fallback when that context is unavailable. The Go backend and Android client implement this revision; this brief defines the cross-platform experience, not deployment readiness.
 
 ## One-line Stitch prompt
 

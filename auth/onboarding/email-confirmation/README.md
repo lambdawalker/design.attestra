@@ -13,4 +13,4 @@ This subfeature covers email entry, waiting for the message, and confirming the 
 | [Attempt limit](ui-reference/email_verification_attempt_limit/code.html) | Recover within backend retry limits |
 | [Unusable link](ui-reference/email_verification_link_unusable/code.html) | Request a new link and code |
 
-Use the [shared processing view](../ui-reference/onboarding_loading/code.html) while confirmation or resend is in flight. The verification email template is still missing; it must contain link B and a separately displayed six-digit C.
+Use the [shared processing view](../ui-reference/onboarding_loading/code.html) while confirmation or resend is in flight. The backend owns the executable email template. Its design requires link B and a separately displayed six-digit C; see the [email sender implementation](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/awsemail/sender.go).

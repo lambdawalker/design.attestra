@@ -2,6 +2,8 @@
 
 Follow the three subfeature folders: [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md). Shared layout and loading belong to the overall onboarding flow.
 
+This is a design dependency sequence, not an outstanding-task or deployment checklist. Current implementation details belong in the [Android](https://github.com/lambdawalker/android.attestra.auth) and [Go](https://github.com/lambdawalker/go.attestra.aws.auth) repositories.
+
 Build the screens in vertical slices so each completed stage can be exercised from its entry point through success and recovery. The HTML mockups are visual references; the architecture defines the actual state transitions.
 
 ## 1. Shared foundations

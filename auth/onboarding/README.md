@@ -1,11 +1,12 @@
 # Onboarding
 
-Onboarding is organized into three subfeatures. The [architecture](architecture.md), [Stitch brief](stitch.md), [development order](order-of-development.md), and [flow diagram](onboarding-flow.md) describe the journey across them.
+Onboarding is organized into three subfeatures. The [architecture](architecture.md), [Stitch brief](stitch.md), [development order](order-of-development.md), and [flow diagram](onboarding-flow.md) describe the journey across them. [Returning users and session recovery](resume.md) covers restarts, sign-in, and the welcome destination after deferring ID verification.
 
-| Subfeature | Scope |
-| --- | --- |
-| [Email confirmation](email-confirmation/README.md) | Email entry, link handling, six-digit fallback, and recovery |
-| [Passkey creation](passkey-creation/README.md) | Platform credential setup, retry, unsupported devices, and deferral |
-| [ID capture](id-capture/README.md) | Optional plugin handoff, document review, submission, and result |
+| Subfeature | Scope | Implementation |
+| --- | --- | --- |
+| [Email confirmation](email-confirmation/README.md) | Email entry, link handling, six-digit fallback, and recovery | [Go API and AWS setup](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md), [Android app](https://github.com/lambdawalker/android.attestra.auth) |
+| [Passkey creation](passkey-creation/README.md) | Platform credential setup, retry, unsupported devices, and deferral | [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth); [Android app](https://github.com/lambdawalker/android.attestra.auth) |
+| [ID capture](id-capture/README.md) | Optional plugin handoff, document review, submission, and result | Capture plugin and backend integration planned |
 
 The [screen index](ui-reference/README.md), [shared processing view](ui-reference/onboarding_loading/code.html), and [logo](ui-reference/logo.svg) belong to the overall journey. Email confirmation, passkey registration, and identity verification remain separate outcomes.
+

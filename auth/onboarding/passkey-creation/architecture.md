@@ -1,6 +1,6 @@
 # Passkey creation architecture
 
-**Status:** Planned for [go.attestra.aws.auth](https://github.com/lambdawalker/go.attestra.aws.auth). Its first release implements email confirmation and a Cognito user pool with email OTP; passkey endpoints, WebAuthn configuration, client handoff, and end-to-end checks are future work.
+**Status:** Registration endpoints and Cognito configuration exist in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth); Credential Manager integration exists in the [Android client](https://github.com/lambdawalker/android.attestra.auth). Web/iOS adapters and deployed end-to-end validation are separate work. See [session recovery](../resume.md) for interrupted or returning enrollment.
 
 ## Boundaries
 

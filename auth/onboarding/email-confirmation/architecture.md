@@ -1,6 +1,6 @@
 # Email confirmation architecture
 
-**Status:** Implemented as an email API and Pulumi stack in [go.attestra.aws.auth](https://github.com/lambdawalker/go.attestra.aws.auth); client routing, deployment, and live integration checks remain. The [overall onboarding architecture](../architecture.md) describes cross-feature session transitions.
+**Status:** Implemented in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth) and [Android client](https://github.com/lambdawalker/android.attestra.auth). Web/iOS implementations and deployed integration validation are separate concerns. The [overall onboarding architecture](../architecture.md) owns the proof protocol; [session recovery](../resume.md) owns returning-user transitions.
 
 ## Boundaries and protocol
 
