@@ -6,13 +6,15 @@ This repository owns the design of the complete system. See [documentation owner
 
 | Component | Responsibility | Implementation guide |
 | --- | --- | --- |
-| Android client | User interface, protected pending/session state, email link routing, native passkey operations, and optional identity-capture handoff | [Android auth](https://github.com/lambdawalker/android.attestra.auth) |
+| Android client | User interface, protected pending/session state, email link routing, native passkey operations, and optional document capture/parsing UI | [Android auth](https://github.com/lambdawalker/android.attestra.auth) |
 | Authentication API | Validate email proofs, enforce transaction/retry policy, orchestrate Cognito, and expose registration/sign-in/session operations | [Go auth](https://github.com/lambdawalker/go.attestra.aws.auth) |
 | DynamoDB proof store | Atomic transaction claims, expiry checks, rate budgets, and one-use session grants | [Email AWS design](auth/onboarding/email-confirmation/aws.md) |
 | SES | Deliver the application-owned verification email | [Backend operations](https://github.com/lambdawalker/go.attestra.aws.auth#deployment) |
 | Cognito | Stable account identity, session issuance and refresh, email OTP challenges, and public passkey credential registry | [Login](auth/login/architecture.md) and [passkey AWS design](auth/onboarding/passkey-creation/aws.md) |
 | Web/iOS clients | Future platform implementations of the same user journeys; host association and link handling belong to their respective platforms | Not provided by these three repositories |
-| Identity/address verification | Separate evidence, automated reports, provider decisions, and assurance policy | [Identity](verification/identity/architecture.md) and [address](verification/address/architecture.md) |
+| Onboarding ID capture | Private S3 uploads and immutable account-bound evidence | [Capture](auth/onboarding/id-capture/architecture.md) |
+| Onboarding ID parsing | Asynchronous vision extraction, validated JSON and revisioned corrections | [Parsing](auth/onboarding/id-parsing/architecture.md) |
+| ID validation / address verification | Independent assurance policy and provider decisions; ID validation deferred | [ID validation](verification/id-validation/architecture.md) and [address](verification/address/architecture.md) |
 
 ```mermaid
 flowchart TD
@@ -38,7 +40,9 @@ The client never supplies its own Cognito grant. After the backend accepts a sin
 - [Passkey creation](auth/onboarding/passkey-creation/README.md): authenticated enrollment and cancellation/retry behavior.
 - [Login](auth/login/architecture.md): passkey authentication with email OTP recovery.
 - [Returning users](auth/onboarding/resume.md): refreshing sessions, unfinished signup, and welcome after ID deferral.
-- [ID capture](auth/onboarding/id-capture/README.md): proposed plugin/evidence integration; capture or email confirmation never proves identity.
+- [ID capture](auth/onboarding/id-capture/README.md): acquisition, private S3 upload and immutable evidence; no extraction or identity decision.
+- [ID parsing](auth/onboarding/id-parsing/README.md): asynchronous model extraction, review and saved corrections; no identity decision.
+- [ID validation](verification/id-validation/architecture.md): standalone deferred feature; consumes exact evidence/review references under its own policy.
 
 ## Identity-provider limitation
 
@@ -46,4 +50,22 @@ The application offers passkeys and email OTP, not a password UI. The current Co
 
 ## Implementation versus readiness
 
-The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. ID capture/provider integration and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
+The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. The [Android mock prototype](https://github.com/lambdawalker/android.attestra.auth/pull/12) is separate from the new capture/parsing production design; its combined contract needs migration. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
+
+## Onboarding document pipeline
+
+The [shared contracts](auth/onboarding/id-evidence-contracts.md) distinguish immutable evidence from extracted/reviewed data. Direct S3 uploads finalize to exact versions; parsing runs asynchronously and saves an attributed review. No automatic validation invocation follows.
+
+```mermaid
+flowchart TD
+    A["Authenticated onboarding client"] --> C["Capture API"]
+    C --> D["Private S3 upload instructions"]
+    D --> A
+    A --> S["Versioned S3 evidence"]
+    C --> V["Freeze and validate manifest"]
+    S --> V
+    V --> P["Queued ID parsing"]
+    P --> M["Vision model adapter"]
+    M --> R["Validated JSON and user review"]
+    R --> E["Document details saved"]
+```
