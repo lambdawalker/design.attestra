@@ -1,16 +1,13 @@
-# ID capture
+# ID capture — onboarding subfeature
 
-[Subflow](flow.md) · [UI](ui.md) · [Architecture](architecture.md) · [AWS strategy](aws.md)
+[Architecture](architecture.md) · [Flow](flow.md) · [AWS design](aws.md) · [UI](ui.md) · [Shared contracts](../id-evidence-contracts.md) · [Implementation sequence](../id-evidence-plan.md)
 
-This optional subfeature starts after the account is authenticated. The selected capture plugin owns camera permission and document capture; Attestra handles its launch, cancel/error/return states, extracted data review, submission, and status. The broader [identity verification architecture](../../../verification/identity/architecture.md) defines later identity decisions. See the [onboarding architecture](../architecture.md) and [development order](../order-of-development.md) for the handoff.
+**Status: architecture planned; production upload integration is not established by this document.**
 
-| Reference | Role |
-| --- | --- |
-| [Start or skip](ui-reference/identity_verification_start/code.html) | Begin the optional check or visit the dashboard |
-| [Document reading](ui-reference/identity_verification_reading_document/code.html) | Archived visual; implement with shared processing layout |
-| [Unreadable document](ui-reference/identity_verification_document_unreadable/code.html) | Reopen the capture plugin for a retake |
-| [Review details](ui-reference/identity_verification_review_details/code.html) | Correct extracted fields before submission |
-| [Submission failed](ui-reference/identity_verification_submission_failed/code.html) | Reconcile status, then retry if needed |
-| [Success](ui-reference/identity_verification_success/code.html) | Show only after an approved identity result |
+ID capture obtains document photos, lets the user review them, uploads them to private S3 storage, and finalizes a complete, immutable evidence manifest. It ends at `capture.ready`. It does not extract personal fields or decide whether an identity is valid.
 
-Use the [shared processing view](../ui-reference/onboarding_loading/code.html) for document extraction, submission, and provider waits. A final unsuccessful identity decision still needs its own reference; an unreadable image is a capture error, not a provider rejection.
+The next onboarding subfeature is [ID parsing](../id-parsing/README.md). [ID validation](../../../verification/id-validation/architecture.md) is a separate feature and is outside this work.
+
+Android uses Apexfission [permissions](https://github.com/lambdawalker/android.apexfission.permissions) and [card detector](https://github.com/lambdawalker/android.apexfission.carddetector) behind a capture adapter. Detection finds a card; it does not establish its side, authenticity, or owner. Other clients implement the same capture/upload contract with their platform APIs.
+
+Existing `ui-reference/identity_verification_*` filenames are retained for link compatibility. [UI ownership](ui.md) explains which references belong to capture, parsing, or deferred validation; historical names do not define feature boundaries.

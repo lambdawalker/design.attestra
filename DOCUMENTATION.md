@@ -25,5 +25,6 @@ Every maintained explanation has one owner. Other repositories link to that expl
 
 - [System architecture](architecture.md)
 - [Onboarding](auth/onboarding/README.md), [session recovery](auth/onboarding/resume.md), and [login](auth/login/architecture.md)
+- [ID capture and parsing contracts](auth/onboarding/id-evidence-contracts.md) and [implementation sequence](auth/onboarding/id-evidence-plan.md)
 - [Backend implementation and operations](https://github.com/lambdawalker/go.attestra.aws.auth)
 - [Android implementation and device setup](https://github.com/lambdawalker/android.attestra.auth)

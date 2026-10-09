@@ -1,6 +1,6 @@
 # Onboarding flow source
 
-This Mermaid source corresponds to the [rendered SVG](onboarding-flow.svg) embedded in the [onboarding architecture](architecture.md). Update both representations when the flow changes.
+This is the current flow for the [onboarding architecture](architecture.md). The [legacy SVG](onboarding-flow.svg) is retained as a historical pre-split snapshot. Capture/parsing subflows have their own detailed diagrams.
 
 ```mermaid
 flowchart TD
@@ -21,5 +21,12 @@ flowchart TD
     O --> H
     H --> J["Create platform passkey"]
     J --> K["POST /passkeys/complete"]
-    K --> N["Invite identity check or skip"]
+    K --> N{"Add ID now?"}
+    N -->|Skip| Z["Continue to account"]
+    N -->|Yes| C1["ID capture: photos and private S3 upload"]
+    C1 --> C2["Freeze and validate evidence"]
+    C2 --> P1["ID parsing: asynchronous extraction"]
+    P1 --> R1["Review and correct extracted fields"]
+    R1 --> D1["Document details saved"]
+    D1 --> Z
 ```
