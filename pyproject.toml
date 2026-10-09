@@ -1,0 +1,10 @@
+[project]
+name = "design-attestra"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "playwright>=1.40.0",
+]
+
+[project.scripts]
+render-screens = "scripts.render_screens:main"
