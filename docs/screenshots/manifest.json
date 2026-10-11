@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "captures": [
+    {
+      "scenario_id": "email_verification_manual_code_input",
+      "path": "auth/onboarding/email-confirmation/ui-reference/email_verification_manual_code_input/screen.png",
+      "fixture": "auth/onboarding/email-confirmation/ui-reference/email_verification_manual_code_input/code.html",
+      "capture_kind": "design-prototype",
+      "source_ref": "bea6831",
+      "capture_source_ref": null,
+      "renderer": null,
+      "viewport": null,
+      "status": "historical supplied asset; not regenerated",
+      "image_sha256": "6c6a6cb4ca2e89e4c679e0112dcb57fa85d9ad2e53016aa800f645b3085a668b",
+      "alt": "Historical email verification manual code input design prototype"
+    },
+    {
+      "scenario_id": "email_verification_start",
+      "path": "auth/onboarding/email-confirmation/ui-reference/email_verification_start/screen.png",
+      "fixture": "auth/onboarding/email-confirmation/ui-reference/email_verification_start/code.html",
+      "capture_kind": "design-prototype",
+      "source_ref": "bea6831",
+      "capture_source_ref": null,
+      "renderer": null,
+      "viewport": null,
+      "status": "historical supplied asset; not regenerated",
+      "image_sha256": "e382c0778786467296da952b0272cfbb59ed078bcc7403e140d80704040c14e1",
+      "alt": "Historical email verification start design prototype"
+    },
+    {
+      "scenario_id": "email_verification_wait",
+      "path": "auth/onboarding/email-confirmation/ui-reference/email_verification_wait/screen.png",
+      "fixture": "auth/onboarding/email-confirmation/ui-reference/email_verification_wait/code.html",
+      "capture_kind": "design-prototype",
+      "source_ref": "bea6831",
+      "capture_source_ref": null,
+      "renderer": null,
+      "viewport": null,
+      "status": "historical supplied asset; not regenerated",
+      "image_sha256": "8a4ba1e692ca5f77310f3e753ba45722f51e67b1a002ffd96adcd1de97e2bb68",
+      "alt": "Historical email verification wait design prototype"
+    },
+    {
+      "scenario_id": "identity_verification_review_details",
+      "path": "auth/onboarding/id-capture/ui-reference/identity_verification_review_details/screen.png",
+      "fixture": "auth/onboarding/id-capture/ui-reference/identity_verification_review_details/code.html",
+      "capture_kind": "design-prototype",
+      "source_ref": "bea6831",
+      "capture_source_ref": null,
+      "renderer": null,
+      "viewport": null,
+      "status": "historical supplied asset; not regenerated",
+      "image_sha256": "6193392cb9f7a05963a6b9c94086cfa03b1a4fede036f7f4f1e554365580cb90",
+      "alt": "Historical identity verification review details design prototype"
+    },
+    {
+      "scenario_id": "identity_verification_start",
+      "path": "auth/onboarding/id-capture/ui-reference/identity_verification_start/screen.png",
+      "fixture": "auth/onboarding/id-capture/ui-reference/identity_verification_start/code.html",
+      "capture_kind": "design-prototype",
+      "source_ref": "bea6831",
+      "capture_source_ref": null,
+      "renderer": null,
+      "viewport": null,
+      "status": "historical supplied asset; not regenerated",
+      "image_sha256": "23c70ac19b4e5ecd9da1bfc338d7cca7ad27cc2e12f110c547f860421ace1996",
+      "alt": "Historical identity verification start design prototype"
+    },
+    {
+      "scenario_id": "passkey_setup_start",
+      "path": "auth/onboarding/passkey-creation/ui-reference/passkey_setup_start/screen.png",
+      "fixture": "auth/onboarding/passkey-creation/ui-reference/passkey_setup_start/code.html",
+      "capture_kind": "design-prototype",
+      "source_ref": "bea6831",
+      "capture_source_ref": null,
+      "renderer": null,
+      "viewport": null,
+      "status": "historical supplied asset; not regenerated",
+      "image_sha256": "0d1e5835da8a4e3b6c353492ccb05e1b96f46ff7e503e88cc9f2c77d3cc9e026",
+      "alt": "Historical passkey setup start design prototype"
+    }
+  ]
+}

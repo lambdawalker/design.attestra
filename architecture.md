@@ -50,7 +50,7 @@ The application offers passkeys and email OTP, not a password UI. The current Co
 
 ## Implementation versus readiness
 
-The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. The [Android mock prototype](https://github.com/lambdawalker/android.attestra.auth/pull/12) is separate from the new capture/parsing production design; its combined contract needs migration. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
+The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. Backend and Android source now implement capture with a separate debug mock. Parsing remains planned. See the [compatibility ledger](docs/compatibility.md) for refs and verification limits; do not integrate against the historical combined mock contract. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
 
 ## Onboarding document pipeline
 
@@ -69,3 +69,7 @@ flowchart TD
     M --> R["Validated JSON and user review"]
     R --> E["Document details saved"]
 ```
+
+## Environment operations
+
+[Environment lifecycle and discovery](operations/environments.md) defines staged readiness, shared-index ownership, publication trust and teardown boundaries. [Backend operator guidance](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/agents/operations.md) owns commands and recovery details.

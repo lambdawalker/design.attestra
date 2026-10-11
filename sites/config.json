@@ -1,0 +1,42 @@
+{
+  "repository": "lambdawalker/design.attestra",
+  "title": "System architecture",
+  "source_ref": "bea6831",
+  "sources": [
+    "README.md",
+    "DOCUMENTATION.md",
+    "architecture.md",
+    "AI_INTEGRATION_GUIDE.md",
+    "auth/**/*.md",
+    "verification/**/*.md",
+    "operations/**/*.md",
+    "docs/**/*.md",
+    "sites/README.md"
+  ],
+  "nav": {
+    "docs/agents/index.md": {
+      "en": "System guide",
+      "es": "Gu\u00eda del sistema"
+    },
+    "docs/agents/concepts.md": {
+      "en": "Components & terms",
+      "es": "Componentes y t\u00e9rminos"
+    },
+    "docs/agents/journeys.md": {
+      "en": "Journeys",
+      "es": "Flujos"
+    },
+    "docs/agents/contracts.md": {
+      "en": "Contracts",
+      "es": "Contratos"
+    },
+    "docs/agents/ui.md": {
+      "en": "UI evidence",
+      "es": "Evidencia de interfaz"
+    },
+    "docs/agents/limitations.md": {
+      "en": "Status & gaps",
+      "es": "Estado y pendientes"
+    }
+  }
+}

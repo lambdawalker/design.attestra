@@ -28,3 +28,7 @@ Every maintained explanation has one owner. Other repositories link to that expl
 - [ID capture and parsing contracts](auth/onboarding/id-evidence-contracts.md) and [implementation sequence](auth/onboarding/id-evidence-plan.md)
 - [Backend implementation and operations](https://github.com/lambdawalker/go.attestra.aws.auth)
 - [Android implementation and device setup](https://github.com/lambdawalker/android.attestra.auth)
+
+## Human and agent publication
+
+Both target repositories render their own Markdown into HTML and publish raw agent entry points. The [repository catalog](docs/repositories.json) owns repeated component-directory metadata; `sites/catalog.py --check` validates generated tables. [Compatibility](docs/compatibility.md) separates designed, implemented and operator-reported status. Translation hashes bind Spanish guides to the canonical source; missing/stale translations fall back visibly to English at the same source scope. Sites are documentation-only and must never trigger application deployment or package publication. See [maintenance](sites/README.md).

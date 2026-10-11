@@ -2,7 +2,9 @@
 
 [Architecture](architecture.md) · [Flow](flow.md) · [AWS design](aws.md) · [UI](ui.md) · [Shared contracts](../id-evidence-contracts.md) · [Implementation sequence](../id-evidence-plan.md)
 
-**Status: architecture planned; production upload integration is not established by this document.**
+**Status: designed here and implemented in backend/Android source. Live capture is disabled by default; source implementation does not establish real-device/S3 verification.**
+
+See [backend API and operations](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/id-capture.md), [Android integration](https://github.com/lambdawalker/android.attestra.auth/blob/main/docs/identity-capture.md), and the [evidence ledger](../../../docs/compatibility.md).
 
 ID capture obtains document photos, lets the user review them, uploads them to private S3 storage, and finalizes a complete, immutable evidence manifest. It ends at `capture.ready`. It does not extract personal fields or decide whether an identity is valid.
 
