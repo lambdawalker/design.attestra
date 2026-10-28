@@ -4,9 +4,9 @@
 
 ## Scope
 
-The user enters an email and attempts a passkey sign-in first. Email OTP is the fallback when a passkey cannot be used, is lost, or has not yet been registered. The current pool supports `USER_AUTH` with `EMAIL_OTP` and `WEB_AUTHN`. It does not define a password login or Cognito-hosted UI. A login grants an authenticated session, not identity or address assurance.
+The user enters an email and attempts a passkey sign-in first. Email OTP is the fallback when a passkey cannot be used, is lost, or has not yet been registered. The current pool supports `USER_AUTH` with `EMAIL_OTP` and `WEB_AUTHN`. Password sign-in is also supported for previously enrolled users through `USER_AUTH` `PASSWORD`, even when new password enrollment is disabled; see [policy](../onboarding/policy.md). There is no Cognito-hosted application UI. A login grants an authenticated session, not identity or address assurance.
 
-![Rendered login flow](login-flow.svg)
+The [legacy login SVG](login-flow.svg) shows email/passkey paths; password and policy routing are described here.
 
 ```mermaid
 flowchart TD
@@ -30,6 +30,8 @@ flowchart TD
 | --- | --- | --- |
 | Begin passkey | `/auth/passkey/start` | Obtain a challenge for the platform credential provider |
 | Complete passkey | `/auth/passkey/complete` | Validate the assertion and establish an authenticated session |
+| Begin password | `/auth/password/start` | Start the enrolled password challenge with email |
+| Complete password | `/auth/password/complete` | Submit email, session and password to establish a session |
 | Begin fallback | `/auth/email/start` | Issue a fresh Cognito email OTP challenge |
 | Complete fallback | `/auth/email/complete` | Validate the OTP for that challenge and establish a session |
 

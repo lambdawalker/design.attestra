@@ -14,7 +14,7 @@ flowchart TD
     C -->|Yes| F["Submit registration result"]
     F --> V{"Server confirms registration?"}
     V -->|No| R
-    V -->|Yes| N["Continue to optional ID capture"]
+    V -->|Yes| N["Refresh status; follow current enrollment policy"]
 ```
 
 Cancellation leaves email confirmed and passkey registration incomplete. The client shows success only after the registration completion response; neither opening the platform picker nor receiving a local credential proves server registration. See [architecture](architecture.md).

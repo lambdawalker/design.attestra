@@ -29,9 +29,9 @@ Build the screens in vertical slices so each completed stage can be exercised fr
 11. Add [Passkey setup - failed](passkey-creation/ui-reference/passkey_setup_failed/code.html) with Try again and Do this later.
 12. Add [Passkey setup - unsupported device](passkey-creation/ui-reference/passkey_setup_unsupported_device/code.html). Allow deferral and the documented email sign-in path; recheck support only when the device environment changes.
 
-## 4. Optional ID capture
+## 4. Policy-controlled ID capture
 
-13. Build the optional Add your ID / Skip entry and document-type policy selection.
+13. Build Add your ID with Skip only for optional capture and document-type policy selection.
 14. Integrate permission, camera, per-side preview and retake; preserve host cancel/error navigation.
 15. Add direct S3 upload progress, instruction renewal and status reconciliation for missing slots.
 16. Finalize and show preparing/pending status until the frozen evidence is ready; invalid images route to recapture.
@@ -51,4 +51,4 @@ The detailed backend/client sequence and acceptance gates are in the [document p
 - Test wrong codes, exhausted attempts, expired or replaced links, resends, network timeouts, and confirmation without a recoverable session.
 - Test passkey success, cancellation, failure, unsupported devices, and deferral.
 - Test capture cancellation/retakes, incomplete uploads, URL expiry, frozen-version races, unreadable parsing, model failures, corrected details, uncertain writes, pending recovery and revision conflicts.
-- Confirm that skipping passkey setup or document submission does not falsely mark either complete; capture/parsing must never mark identity validated.
+- Confirm that skipping optional passkey setup or document submission does not falsely mark either complete; capture/parsing must never mark identity validated.

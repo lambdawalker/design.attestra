@@ -1,6 +1,6 @@
 # Onboarding
 
-Onboarding has four subfeatures: email confirmation, passkey creation, ID capture, and ID parsing. The optional document flow collects and saves reviewed document data; **ID validation is a standalone feature outside onboarding**.
+See [configurable enrollment policy](policy.md) for required, optional and disabled ID, passkey and password steps. The new defaults require ID and passkey and hide disabled password enrollment. Onboarding has four document/email subfeatures: email confirmation, passkey creation, ID capture, and ID parsing. The policy-controlled document flow collects and saves reviewed document data; **ID validation is a standalone feature outside onboarding**.
 
 | Subfeature | Scope | Status / implementation |
 | --- | --- | --- |
