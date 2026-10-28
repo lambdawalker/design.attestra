@@ -19,14 +19,17 @@ flowchart TD
     G -->|No| O["Email OTP recovery"]
     G -->|Yes| H["Authenticated session"]
     O --> H
-    H --> J["Create platform passkey"]
-    J --> K["POST /passkeys/complete"]
-    K --> N{"Add ID now?"}
-    N -->|Skip| Z["Continue to account"]
-    N -->|Yes| C1["ID capture: photos and private S3 upload"]
-    C1 --> C2["Freeze and validate evidence"]
-    C2 --> P1["ID parsing: asynchronous extraction"]
-    P1 --> R1["Review and correct extracted fields"]
-    R1 --> D1["Document details saved"]
-    D1 --> Z
+    H --> J["Load current policy and authenticated status"]
+    J --> K{"Unmet required or offered optional step?"}
+    K -->|Password enabled| W["Collect or reuse memory-only password; authenticated set"]
+    K -->|Passkey enabled| X["Platform registration; server acceptance"]
+    K -->|Capture enabled| C1["Capture and finalize evidence to server ready"]
+    W --> J
+    X --> J
+    C1 --> J
+    K -->|Optional skip or no remaining steps| N{"Server onboarding_complete?"}
+    N -->|Yes| Z["Continue to account; no identity verification claim"]
+    N -->|No| J
 ```
+
+Password may be collected with email but is submitted only after verification; loss of process or cross-device confirmation requires re-entry. Disabled enrollment is omitted. Optional skips are local choices, never substitutes for required durable facts. ID parsing/review can follow ready capture independently; capture is not identity verification. See [policy](policy.md).

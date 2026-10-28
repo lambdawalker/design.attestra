@@ -6,9 +6,9 @@ The onboarding journey has [email confirmation](email-confirmation/README.md), [
 
 ## Goal and boundaries
 
-Create an account by verifying an email address and then registering a passkey. When the email link opens in the client that started signup, confirm automatically and advance to passkey setup. When the original client secret is unavailable, ask for the code displayed in that same email and confirm after the user submits it. Do not send a second email challenge on either successful path.
+Create an account by verifying an email address and then satisfying the current [enrollment policy](policy.md). When the email link opens in the client that started signup, confirm automatically and advance to passkey setup. When the original client secret is unavailable, ask for the code displayed in that same email and confirm after the user submits it. Do not send a second email challenge on either successful path.
 
-The app and website own every visible screen; Cognito does not host the UI. Onboarding completion means email confirmed and passkey registered. It never implies identity or address verification.
+The app and website own every visible screen; Cognito does not host the UI. Onboarding completion means email confirmed and every currently required enrollment fact confirmed by authenticated server status. Defaults require passkey and ID capture; password is disabled/hidden. It never implies identity or address verification.
 
 | Responsibility | Owner |
 | --- | --- |
@@ -44,12 +44,12 @@ The [current Mermaid flow](onboarding-flow.md) includes the capture/parsing spli
 3. Android App Links/iOS Universal Links route to the installed app where associated; otherwise the website handles the route. **GET and HEAD never confirm or consume anything.** After the client loads, it looks up A for this request_id.
 4. If matching local A exists, show “Verifying your email…” and automatically send `POST /confirm` with B and A asynchronously. Keep the progress state visible while confirmation and session exchange are pending; do not freeze the UI thread or navigate to passkey setup before the server responds. On timeout or failure, show a recovery action instead of leaving the progress state indefinitely. No confirmation button is required on this path. A's local presence only selects the path; the backend still validates the proof.
 5. If A is unavailable, show an empty “Verification code” field and a **Verify email** button. The user enters C from the email; submission sends B and C. Paste and platform autofill may fill the field, but must not submit it automatically.
-6. Both paths validate their proofs before changing Cognito state. A successful confirmation obtains an authenticated session and advances directly to **Create passkey**. Only the client that completed proof receives the session; the original client cannot obtain it merely by polling request_id.
+6. Both paths validate their proofs before changing Cognito state. A successful confirmation obtains an authenticated session and advances to the next unmet policy-controlled enrollment step. Only the client that completed proof receives the session; the original client cannot obtain it merely by polling request_id.
 7. If email confirmation succeeds but session exchange fails or expires, return `409 confirmed_sign_in_required` and start email OTP recovery through [login](../login/architecture.md). Do not replay confirmation or reopen the consumed transaction.
 8. With the access token, call `POST /passkeys/options`, use browser WebAuthn or Android/iOS credential APIs, then submit registration JSON to `POST /passkeys/complete`. Keep the **Create passkey** action for the platform prompt; automatic email confirmation does not automatically create a passkey. Show success only after `registered: true`.
-9. Offer **Add your ID** and **Skip for now**. [ID capture](id-capture/architecture.md) owns permission, photos, preview/retake, direct private S3 upload and finalization of exact evidence versions. Skipping preserves the authenticated account and all assurance states.
+9. Offer **Add your ID** when capture is enabled; offer **Skip for now** only when optional. [ID capture](id-capture/architecture.md) owns permission, photos, preview/retake, direct private S3 upload and finalization of exact evidence versions. Optional skipping preserves the authenticated account and all assurance states; required capture blocks completion until server-ready evidence exists.
 10. Ready evidence enters [ID parsing](id-parsing/architecture.md), which asynchronously extracts structured fields, validates the JSON and presents warnings/corrections for review. Confirming saves an attributed review revision and shows **Document details saved**.
-11. Continue to the account. Do not start ID validation, label an identity verified, or unlock restricted features from capture/parsing completion. Standalone validation is future work. See [shared contracts](id-evidence-contracts.md) for cross-feature identifiers and recovery.
+11. Refresh `/auth/status` and continue to the account only when `onboarding_complete` is true. Enroll a password at its configured placement when enabled; see [policy](policy.md) for the memory-only pre-verification handling and server validation. Do not start ID validation, label an identity verified, or unlock restricted features from capture/parsing completion. Standalone validation is future work. See [shared contracts](id-evidence-contracts.md) for cross-feature identifiers and recovery.
 
 ## Email API responsibilities
 

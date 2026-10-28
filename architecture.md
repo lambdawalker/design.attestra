@@ -6,7 +6,7 @@ This repository owns the design of the complete system. See [documentation owner
 
 | Component | Responsibility | Implementation guide |
 | --- | --- | --- |
-| Android client | User interface, protected pending/session state, email link routing, native passkey operations, and optional document capture/parsing UI | [Android auth](https://github.com/lambdawalker/android.attestra.auth) |
+| Android client | User interface, protected pending/session state, email link routing, native passkey operations, and policy-controlled document capture/parsing UI | [Android auth](https://github.com/lambdawalker/android.attestra.auth) |
 | Authentication API | Validate email proofs, enforce transaction/retry policy, orchestrate Cognito, and expose registration/sign-in/session operations | [Go auth](https://github.com/lambdawalker/go.attestra.aws.auth) |
 | DynamoDB proof store | Atomic transaction claims, expiry checks, rate budgets, and one-use session grants | [Email AWS design](auth/onboarding/email-confirmation/aws.md) |
 | SES | Deliver the application-owned verification email | [Backend operations](https://github.com/lambdawalker/go.attestra.aws.auth#deployment) |
@@ -46,7 +46,7 @@ The client never supplies its own Cognito grant. After the backend accepts a sin
 
 ## Identity-provider limitation
 
-The application offers passkeys and email OTP, not a password UI. The current Cognito configuration also allows `PASSWORD`, so it does not guarantee that password authentication is impossible at the provider level if an account acquires a password. A requirement to prohibit that path needs a separate architecture decision. The [backend deployment gotcha](https://github.com/lambdawalker/go.attestra.aws.auth#configure-the-android-api-url) records the concrete provider constraint and operational implications.
+The application supports configurable password enrollment as well as passkeys and email OTP. Cognito owns password credentials and permits the PASSWORD factor. Disabled enrollment hides onboarding controls, not previously enrolled sign-in. See [onboarding policy](auth/onboarding/policy.md) for current requirements and rollout.
 
 ## Implementation versus readiness
 

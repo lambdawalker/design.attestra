@@ -4,7 +4,7 @@
 
 | Screen | Responsibility and action |
 | --- | --- |
-| Capture introduction | Optional document submission; explain purpose and supported types. Start or return to account. Do not promise identity verification. |
+| Capture introduction | Policy-controlled document submission; explain purpose and supported types. Offer skip only when optional; required capture blocks onboarding completion. Do not promise identity verification. |
 | Permission and camera | Apexfission permissions/detector integration on Android. Show required side, framing/glare guidance, cancel and Settings recovery. |
 | Photo preview | Confirm the requested side and visible details; use photo or retake. |
 | Upload progress | Real transferred-byte progress per slot, retry/renewal, and a safe exit. Never invent parsing percentages. |

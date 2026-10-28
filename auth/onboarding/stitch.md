@@ -10,7 +10,7 @@ The supplied [screen references and coverage review](ui-reference/README.md) map
 
 ## One-line Stitch prompt
 
-> Design an app-domain email signup and passkey setup for a trusted digital service. Start with one email input. Send a branded email with a verification link and a separate verification code. When the link opens in the original signup context, show a brief verifying state and automatically advance to passkey setup after the server confirms. Otherwise show an empty code field and a Verify email button; the user enters the code from that same email and submits it. Both paths reach the same Create passkey screen. Offer optional ID capture and parsing, or Skip for now. End the document flow at reviewed details saved; identity validation is a separate future feature. Use shared DESIGN.md styling, recovery and accessibility states. Never show technical token names or Cognito-hosted UI.
+> Design an app-domain email signup and passkey setup for a trusted digital service. Start with one email input. Send a branded email with a verification link and a separate verification code. When the link opens in the original signup context, show a brief verifying state and automatically advance to passkey setup after the server confirms. Otherwise show an empty code field and a Verify email button; the user enters the code from that same email and submits it. Both paths reach the same Create passkey screen. Apply current ID, passkey and password policy: offer Skip for now only for optional steps, omit disabled enrollment, and block completion on unmet required steps. Password placement follows policy; with-email values stay only in memory until verification. End the document flow at reviewed details saved; identity validation is a separate future feature. Use shared DESIGN.md styling, recovery and accessibility states. Never show technical token names or Cognito-hosted UI.
 
 ## Screens and variants
 
@@ -22,7 +22,7 @@ The supplied [screen references and coverage review](ui-reference/README.md) map
 | 3a. Automatic verification | “Verifying your email…” with a restrained progress state while confirmation and session exchange run; no confirmation button | Automatic transition after successful confirmation/session issuance | Timeout/error recovery; code-entry variant if local proof is stale; expiry/resend; already-confirmed account recovery |
 | 3b. Enter verification code | “Verify your email”; empty labeled six-digit “Verification code” input; “Enter the code from the email you just opened.” | Verify email | Wrong code, attempt limit, expired/replaced link, throttled resend, invalid-link state |
 | 4. Create passkey | “Protect your account with a passkey”; concise explanation of device/password-manager choice and platform prompt | Create passkey | Platform cancellation, unsupported device, retry, **Do this later** with email OTP return path |
-| 5. Ready for next step | Separate status rows “Email verified” and “Passkey added”; invitation to submit ID later | Add your ID | Skip for now; if passkey creation was deferred show “Passkey not added” and a re-entry action |
+| 5. Ready for next step | Separate status rows “Email verified” and “Passkey added”; invitation to submit ID later | Add your ID | Skip for now only for optional ID; if optional passkey creation was deferred show “Passkey not added” and a re-entry action |
 
 Screens 3a and 3b are alternatives selected automatically, not consecutive steps. Users do not choose an authentication mode or need to understand why a code is requested.
 
