@@ -1,6 +1,6 @@
 # Onboarding screen development order
 
-Follow the three subfeature folders: [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md). Shared layout and loading belong to the overall onboarding flow.
+Follow the four subfeature folders: [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), [ID capture](id-capture/README.md), and [ID parsing](id-parsing/README.md). Shared layout and loading belong to the overall onboarding flow.
 
 This is a design dependency sequence, not an outstanding-task or deployment checklist. Current implementation details belong in the [Android](https://github.com/lambdawalker/android.attestra.auth) and [Go](https://github.com/lambdawalker/go.attestra.aws.auth) repositories.
 
@@ -29,15 +29,20 @@ Build the screens in vertical slices so each completed stage can be exercised fr
 11. Add [Passkey setup - failed](passkey-creation/ui-reference/passkey_setup_failed/code.html) with Try again and Do this later.
 12. Add [Passkey setup - unsupported device](passkey-creation/ui-reference/passkey_setup_unsupported_device/code.html). Allow deferral and the documented email sign-in path; recheck support only when the device environment changes.
 
-## 4. Optional ID capture and identity check
+## 4. Optional ID capture
 
-13. Build [Identity verification - start](id-capture/ui-reference/identity_verification_start/code.html), with separate email and passkey statuses, Start identity check, and Skip for now.
-14. Integrate the selected capture plugin. It owns camera permission, document capture, and its internal retry screens. Handle launch, cancellation, errors, and returned data in Attestra.
-15. Use the shared processing screen to read the returned images. For unreadable images, show [Identity verification - unreadable document](id-capture/ui-reference/identity_verification_document_unreadable/code.html) and reopen the plugin on retry.
-16. Build [Identity verification - review details](id-capture/ui-reference/identity_verification_review_details/code.html). Let the user correct extracted data before submission; extraction is not an identity decision.
-17. Use the shared processing screen for submission. On interruption, show [Identity verification - submission failed](id-capture/ui-reference/identity_verification_submission_failed/code.html). Check the server outcome before retrying an uncertain submission.
-18. Use the shared processing screen or a persistent pending state while the identity provider decides. Show [Identity verification - success](id-capture/ui-reference/identity_verification_success/code.html) only after an approved result.
-19. Design and build the **final unsuccessful identity decision** variant. It remains missing from the references. Provide a dashboard exit and a retry only when the provider permits one. The unreadable-document screen is a capture error, not this decision.
+13. Build the optional Add your ID / Skip entry and document-type policy selection.
+14. Integrate permission, camera, per-side preview and retake; preserve host cancel/error navigation.
+15. Add direct S3 upload progress, instruction renewal and status reconciliation for missing slots.
+16. Finalize and show preparing/pending status until the frozen evidence is ready; invalid images route to recapture.
+
+## 5. ID parsing
+
+17. Create/reconcile an asynchronous parse job for ready evidence. Support bounded waiting and leave/resume.
+18. Build review of extracted fields, missing/ambiguous warnings, user corrections and recapture.
+19. Save/confirm a revision with conflict and lost-response recovery. End at Document details saved, then continue to account.
+
+The detailed backend/client sequence and acceptance gates are in the [document pipeline plan](id-evidence-plan.md). ID-validation provider checks, approval/rejection screens and restricted-feature gating are outside these slices. Historical identity-success mockups are not parsing-success screens.
 
 ## Completion checks
 
@@ -45,5 +50,5 @@ Build the screens in vertical slices so each completed stage can be exercised fr
 - Verify that fetching a link alone cannot confirm an email, and that a code cannot confirm without its matching link.
 - Test wrong codes, exhausted attempts, expired or replaced links, resends, network timeouts, and confirmation without a recoverable session.
 - Test passkey success, cancellation, failure, unsupported devices, and deferral.
-- Test identity plugin cancellation, unreadable images, corrected details, uncertain submissions, pending results, approval, and unsuccessful decisions.
-- Confirm that skipping passkey setup or identity verification does not falsely mark either step complete.
+- Test capture cancellation/retakes, incomplete uploads, URL expiry, frozen-version races, unreadable parsing, model failures, corrected details, uncertain writes, pending recovery and revision conflicts.
+- Confirm that skipping passkey setup or document submission does not falsely mark either complete; capture/parsing must never mark identity validated.

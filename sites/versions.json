@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "module": "design.attestra",
+  "canonicalLanguage": "en",
+  "languages": [
+    "en",
+    "es"
+  ],
+  "channels": [
+    {
+      "id": "main",
+      "kind": "development",
+      "source_ref": "bea6831",
+      "agent_entry": "agents/index.md"
+    }
+  ],
+  "releases": [],
+  "archiveBoundary": "Current-source only; no confirmed releases at 2026-10-11 audit."
+}

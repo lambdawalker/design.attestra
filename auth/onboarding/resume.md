@@ -22,11 +22,11 @@ Check authoritative passkey status. Offer enrollment when appropriate, or contin
 
 Confirmation that consumed the signup proof but did not deliver a usable session recovers through sign-in. Do not replay confirmation to obtain another token set. Auth challenge sessions, OTPs, refresh tokens, access tokens, and credential assertions stay out of navigation URLs and analytics.
 
-## Welcome after ID deferral
+## Welcome after document deferral
 
-Skipping the optional identity step opens a welcome destination with separate email, passkey, and identity status. Identity remains incomplete; skipping does not create an approval. A Verify my ID action returns to the identity entry point.
+Skipping optional document submission opens a welcome destination with separate email, passkey, capture and parsing status. An Add ID / Resume document action returns to the server-discovered capture or parsing state. No identity approval is created.
 
-The current Android deferral is a local navigation preference, not server-owned identity state or a cross-device completion record. Restore authentication and passkey status before reusing that preference. The actual capture/provider integration remains pending; the welcome screen must not imply it has run.
+The current Android deferral is a local navigation preference, not server-owned identity state or a cross-device completion record. Restore authentication and passkey status before reusing that preference. The production capture/parsing pipeline is planned; the existing Android mock must migrate to its separate states. The welcome screen must not imply either real parsing or standalone validation has run.
 
 ## Acceptance cases
 
@@ -36,3 +36,9 @@ The current Android deferral is a local navigation preference, not server-owned 
 - Reject an expired session for authenticated status and offer sign-in without inferring account/passkey absence.
 - Sign in by passkey and by fresh email OTP; continue from authenticated registration status.
 - Defer identity, restart, restore the session, and return to welcome without claiming identity approval.
+
+## Capture and parsing recovery
+
+After authenticating, use the account-scoped [document status operation](id-evidence-contracts.md) to discover the selected capture, parse job and review. Local IDs are hints, never proof of account ownership or completion. An uploading capture resumes server-confirmed slots and asks for recapture of lost local photos; finalizing/queued/running work resumes status. Successful parsing opens its exact extraction/review revision. Confirmed details return to the account without a validation claim.
+
+Reconcile lost create/finalize/parse/review responses using the saved operation key and expected revision. Expired authentication routes to sign-in; a timeout does not mean a resource is absent. Switching accounts discards in-memory images/edits and uses a different environment/account namespace. Leaving a screen is not cancelling the job; explicit cancellation uses the backend operation and late-result fence.

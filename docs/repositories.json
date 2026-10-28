@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "reviewed_at": "2026-10-11",
+  "repositories": [
+    {
+      "repository": "lambdawalker/design.attestra",
+      "url": "https://github.com/lambdawalker/design.attestra",
+      "role": "System architecture, journeys, requirements and UI semantics",
+      "ref": "main",
+      "human_site": null,
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/design.attestra/main/docs/agents/index.md",
+      "contracts": "Shared evidence design, system decisions, documentation ownership",
+      "documentation_status": "site supplied in this change; hosting not enabled at audit",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/go.attestra.aws.auth",
+      "url": "https://github.com/lambdawalker/go.attestra.aws.auth",
+      "role": "Go AWS backend and environment operator tools",
+      "ref": "main",
+      "human_site": null,
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md",
+      "contracts": "Implemented HTTP serialization, index schema, setup/deploy/teardown",
+      "documentation_status": "site supplied in this change; hosting not enabled at audit",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/android.attestra.auth",
+      "url": "https://github.com/lambdawalker/android.attestra.auth",
+      "role": "Android authentication and capture client",
+      "ref": "main",
+      "human_site": null,
+      "agent_entry": null,
+      "contracts": "Gradle configuration, lifecycle, protected storage, native credential integration",
+      "documentation_status": "README/integration docs only; dedicated site/agent entry not established",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/android.apexfission.permissions",
+      "url": "https://github.com/lambdawalker/android.apexfission.permissions",
+      "role": "Android runtime permission UI and callbacks",
+      "ref": "main",
+      "human_site": "https://lambdawalker.github.io/android.apexfission.permissions/",
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.apexfission.permissions/main/docs/agents/index.md",
+      "contracts": "Permission component API and release installation",
+      "documentation_status": "site and agent guide present",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/android.apexfission.carddetector",
+      "url": "https://github.com/lambdawalker/android.apexfission.carddetector",
+      "role": "On-device document detection and capture",
+      "ref": "main",
+      "human_site": "https://lambdawalker.github.io/android.apexfission.carddetector/",
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.apexfission.carddetector/main/docs/agents/index.md",
+      "contracts": "Detector API, bitmap ownership and model artifacts",
+      "documentation_status": "site and agent guide present",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/devops.go.pulumi",
+      "url": "https://github.com/lambdawalker/devops.go.pulumi",
+      "role": "Separate generic workflow engine; not yet an Attestra dependency",
+      "ref": "main",
+      "human_site": null,
+      "agent_entry": null,
+      "contracts": "Local workflow planning, readiness and journals",
+      "documentation_status": "README/integration docs only; dedicated site/agent entry not established",
+      "scope": "public"
+    }
+  ]
+}

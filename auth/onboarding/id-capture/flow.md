@@ -1,27 +1,28 @@
-# ID capture subflow
+# ID capture flow
 
-This expands the optional identity branch of the [overall onboarding flow](../onboarding-flow.md). Camera capture belongs to the selected plugin; the application owns the surrounding screens and recorded decisions.
+[Architecture](architecture.md) · [Parsing handoff](../id-parsing/flow.md)
 
 ```mermaid
 flowchart TD
-    S["Authenticated account"] --> C{"Start identity check?"}
-    C -->|Skip| D["Continue to dashboard"]
-    C -->|Start| P["Launch capture plugin"]
-    P --> X{"Capture returned?"}
-    X -->|Cancel or error| R["Retry capture or leave"]
-    X -->|Yes| E["Process document"]
-    E --> L{"Readable?"}
-    L -->|No| U["Retake unreadable document"]
-    U --> P
-    L -->|Yes| V["Review and correct fields"]
-    V --> Q["Submit evidence"]
-    Q --> T{"Submission accepted?"}
-    T -->|No| F["Reconcile; retry if needed"]
-    T -->|Yes| W["Wait for identity decision"]
-    W --> O{"Decision?"}
-    O -->|Approved| A["Show approved result"]
-    O -->|Pending| H["Show pending status; check later"]
-    O -->|Unsuccessful| N["Show result and next action"]
+    A["Authenticated onboarding"] --> B{"Capture now?"}
+    B -->|Later| Z["Account; resume later"]
+    B -->|Yes| C["Create capture and select document policy"]
+    C --> D["Permission, photo, and preview per slot"]
+    D -->|Cancel| Z
+    D --> E{"Photo usable?"}
+    E -->|Retake| D
+    E -->|Use photo| F["Scoped direct S3 upload"]
+    F -->|Expired URL or interruption| R["Reconcile slot; renew or retry"]
+    R --> F
+    F --> G{"All required slots uploaded?"}
+    G -->|No| D
+    G -->|Yes| H["Finalize exact S3 versions"]
+    H --> I["Validate frozen images asynchronously"]
+    I -->|Unsafe or unreadable file| J["New capture required"]
+    J --> C
+    I -->|Transient failure| K["Bounded retry or recoverable failure"]
+    K --> I
+    I -->|Ready| P["Handoff immutable evidence to ID parsing"]
 ```
 
-An accepted upload or readable document does not mean identity approval. The separate automated report and external provider decision follow the [identity architecture](../../../verification/identity/architecture.md). “Unsuccessful” needs a dedicated screen and policy-specific retry or support action; see [UI](ui.md).
+Closing the screen is not cancellation of server work. A status timeout does not authorize creation of another capture; reconcile by the saved ID/idempotency key first. A parsing outcome is not part of this capture state machine.

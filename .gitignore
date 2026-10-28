@@ -1,0 +1,5 @@
+
+# Generated documentation and local Python environments
+sites/dist/
+sites/__pycache__/
+.venv-docs/

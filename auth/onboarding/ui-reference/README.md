@@ -1,28 +1,28 @@
 # Onboarding UI references
 
-Screens are grouped under [email confirmation](../email-confirmation/README.md), [passkey creation](../passkey-creation/README.md), and [ID capture](../id-capture/README.md). The loading view and logo below are shared across the three subfeatures.
+Screens are grouped under [email confirmation](../email-confirmation/README.md), [passkey creation](../passkey-creation/README.md), [ID capture](../id-capture/README.md), and [ID parsing](../id-parsing/README.md). The loading view and logo are shared. Some parsing references retain historical paths beneath id-capture.
 
 These are visual HTML prototypes from the supplied onboarding archives. The six original PNGs remain for reference; the latest ZIP includes some empty image placeholders and screenshots with sample identity data, so its corrected views are included as HTML only. Prefer the HTML for revised wording. None of these prototypes performs a real backend request, passkey registration, or identity decision. Use the [architecture](../architecture.md) for security and transitions and the [Stitch brief](../stitch.md) for the shared visual and loading states.
 
-| Screen | HTML | Role |
+| Screen | Textual specification | Role |
 | --- | --- | --- |
-| Email verification - start | [Open](../email-confirmation/ui-reference/email_verification_start/code.html) | Entry and generic signup response |
-| Email verification - wait | [Open](../email-confirmation/ui-reference/email_verification_wait/code.html) | Waiting for a link; resend or change email |
-| Email verification - manual code input | [Open](../email-confirmation/ui-reference/email_verification_manual_code_input/code.html) | Empty six-digit fallback form when local signup context is unavailable |
-| Email verification - incorrect code | [Open](../email-confirmation/ui-reference/email_verification_incorrect_code/code.html) | Correct and retry the entered code |
-| Email verification - attempt limit | [Open](../email-confirmation/ui-reference/email_verification_attempt_limit/code.html) | Request a new email when permitted; show server cooldown when limited |
-| Email verification - unusable link | [Open](../email-confirmation/ui-reference/email_verification_link_unusable/code.html) | Request a new email; never retry the expired/replaced link |
-| Onboarding - processing | [Open](onboarding_loading/code.html) | One reusable wait view for all active backend and processing work |
-| Passkey setup - start | [Open](../passkey-creation/ui-reference/passkey_setup_start/code.html) | Start platform passkey setup |
-| Passkey setup - failed | [Open](../passkey-creation/ui-reference/passkey_setup_failed/code.html) | Retry or continue without a passkey |
-| Passkey setup - unsupported device | [Open](../passkey-creation/ui-reference/passkey_setup_unsupported_device/code.html) | Continue without a passkey; recheck only if capability changes |
-| Identity verification - start | [Open](../id-capture/ui-reference/identity_verification_start/code.html) | Optional identity check or dashboard |
-| Identity verification - review details | [Open](../id-capture/ui-reference/identity_verification_review_details/code.html) | Correct extracted details after the capture plugin returns |
-| Identity verification - submission failed | [Open](../id-capture/ui-reference/identity_verification_submission_failed/code.html) | Retry the submission or leave for dashboard |
-| Identity verification - unreadable document | [Open](../id-capture/ui-reference/identity_verification_document_unreadable/code.html) | Reopen plugin to retake images |
-| Identity verification - success | [Open](../id-capture/ui-reference/identity_verification_success/code.html) | Show a completed identity result only when returned by the identity service |
+| Email verification - start | [Spec](../email-confirmation/ui-reference/email_verification_start/spec.md) | Entry and generic signup response |
+| Email verification - wait | [Spec](../email-confirmation/ui-reference/email_verification_wait/spec.md) | Waiting for a link; resend or change email |
+| Email verification - manual code input | [Spec](../email-confirmation/ui-reference/email_verification_manual_code_input/spec.md) | Empty six-digit fallback form when local signup context is unavailable |
+| Email verification - incorrect code | [Spec](../email-confirmation/ui-reference/email_verification_incorrect_code/spec.md) | Correct and retry the entered code |
+| Email verification - attempt limit | [Spec](../email-confirmation/ui-reference/email_verification_attempt_limit/spec.md) | Request a new email when permitted; show server cooldown when limited |
+| Email verification - unusable link | [Spec](../email-confirmation/ui-reference/email_verification_link_unusable/spec.md) | Request a new email; never retry the expired/replaced link |
+| Onboarding - processing | [Spec](onboarding_loading/spec.md) | One reusable wait view for all active backend and processing work |
+| Passkey setup - start | [Spec](../passkey-creation/ui-reference/passkey_setup_start/spec.md) | Start platform passkey setup |
+| Passkey setup - failed | [Spec](../passkey-creation/ui-reference/passkey_setup_failed/spec.md) | Retry or continue without a passkey |
+| Passkey setup - unsupported device | [Spec](../passkey-creation/ui-reference/passkey_setup_unsupported_device/spec.md) | Continue without a passkey; recheck only if capability changes |
+| Identity verification - start | [Spec](../id-capture/ui-reference/identity_verification_start/spec.md) | Historical start layout; current capture entry or account exit |
+| Identity verification - review details | [Spec](../id-capture/ui-reference/identity_verification_review_details/spec.md) | Parsing-owned review after asynchronous extraction |
+| Identity verification - submission failed | [Spec](../id-capture/ui-reference/identity_verification_submission_failed/spec.md) | Historical failure layout; use task-specific capture/review recovery |
+| Identity verification - unreadable document | [Spec](../id-capture/ui-reference/identity_verification_document_unreadable/spec.md) | Parsing-owned unreadable outcome; return to capture |
+| Identity verification - success | [Spec](../id-capture/ui-reference/identity_verification_success/spec.md) | Deferred standalone ID-validation reference; never capture/parsing success |
 
-The earlier [ID processing reference](../id-capture/ui-reference/identity_verification_reading_document/code.html) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
+The earlier [ID processing reference](../id-capture/ui-reference/identity_verification_reading_document/spec.md) remains as an archived visual example. Implement its wait state with the shared loading view above. Source HTML uses some remote assets and demo click handlers; replace them in production. The [logo](logo.svg) is a reference asset.
 
 ## Shared loading view
 
@@ -34,17 +34,18 @@ Use the same title, spinner icon, and card layout whenever the app is waiting on
 | Request a new confirmation email | Requesting another email | We are processing your request. | Give a neutral response; respect resend limits and advise opening the newest email. |
 | Start passkey registration | Opening your passkey manager | Follow your device or password manager to create a passkey. | Return to setup on cancellation; display passkey success only after server registration. |
 | Finish passkey registration | Saving your passkey | We are adding this passkey to your account. | Show “Passkey added” only after the server confirms completion. |
-| Return from ID capture plugin | Reading your document | We are extracting details for you to review. | Open ID review after extraction; offer plugin retake/recovery if unreadable. This is not an identity decision. |
-| Submit reviewed ID details | Submitting your ID details | We are sending your reviewed details for an identity check. | Avoid duplicate submissions; on timeout reconcile server state before retrying. |
-| Wait for identity provider | Checking your identity | Your details have been submitted. We will show the result when it is available. | If processing continues, show pending with a dashboard exit. Approval or failure comes from the actual provider result. |
+| Finalize uploaded capture | Preparing your document | We are preparing your uploaded photos. | Ready evidence enters parsing; invalid images require recapture. |
+| Parse ready evidence | Reading your document | We are extracting details for you to review. | Show review after validated extraction, or pending/recapture/retry as appropriate. |
+| Save reviewed details | Saving your document details | We are saving your corrections. | Reconcile the exact review revision; completion is details saved, not identity approved. |
+| Standalone ID validation | Deferred from onboarding | Historical provider-wait reference only. | Do not invoke or show this state as part of capture/parsing. |
 
 Show loading only for genuine in-flight work. Do not display it while a person is reading instructions or editing a field. Do not freeze the UI thread. Avoid a permanent spinner: each task needs a bounded timeout or pending state with a safe path away. Treat retry actions as new user actions and respect transaction limits.
 
 ## Coverage and outstanding variants
 
 - The email template is still needed: link B and separate six-digit C, expiration guidance, and no C in the link or preview.
-- The new identity success view is valid only after the identity service approves. A **final unsuccessful identity decision** still needs its own result variant with a dashboard exit and retry only if permitted. The supplied “Document images unreadable” screen is a capture retry, not that decision. The shared loading view covers in-progress checks.
-- The capture plugin owns camera permissions, front/back capture, and quality flow. Attestra handles plugin launch, cancel/error, return data, and the review and result screens.
+- Identity success/failure variants belong to deferred ID validation. Capture/parsing need photo preview, upload recovery, long-running pending, partial extraction, review conflict and details-saved variants. The supplied unreadable screen is a parsing recapture outcome, not identity rejection.
+- Capture owns permissions/photos and S3 evidence finalization. Parsing owns extraction, field review and saved corrections. The host coordinates the subfeatures and resume behavior; see their current UI pages.
 - Incorrect code, exhausted code attempts, expired link, save interruption, and passkey interruption are separate recoveries. Failed C attempts are limited per generation and across resends; a resend cannot bypass an account-level cooldown. Never promise a fixed 24-hour wait unless returned by the backend.
 - Only the client that completes A+B or B+C confirmation receives a session. The “Change email address” action on the waiting screen must not sign in a different device by polling status.
 - Passkey and identity checks are separate from email verification. “Do this later” preserves the account; passkey deferral uses the documented email sign-in route. Show a passkey success row only when the backend confirms registration.

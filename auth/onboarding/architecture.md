@@ -1,8 +1,8 @@
 # Authentication / onboarding architecture
 
-The onboarding journey has [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), and [ID capture](id-capture/README.md) subfeatures. This document describes the transitions across all three.
+The onboarding journey has [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), [ID capture](id-capture/README.md), and [ID parsing](id-parsing/README.md) subfeatures. This document describes their transitions. [ID validation](../../verification/id-validation/architecture.md) is standalone and deferred.
 
-**Status:** Email confirmation, Android App Links, passkey registration, email/passkey sign-in, and session refresh are implemented in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth) and [Android client](https://github.com/lambdawalker/android.attestra.auth). ID capture/provider integration and web/iOS clients remain separate work. Source availability does not establish deployment or end-to-end readiness. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Backend API reference](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#protocol).
+**Status:** Email confirmation, Android App Links, passkey registration, email/passkey sign-in, and session refresh are implemented in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth) and [Android client](https://github.com/lambdawalker/android.attestra.auth). Production S3 capture and vision parsing are planned in the [document pipeline](id-evidence-plan.md); the Android mock prototype is not a deployment claim. ID validation and web/iOS clients remain separate work. Source availability does not establish deployment or end-to-end readiness. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md) · [Backend API reference](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#protocol).
 
 ## Goal and boundaries
 
@@ -37,9 +37,7 @@ C must not appear in the link, redirect parameters, page HTML, or any response o
 
 ## Flow
 
-The [Mermaid source](onboarding-flow.md) is kept separately from this page. The SVG below renders the same flow.
-
-![Rendered onboarding flow](onboarding-flow.svg)
+The [current Mermaid flow](onboarding-flow.md) includes the capture/parsing split. The [legacy SVG](onboarding-flow.svg) is a pre-split snapshot retained for existing references; it is not the current document pipeline.
 
 1. The client generates A and sends the email, A challenge, and S256 method to `POST /signup`. Retain A in local pending state; associate it with request_id when the response arrives. The backend retains a pending application transaction and creates a passwordless Cognito account only after proof validation. New and existing addresses receive the same generic 202 response shape with an opaque request_id; this does not guarantee an email was sent. Signup must never become a sign-in shortcut for an already confirmed account.
 2. For an eligible pending account, the backend creates B and C and sends one email containing both a link and a separately displayed code. The link is `https://<app-host>/verify-email?request_id=...&b=...`. Neither A nor C is in the URL.
@@ -49,7 +47,9 @@ The [Mermaid source](onboarding-flow.md) is kept separately from this page. The 
 6. Both paths validate their proofs before changing Cognito state. A successful confirmation obtains an authenticated session and advances directly to **Create passkey**. Only the client that completed proof receives the session; the original client cannot obtain it merely by polling request_id.
 7. If email confirmation succeeds but session exchange fails or expires, return `409 confirmed_sign_in_required` and start email OTP recovery through [login](../login/architecture.md). Do not replay confirmation or reopen the consumed transaction.
 8. With the access token, call `POST /passkeys/options`, use browser WebAuthn or Android/iOS credential APIs, then submit registration JSON to `POST /passkeys/complete`. Keep the **Create passkey** action for the platform prompt; automatic email confirmation does not automatically create a passkey. Show success only after `registered: true`.
-9. Offer **Continue to identity verification** and **Skip for now**. Continuing hands off to the selected ID capture plugin, which owns its capture screens. The host handles launch, cancellation, failures, and the returned images/data before the separate ID review and verification flow. Skipping preserves the authenticated account and does not change identity/address assurance.
+9. Offer **Add your ID** and **Skip for now**. [ID capture](id-capture/architecture.md) owns permission, photos, preview/retake, direct private S3 upload and finalization of exact evidence versions. Skipping preserves the authenticated account and all assurance states.
+10. Ready evidence enters [ID parsing](id-parsing/architecture.md), which asynchronously extracts structured fields, validates the JSON and presents warnings/corrections for review. Confirming saves an attributed review revision and shows **Document details saved**.
+11. Continue to the account. Do not start ID validation, label an identity verified, or unlock restricted features from capture/parsing completion. Standalone validation is future work. See [shared contracts](id-evidence-contracts.md) for cross-feature identifiers and recovery.
 
 ## Email API responsibilities
 
