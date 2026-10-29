@@ -11,22 +11,22 @@
   },
   "docs/agents/journeys.md": {
     "path": "docs/es/agents/journeys.md",
-    "source_sha256": "2762fa5c52b2ec6e640844191ab1cdcb1f509bb40de51e7985a3818bc03b4e7e",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "1391313436c5ff82d837ac8df96f422782ff13e3e0a18742ab3c76861503e8b7",
+    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
   },
   "docs/agents/contracts.md": {
     "path": "docs/es/agents/contracts.md",
-    "source_sha256": "1c89239b0ad3942020617cb387e2f6253fbf058fc1585f34152d85b73afa8be5",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "3c76cdac2e6065618ff6d20d9de3b4151440d34beb611c932bf2b767ba667252",
+    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
   },
   "docs/agents/ui.md": {
     "path": "docs/es/agents/ui.md",
-    "source_sha256": "0d558810808fc6edce714491ff7e54a55bfd1cc7ac46c98b7fbed142c3fe2f2f",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "6ea069865e71bd3ea3c1a67a2b2e87b1133c1829b85c10d58293b8fca726e35b",
+    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",
-    "source_sha256": "18f743a17e962b92ca89c4be5da1d8a737f42b89578012732a2632fae3b98cb1",
-    "provenance": "Reviewed Spanish translation, onboarding policy update 2026-10-28"
+    "source_sha256": "51ae8bce7af4d0e9c44aeeed627dbf6d8b9dd32e178a46b8389d95e95143b992",
+    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
   }
 }

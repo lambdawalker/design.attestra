@@ -3,7 +3,7 @@
 | Contrato | Responsable | Representación exacta |
 | --- | --- | --- |
 | Pruebas de correo, transiciones y privacidad | [Diseño onboarding](../../../auth/onboarding/architecture.md) | [HTTP backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/api.md) |
-| Separación captura/parsing y referencias | [Contratos de evidencia](../../../auth/onboarding/id-evidence-contracts.md) | [Captura backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md); parsing sigue propuesto |
+| Separación captura/parsing y referencias | [Contratos de evidencia](../../../auth/onboarding/id-evidence-contracts.md) | [Captura backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md); extracción/revisión forma parte de la captura; los endpoints independientes de parsing siguen propuestos |
 | Descubrimiento público | [Arquitectura de entornos](../../../operations/environments.md) | [Índice](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/environment-index.md), `registry/registry.go` |
 | Configuración Android de compilación | Exportador backend y consumidor Gradle | [Integración](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/integration.md) |
 | Semántica de estados UI | `ui.md` de la función y `spec.md` cercano | [Directorio de pantallas](../../../auth/onboarding/ui-reference/README.md) |
