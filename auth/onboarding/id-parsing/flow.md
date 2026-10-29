@@ -1,22 +1,23 @@
-# ID parsing flow
+# ID parsing and review flow
+
+Current behavior is defined by the [backend contract](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/id-capture.md) and [Android flow](https://github.com/lambdawalker/android.attestra.auth/blob/main/docs/identity-capture.md). The richer [architecture](architecture.md) remains a target beyond this implemented subset.
 
 ```mermaid
 flowchart TD
-    A["Ready immutable capture"] --> B["Create or reconcile parse job"]
-    B --> C["Queue and invoke vision model"]
-    C --> D{"Output usable?"}
-    D -->|Transient failure| E["Bounded retry; then failed status"]
-    E -->|Retry permitted| C
-    D -->|Unreadable evidence| F["Recapture through ID capture"]
-    D -->|Structured extraction| G["Review fields and warnings"]
-    G --> H["Save attributed corrections"]
-    H --> I{"Revision matches?"}
-    I -->|No| J["Resolve concurrent edits"]
-    J --> G
-    I -->|Yes| K["Confirm document details"]
-    K --> L["Continue onboarding or account"]
-    B -->|Leave while pending| M["Resume by saved job ID"]
-    M --> G
+    A["Validated card images"] --> B["Extract card fields"]
+    B -->|Pending| C["Loading; foreground polling"]
+    C --> B
+    B -->|Complete| D["Review extracted fields"]
+    B -->|Failed| E["Empty manual-entry form"]
+    D --> F["Save data and origin country"]
+    E --> F
+    F -->|Error or conflict| G["Keep edits; reconcile and retry"]
+    G --> F
+    F -->|Stored review confirmed| H["Details saved"]
+    H -->|Review details| D
+    H -->|Done| I["Return to account flow"]
 ```
 
-Resume always retrieves current job status first; the diagram's resume-to-review edge applies only when extraction succeeded. A failed or pending job resumes its corresponding state. Confirming document details does not invoke ID validation or imply verified identity.
+Re-entry retrieves server status: processing shows loading, terminal extraction opens review, and an already stored review opens the finish screen. No recapture is needed for an extraction failure. File-validation failures remain capture recovery states and must not be confused with extraction failure.
+
+Only server-confirmed `reviewed` data matching the submitted fields and country of origin finishes the form. Lost save responses reconcile through status or an identical retry; conflicting edits remain visible. Unsaved drafts are memory-only. Review details reopens saved values for correction. Saving finishes the document-data step and does not invoke ID validation, approve identity or grant access. The account's capture/onboarding flags are not save acknowledgements.

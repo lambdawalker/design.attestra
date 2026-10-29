@@ -1,7 +1,7 @@
 {
   "repository": "lambdawalker/design.attestra",
   "title": "System architecture",
-  "source_ref": "bea6831",
+  "source_ref": "a0d5024efdddb9c4005401b01016c49216bacf05",
   "sources": [
     "README.md",
     "DOCUMENTATION.md",
@@ -16,11 +16,11 @@
   "nav": {
     "docs/agents/index.md": {
       "en": "System guide",
-      "es": "Gu\u00eda del sistema"
+      "es": "Guía del sistema"
     },
     "docs/agents/concepts.md": {
       "en": "Components & terms",
-      "es": "Componentes y t\u00e9rminos"
+      "es": "Componentes y términos"
     },
     "docs/agents/journeys.md": {
       "en": "Journeys",

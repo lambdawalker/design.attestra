@@ -50,7 +50,7 @@ The application supports configurable password enrollment as well as passkeys an
 
 ## Implementation versus readiness
 
-The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. Backend and Android source now implement capture with a separate debug mock. Parsing remains planned. See the [compatibility ledger](docs/compatibility.md) for refs and verification limits; do not integrate against the historical combined mock contract. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
+The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. Backend and Android source now implement capture with a separate debug mock. Automatic extraction and revisioned review are implemented, including manual entry after extraction failure. The document-data finish screen requires a stored review; capture readiness alone does not confirm the form was saved. See the [compatibility ledger](docs/compatibility.md) for refs and verification limits; do not integrate against the historical combined mock contract. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
 
 ## Onboarding document pipeline
 

@@ -3,7 +3,7 @@
 | Contract | Owner | Exact representation |
 | --- | --- | --- |
 | Email proof rules, transitions and privacy | [Onboarding design](../../auth/onboarding/architecture.md) | [Backend HTTP/source](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/api.md) |
-| Capture/parsing separation and references | [Evidence contracts](../../auth/onboarding/id-evidence-contracts.md) | Capture: [backend contract](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md); parsing wire API remains proposed |
+| Capture/parsing separation and references | [Evidence contracts](../../auth/onboarding/id-evidence-contracts.md) | Capture: [backend contract](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md); extraction/review wire API is part of the capture resource; independent parse-job endpoints remain proposed |
 | Public environment discovery | [Environment architecture](../../operations/environments.md) | [Registry guide](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/environment-index.md), `registry/registry.go` |
 | Android build-time settings | Backend exporter and Android Gradle consumer | [Integration guide](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/integration.md) |
 | UI state semantics | Feature `ui.md` and nearby `spec.md` | [Screen directory](../../auth/onboarding/ui-reference/README.md) |

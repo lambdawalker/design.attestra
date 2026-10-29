@@ -4,10 +4,10 @@ This repository is the central index for Attestra product flows, architecture de
 
 | Feature | Architecture | Stitch screen spec | Implementation |
 | --- | --- | --- | --- |
-| Auth / onboarding | [Journey](auth/onboarding/architecture.md) and [subfeatures](auth/onboarding/README.md) | [Onboarding](auth/onboarding/stitch.md) | [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth), [Android app](https://github.com/lambdawalker/android.attestra.auth); email confirmation, passkey registration, and sign-in are implemented; capture is implemented in source but disabled by default; parsing remains planned; mocks do not prove live integration |
+| Auth / onboarding | [Journey](auth/onboarding/architecture.md) and [subfeatures](auth/onboarding/README.md) | [Onboarding](auth/onboarding/stitch.md) | [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth), [Android app](https://github.com/lambdawalker/android.attestra.auth); email confirmation, passkey registration, and sign-in are implemented; capture, automatic extraction and revisioned review are implemented in source; runtime policy controls availability; mocks do not prove live integration |
 | Auth / login | [Passkey login and email OTP fallback](auth/login/architecture.md) | [Login](auth/login/stitch.md) | [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth) and [Android client](https://github.com/lambdawalker/android.attestra.auth) |
 | Onboarding / ID capture | [Private S3 evidence capture](auth/onboarding/id-capture/architecture.md) | [Capture UI](auth/onboarding/id-capture/ui.md) | [Backend capture implementation](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/id-capture.md); opt-in and smoke-test gated |
-| Onboarding / ID parsing | [Vision extraction and reviewed JSON](auth/onboarding/id-parsing/architecture.md) | [Parsing UI](auth/onboarding/id-parsing/ui.md) | Architecture planned |
+| Onboarding / ID parsing | [Vision extraction and reviewed JSON](auth/onboarding/id-parsing/architecture.md) | [Parsing UI](auth/onboarding/id-parsing/ui.md) | Extraction and manual review implemented; see the [evidence ledger](docs/compatibility.md) |
 | ID validation | [Standalone feature boundary](verification/id-validation/architecture.md) | Deferred | Separate from onboarding; out of current scope |
 | Verification / address | [AI auto report, third-party check, and expiry](verification/address/architecture.md) | Pending policy/provider choices | Architecture proposed |
 
