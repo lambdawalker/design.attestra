@@ -30,10 +30,12 @@
       "role": "Android authentication and capture client",
       "ref": "main",
       "human_site": null,
-      "agent_entry": null,
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/agents/index.md",
       "contracts": "Gradle configuration, lifecycle, protected storage, native credential integration",
-      "documentation_status": "README/integration docs only; dedicated site/agent entry not established",
-      "scope": "public"
+      "documentation_status": "Android PR #37 supplies source-scoped English/Spanish human/agent guides and reviewed screenshots; merge that PR before this catalog update. Human hosting remains unverified.",
+      "scope": "public",
+      "documentation_evidence": "https://github.com/lambdawalker/android.attestra.auth/pull/37",
+      "reviewed_at": "2026-10-30"
     },
     {
       "repository": "lambdawalker/android.apexfission.permissions",
