@@ -20,3 +20,11 @@ flowchart TD
 ```
 
 Resume always retrieves current job status first; the diagram's resume-to-review edge applies only when extraction succeeded. A failed or pending job resumes its corresponding state. Confirming document details does not invoke ID validation or imply verified identity.
+
+## Current implementation
+
+The Go capture worker starts extraction after the evidence passes file checks
+and exposes status on the capture record. Android opens the matching review
+after photo confirmation and offers manual entry if extraction fails.
+See the [capture implementation](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md) and
+[compatibility evidence](../../../docs/compatibility.md).
