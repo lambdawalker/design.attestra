@@ -1,8 +1,8 @@
 {
   "docs/agents/index.md": {
     "path": "docs/es/agents/index.md",
-    "source_sha256": "ea99850f6a5543fbe89b6f0f97db03f182dd4ddd006458fb20c482788b24a52a",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "ca6616b6fee987fe05e0923f2042b4fc820ee4176e21cc52d4c7de393ec66629",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
@@ -11,13 +11,13 @@
   },
   "docs/agents/journeys.md": {
     "path": "docs/es/agents/journeys.md",
-    "source_sha256": "2762fa5c52b2ec6e640844191ab1cdcb1f509bb40de51e7985a3818bc03b4e7e",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "2c9cba3eca29073564a77e1f7909f8f8dd5c63423c083969350bb0c0ae43eebd",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/contracts.md": {
     "path": "docs/es/agents/contracts.md",
-    "source_sha256": "1c89239b0ad3942020617cb387e2f6253fbf058fc1585f34152d85b73afa8be5",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "2ad130179f423e0aaf09425622ae29d0c50902500dfc92b725d0a721ccd4069c",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/ui.md": {
     "path": "docs/es/agents/ui.md",

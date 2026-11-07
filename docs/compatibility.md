@@ -6,7 +6,7 @@ Audit date: 2026-10-11 UTC (2026-10-10 in Ciudad Juárez). Documentation scope i
 | --- | --- | --- | --- |
 | Email/passkey/sign-in/session | Onboarding/login specifications | Backend `64f4faea74e71a82795560e4b43e195d820a5242`; Android source `5e017bd2fa74edf5b2a083c72b132c1f5cbffba7` | Unit tests exist; this documentation task does not certify real-device passkeys or SES delivery |
 | ID capture | Separate immutable evidence stage | Backend `capture`, `captureapi`, `awscapture`; Android capture guide | Disabled by default; real S3/device smoke gate remains required |
-| ID parsing | Vision extraction + revisioned review | No production parser in reviewed backend | Model/provider and implementation pending |
+| ID parsing | Vision extraction + revisioned review | Gemma extraction and review in card capture `2153d460`; Android early upload and timings in `026e6ec8` | Source reviewed; deployed revision and real-device OCR accuracy and latency need environment evidence |
 | ID validation | Separate assurance feature | Deferred | Must not infer success from capture or parsing |
 | Environment discovery | Shared public configuration, fenced writes | Backend `registry`, `infra-index`, operator workflows at `64f4fae` | One account/region; Android runtime discovery remains separate |
 | Setup and health | Staged prerequisites/readiness and resumable operations | Backend wizard source | User reported dev and QA complete on 2026-10-10; not independently reproduced by this doc audit |
@@ -15,8 +15,8 @@ Audit date: 2026-10-11 UTC (2026-10-10 in Ciudad Juárez). Documentation scope i
 
 ## Deviations and open decisions
 
-- Central pages previously called all capture work planned. Source capture is now implemented; parsing remains planned. Keep the normative capture/parsing boundary unchanged.
-- The normative pipeline includes parsing after ready evidence. Current capture stops at ready evidence; there is no automatic parser or identity decision.
+- Capture validates and freezes evidence before automatic extraction. The live implementation records extraction on the capture itself, with `image_revision` identifying the finalized pair across worker updates. The parsing design also describes a distinct job lifecycle.
+- The application source at `9ee15b1e` selects the capture worker with medium reasoning effort. Source pins and isolated benchmark measurements do not verify an AWS rollout or establish live latency.
 - Older combined identity mock contracts must not be used as the production capture protocol. Backend transport documentation owns current serialization.
 - Cognito `PASSWORD` allowance is a provider constraint despite passwordless client UI. Strong provider-level prohibition needs a separate decision.
 - Cross-account index federation and production isolation are not solved by environment naming or scoped publication alone.

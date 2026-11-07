@@ -6,7 +6,7 @@ Alcance: diseño actual de `main`, con evidencia en [compatibilidad](../../compa
 | --- | --- | --- |
 | Límites y términos | [Arquitectura](../../../architecture.md), [conceptos](concepts.md) | [Catálogo](../../repositories.md) |
 | Onboarding y recuperación | [Flujos](journeys.md) | [Agente backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md) |
-| Captura/parsing | [Contratos](contracts.md) | [Captura backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md) |
+| Captura/parsing | [Contratos](contracts.md) | [Captura backend](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md) |
 | Descubrimiento/despliegue | [Ciclo de entornos](../../../operations/environments.md) | [Operación backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/operations.md) |
 | Interfaz y comportamiento real | [Semántica UI](ui.md) | Archivos `spec.md`, no temporizadores del prototipo |
 | Compatibilidad y pendientes | [Limitaciones](limitations.md) | [Responsabilidades](../../../DOCUMENTATION.md) |

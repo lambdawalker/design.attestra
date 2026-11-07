@@ -26,3 +26,12 @@ flowchart TD
 ```
 
 Closing the screen is not cancellation of server work. A status timeout does not authorize creation of another capture; reconcile by the saved ID/idempotency key first. A parsing outcome is not part of this capture state machine.
+
+## Implemented Android timing
+
+The current Android client starts upload and processing when both photos are
+ready, during photo review. Confirmation controls when OCR can appear.
+Retaking one side invalidates prior processing and submits the new pair under
+the same capture ID. The client checks the image revision before showing OCR.
+See the [current system journey](../../../docs/agents/journeys.md) and the
+[Android recipe](https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/agents/recipes.md).
