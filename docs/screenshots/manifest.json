@@ -10,7 +10,7 @@
       "capture_source_ref": null,
       "renderer": null,
       "viewport": null,
-      "status": "historical supplied asset; visually reviewed 2026-10-28; not regenerated; original renderer unknown",
+      "status": "Reviewed supplied design asset from repository main; capture method unknown",
       "image_sha256": "09225a15f6fc9e1a953d8e7f604cf895a1b5cedba9aaf069b41cb722476da6dc",
       "alt": "Historical email verification manual code input design prototype"
     },
@@ -23,7 +23,7 @@
       "capture_source_ref": null,
       "renderer": null,
       "viewport": null,
-      "status": "historical supplied asset; visually reviewed 2026-10-28; not regenerated; original renderer unknown",
+      "status": "Reviewed supplied design asset from repository main; capture method unknown",
       "image_sha256": "2874b78bf16611f184a7178491112fecc272b7995743285c803a240cff0527f5",
       "alt": "Historical email verification start design prototype"
     },
@@ -36,7 +36,7 @@
       "capture_source_ref": null,
       "renderer": null,
       "viewport": null,
-      "status": "historical supplied asset; visually reviewed 2026-10-28; not regenerated; original renderer unknown",
+      "status": "Reviewed supplied design asset from repository main; capture method unknown",
       "image_sha256": "43593a06f48130876e80e5d75dbecea4f7a3cb1b197260e3aa0c0ed813c80aa4",
       "alt": "Historical email verification wait design prototype"
     },
@@ -49,7 +49,7 @@
       "capture_source_ref": null,
       "renderer": null,
       "viewport": null,
-      "status": "historical supplied asset; visually reviewed 2026-10-28; not regenerated; original renderer unknown",
+      "status": "Reviewed supplied design asset from repository main; capture method unknown",
       "image_sha256": "65c2b4bfdc39863dcf9fe966b7be2ced141e8df74de752e9661725abdba6ee50",
       "alt": "Historical identity verification review details design prototype"
     },
@@ -62,7 +62,7 @@
       "capture_source_ref": null,
       "renderer": null,
       "viewport": null,
-      "status": "historical supplied asset; visually reviewed 2026-10-28; not regenerated; original renderer unknown",
+      "status": "Reviewed supplied design asset from repository main; capture method unknown",
       "image_sha256": "9772c8e52d2eae798fc7f02d6e1cc53d0437515bc7eaf15eff164bb882d79cf1",
       "alt": "Historical identity verification start design prototype"
     },
@@ -75,7 +75,7 @@
       "capture_source_ref": null,
       "renderer": null,
       "viewport": null,
-      "status": "historical supplied asset; visually reviewed 2026-10-28; not regenerated; original renderer unknown",
+      "status": "Reviewed supplied design asset from repository main; capture method unknown",
       "image_sha256": "e69ef28da87599e3cdaaee4605bb0ea9b8950f4d1e37753d9dcd955be9b51734",
       "alt": "Historical passkey setup start design prototype"
     }

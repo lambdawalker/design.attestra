@@ -1,8 +1,8 @@
 {
   "docs/agents/index.md": {
     "path": "docs/es/agents/index.md",
-    "source_sha256": "ea99850f6a5543fbe89b6f0f97db03f182dd4ddd006458fb20c482788b24a52a",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "ca6616b6fee987fe05e0923f2042b4fc820ee4176e21cc52d4c7de393ec66629",
+    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
@@ -11,22 +11,22 @@
   },
   "docs/agents/journeys.md": {
     "path": "docs/es/agents/journeys.md",
-    "source_sha256": "1391313436c5ff82d837ac8df96f422782ff13e3e0a18742ab3c76861503e8b7",
-    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
+    "source_sha256": "5ba7eb556a9139011e2c50ede123a51c2d95bf30481660e5913481486c92480c",
+    "provenance": "Reviewed Spanish translation, capture and review documentation"
   },
   "docs/agents/contracts.md": {
     "path": "docs/es/agents/contracts.md",
-    "source_sha256": "3c76cdac2e6065618ff6d20d9de3b4151440d34beb611c932bf2b767ba667252",
-    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
+    "source_sha256": "7ac9bcd782e817583511e6d215b9c91d17826eb760d51147e02c6cea6a71d627",
+    "provenance": "Reviewed Spanish translation, capture and review documentation"
   },
   "docs/agents/ui.md": {
     "path": "docs/es/agents/ui.md",
-    "source_sha256": "6ea069865e71bd3ea3c1a67a2b2e87b1133c1829b85c10d58293b8fca726e35b",
-    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
+    "source_sha256": "d44d83b55ee96f3e5b015e96676b3d09846b4f9513b11960b006f4a2363a7847",
+    "provenance": "Reviewed Spanish translation, capture and review documentation"
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",
-    "source_sha256": "51ae8bce7af4d0e9c44aeeed627dbf6d8b9dd32e178a46b8389d95e95143b992",
-    "provenance": "Reviewed Spanish translation, capture/review update 2026-10-28"
+    "source_sha256": "c28a02a18456570e49f22731a016892ce133a4ec65ed8e2b8cce673e4265681b",
+    "provenance": "Reviewed Spanish translation, capture and review documentation"
   }
 }

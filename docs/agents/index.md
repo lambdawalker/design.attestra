@@ -6,7 +6,7 @@ Scope: current design `main`, with implementation evidence recorded in [compatib
 | --- | --- | --- |
 | Understand boundaries and terminology | [Architecture](../../architecture.md), [concepts](concepts.md) | [Repository catalog](../repositories.md) |
 | Implement onboarding and recovery | [Journeys](journeys.md) | [Backend agent entry](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md) |
-| Implement capture/parsing | [Contracts](contracts.md) | [Backend capture contract](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/id-capture.md) |
+| Implement capture/parsing | [Contracts](contracts.md) | [Backend capture contract](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md) |
 | Set up discovery/deployment | [Environment lifecycle](../../operations/environments.md) | [Backend operations](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/operations.md) |
 | Match UI to real behavior | [UI semantics](ui.md) | Nearby `spec.md` files, not prototype timers |
 | Evaluate compatibility or gaps | [Evidence and limitations](limitations.md) | [Ownership](../../DOCUMENTATION.md) |

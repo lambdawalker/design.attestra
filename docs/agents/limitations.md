@@ -1,6 +1,6 @@
 # Status, limitations and decisions
 
-Read [compatibility and deviations](../compatibility.md) before treating design as implementation evidence. Backend source now includes capture, the shared environment index and resumable setup/teardown. Extraction and revisioned review are implemented; independent ID validation remains deferred. Android source includes capture and a debug mock; the mock does not validate real S3/device behavior.
+Read [compatibility and deviations](../compatibility.md) before treating design as implementation evidence. Backend source now includes capture, the shared environment index and resumable setup/teardown. Extraction and revisioned review are implemented; independent ID validation remains deferred. Android debug and release builds use live capture transport. Real S3 and device behavior require environment evidence.
 
 The operator reported completed dev and QA setup/health checks on 2026-10-10. This is explicitly operator-reported deployment evidence, not a reproducible test of email delivery, passkeys, document parsing or live capture. New enrollment defaults require capture; legacy documents retain their previous enablement until reviewed publication. Keep verified test results separate from these reports.
 

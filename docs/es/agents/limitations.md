@@ -1,6 +1,6 @@
 # Estado, limitaciones y decisiones
 
-Lee [compatibilidad y desviaciones](../../compatibility.md) antes de tratar diseño como implementación. El backend incluye captura, índice y setup/teardown reanudables. La extracción y revisión versionada están implementadas; la validación independiente sigue diferida. Android incluye captura y mock de depuración; el mock no valida S3 o dispositivo real.
+Lee [compatibilidad y desviaciones](../../compatibility.md) antes de tratar diseño como implementación. El backend incluye captura, índice y setup/teardown reanudables. La extracción y revisión versionada están implementadas; la validación independiente sigue diferida. Las compilaciones Android de depuración y producción usan el transporte real de captura. Comprobar S3 y el dispositivo requiere evidencia del entorno.
 
 El operador reportó setup y salud completos para dev y QA el 2026-10-10. Es evidencia reportada, no una prueba reproducible de correo, passkeys, parsing o captura real. Los nuevos valores predeterminados exigen captura; los documentos heredados conservan su activación anterior hasta una publicación revisada. Separa resultados verificables de esos reportes.
 

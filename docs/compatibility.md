@@ -5,8 +5,8 @@ Audit date: 2026-10-11 UTC (2026-10-10 in Ciudad Juárez). Documentation scope i
 | Area | Designed | Implemented evidence | Verification / gap |
 | --- | --- | --- | --- |
 | Email/passkey/sign-in/session | Onboarding/login specifications | Backend `64f4faea74e71a82795560e4b43e195d820a5242`; Android source `5e017bd2fa74edf5b2a083c72b132c1f5cbffba7` | Unit tests exist; this documentation task does not certify real-device passkeys or SES delivery |
-| ID capture | Separate immutable evidence stage | Backend `capture`, `captureapi`, `awscapture`; Android capture guide | Disabled by default; real S3/device smoke gate remains required |
-| ID parsing | Vision extraction + revisioned review | Backend `9d9f87685589a1cf307341c8b788221a1b45535c`; Android `dfd5159bcacc8c3536720849470e415d956c67ad` | Automatic extraction, revisioned review and failed-extraction manual entry implemented; cloud accuracy/device smoke checks remain |
+| ID capture | Separate immutable evidence stage | Backend `capture`, `captureapi`, `awscapture`; Android capture guide | Runtime policy controls availability. Real S3/device smoke checks remain required |
+| ID parsing | Vision extraction + revisioned review | Gemma extraction and review in card capture `2153d460`; Android early upload and timings in `026e6ec8` | Source reviewed; deployed revision and real-device OCR accuracy and latency need environment evidence |
 | ID validation | Separate assurance feature | Deferred | Must not infer success from capture or parsing |
 | Environment discovery | Shared public configuration, fenced writes | Backend `registry`, `infra-index`, operator workflows at `64f4fae` | One account/region; Android runtime discovery remains separate |
 | Setup and health | Staged prerequisites/readiness and resumable operations | Backend wizard source | User reported dev and QA complete on 2026-10-10; not independently reproduced by this doc audit |
@@ -15,9 +15,11 @@ Audit date: 2026-10-11 UTC (2026-10-10 in Ciudad Juárez). Documentation scope i
 
 ## Deviations and open decisions
 
-- Capture automatically schedules extraction after file readiness. `extraction` and `reviewed` are stored separately on the capture resource; there is no identity decision.
+- Capture validates and freezes evidence before automatic extraction. The live implementation records extraction on the capture itself, with `image_revision` identifying the finalized pair across worker updates. The parsing design also describes a distinct job lifecycle.
+- The application source at `9ee15b1e` selects the capture worker with medium reasoning effort. Source pins and isolated benchmark measurements do not verify an AWS rollout or establish live latency.
+- The capture record stores `extraction` and `reviewed` separately.
 - Independent parse-job endpoints and the richer provenance/warning model in the target architecture are not the current wire API. Use backend transport docs.
-- The coordinated [Android finish-screen PR #34](https://github.com/lambdawalker/android.attestra.auth/pull/34) adds server-confirmed Details saved routing. This ledger does not assert that PR is deployed. Manual review support was merged in backend PR #36 and direct capture in Android PR #33.
+- The coordinated [Android finish-screen PR #34](https://github.com/lambdawalker/android.attestra.auth/pull/34) adds server-confirmed Details saved routing. The PR was merged. Deployment evidence is tracked separately. Manual review support was merged in backend PR #36 and direct capture in Android PR #33.
 - Older combined identity mock contracts must not be used as the production capture protocol. Backend transport documentation owns current serialization.
 - Cognito `PASSWORD` allowance is a provider constraint despite passwordless client UI. Strong provider-level prohibition needs a separate decision.
 - Cross-account index federation and production isolation are not solved by environment naming or scoped publication alone.
