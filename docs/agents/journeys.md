@@ -4,7 +4,7 @@ Start at [onboarding](../../auth/onboarding/README.md). [Email confirmation](../
 
 [Passkey creation](../../auth/onboarding/passkey-creation/flow.md) begins only with an authenticated session. The platform owns the credential picker/private key. Cancellation and unsupported devices retain email sign-in as the fallback. [Login](../../auth/login/architecture.md) and [resume](../../auth/onboarding/resume.md) are separate from initial confirmation.
 
-[Capture](../../auth/onboarding/id-capture/flow.md) uploads photos to private S3 and freezes exact object versions for file checks. In the live Android flow, both available photos trigger upload and OCR while photo review stays open. Confirmation opens the matching result or shows loading. A retake invalidates older worker results and starts a replacement pair within the same capture. The client matches the capture ID and image revision before showing the result.
+[Capture](../../auth/onboarding/id-capture/flow.md) uploads photos to private S3 and freezes exact object versions for file checks. In the live Android flow, the grayscale front can start OCR before the back is captured when the backend advertises stitched pair support. A stitched color pair is uploaded for evidence while photo review stays open. Confirmation opens the matching result or shows loading. A retake invalidates older worker results and starts a replacement pair within the same capture. The client matches the capture ID and image revision before showing the result.
 
 [Parsing and review](../../auth/onboarding/id-parsing/flow.md) uses the extraction stored on the capture record. Pending extraction shows loading, and failed extraction opens manual entry. A server-confirmed save opens Details saved, which completes the document-data step.
 

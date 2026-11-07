@@ -11,3 +11,8 @@
 Formal evidence design stays at its established path. Do not relocate it into an implementation merely because capture now exists. Conversely, do not copy operational limits or JSON types here and maintain a second schema. A proposed central endpoint is not evidence that a deployed route exists.
 
 When changing a contract, identify affected backend, Android and central pages/tests. Coordinate commits with explicit transition status; repository commits are not atomic. Keep old valid links. Source/development compatibility is separate from released artifact compatibility. There is no confirmed system-wide release matrix in this revision.
+
+The card-capture backend owns immutable OCR comparison reports. A report pairs
+the final structured OCR result with the first submitted review and records
+per-field and average similarity. Access is limited to the configured AWS
+administrator role. See the [capture backend contract](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md).
