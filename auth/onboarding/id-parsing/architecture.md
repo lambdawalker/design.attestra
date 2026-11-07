@@ -1,6 +1,6 @@
 # ID parsing architecture
 
-**Status: planned onboarding subfeature.** [Capture](../id-capture/architecture.md) provides immutable evidence; [data model](data-model.md) defines extraction/review semantics. ID validation is outside this pipeline.
+**Status: implemented extraction/review subset, with broader target architecture below.** The current capture resource exposes `extraction.status` (`pending`, `complete`, `failed`) and a separate `reviewed` value. The backend wire contract is authoritative; independent parse jobs, richer warning/provenance schemas and explicit review-confirmation resources below are design requirements, not claims of shipped endpoints. Failed extraction permits manual review after validated files are ready. See the [implementation ledger](../../../docs/compatibility.md). [Capture](../id-capture/architecture.md) provides immutable evidence; [data model](data-model.md) defines extraction/review semantics. ID validation is outside this pipeline.
 
 ## Responsibility and boundary
 

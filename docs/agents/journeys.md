@@ -6,6 +6,8 @@ Start at [onboarding](../../auth/onboarding/README.md). [Email confirmation](../
 
 [Capture](../../auth/onboarding/id-capture/flow.md) uploads photos to private S3 and freezes exact object versions for file checks. In the live Android flow, both available photos trigger upload and OCR while photo review stays open. Confirmation opens the matching result or shows loading. A retake invalidates older worker results and starts a replacement pair within the same capture. The client matches the capture ID and image revision before showing the result.
 
+[Parsing and review](../../auth/onboarding/id-parsing/flow.md) uses the extraction stored on the capture record. Pending extraction shows loading, and failed extraction opens manual entry. A server-confirmed save opens Details saved, which completes the document-data step.
+
 [ID validation](../../verification/id-validation/architecture.md) remains a separate deferred feature. A “details saved” or “capture ready” screen must never imply an identity-approved outcome. [Address verification](../../verification/address/architecture.md) has separate policy/provider decisions.
 
 Implementation integration: [backend HTTP guide](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md), [Android capture guide](https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/identity-capture.md), and [capture HTTP contract](https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/identity/http-contract.md). These guides change independently; consult the evidence ledger before claiming compatibility.

@@ -29,9 +29,13 @@ Closing the screen is not cancellation of server work. A status timeout does not
 
 ## Implemented Android timing
 
+The Continue to capture screen displays the localized purpose and retention. The accepted policy snapshot is checked again when creating a capture, and policy changes require renewed acceptance. Continue opens the two-sided camera directly.
+
 The current Android client starts upload and processing when both photos are
 ready, during photo review. Confirmation controls when OCR can appear.
 Retaking one side invalidates prior processing and submits the new pair under
 the same capture ID. The client checks the image revision before showing OCR.
 See the [current system journey](../../../docs/agents/journeys.md) and the
 [Android recipe](https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/agents/recipes.md).
+
+Existing captured images resume loading or review. A confirmed review save opens Details saved, with Done and Review details actions. See [parsing and review](../id-parsing/flow.md).

@@ -6,6 +6,8 @@ Comienza en [onboarding](../../../auth/onboarding/README.md). La [confirmación 
 
 [Captura](../../../auth/onboarding/id-capture/flow.md) sube fotos a S3 privado y fija versiones exactas para comprobar los archivos. En el flujo Android, cuando ambas fotos están listas empiezan la carga y el OCR mientras sigue abierta la revisión. Al confirmar se abre el resultado correspondiente o se muestra la espera. Repetir una foto invalida el trabajo anterior y prepara un par nuevo dentro de la misma captura. El cliente comprueba el ID de captura y la revisión de imagen antes de mostrar el resultado.
 
+[Extracción y revisión](../../../auth/onboarding/id-parsing/flow.md) usa la extracción guardada en el registro de captura. Si está pendiente, se muestra la espera. Si falla, se abre la entrada manual. Al confirmar el guardado en el servidor, se abre Datos guardados y se completa el paso de datos del documento.
+
 [Validación de ID](../../../verification/id-validation/architecture.md) sigue siendo independiente y diferida. “Detalles guardados” o “captura lista” nunca significa identidad aprobada. [Verificación de domicilio](../../../verification/address/architecture.md) tiene decisiones propias de política/proveedor.
 
 Integración: [API backend](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md), [captura Android](https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/identity-capture.md) y [contrato HTTP cliente](https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/identity/http-contract.md). Sus revisiones son independientes; consulta el registro de evidencia antes de afirmar compatibilidad.
