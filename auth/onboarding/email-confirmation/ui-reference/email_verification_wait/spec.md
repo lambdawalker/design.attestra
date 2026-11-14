@@ -6,9 +6,9 @@ Status: historical visual reference; normative behavior is in [the owning flow](
 
 ## Entry, actions and exit
 
-Entry: Signup accepted. Fields/actions: Resend email; Change email address.
+Entry: Signup accepted. Fields/actions: Enter verification code; Resend email; Change email address.
 
-Respect server resend cooldown. Open the newest email; no polling that signs another device in.
+Respect server resend cooldown. Open the newest email, or enter its newest six-digit code directly on the initiating client using the retained local proof. No polling signs another device in.
 
 Loading follows a real request; transport failure offers retry/cancel without fabricated success. Cancellation returns to the parent flow without completing it. Preserve focus after errors, accessible labels, keyboard navigation, large text, screen-reader status and reduced-motion behavior. Exact labels/appearance in [HTML source](code.html) are historical reference, not a substitute for these rules.
 
