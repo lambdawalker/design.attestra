@@ -6,9 +6,9 @@ Status: historical visual reference; normative behavior is in [the owning flow](
 
 ## Entry, actions and exit
 
-Entry: Link B opened without matching local A. Fields/actions: One accessible six-digit code field; Verify email; resend.
+Entry: Initiating client chooses direct code entry while retaining A, or link B opened without matching local A. Fields/actions: One accessible six-digit code field; Verify email; resend.
 
-Submit B+C only on explicit action; support paste/autofill and announce server validation errors.
+Submit A+C on the initiating client or B+C when the link supplies B, only on explicit action. Support typing, paste and one-time-code autofill, do not auto-submit, and do not expose password/save-credential semantics.
 
 Loading follows a real request; transport failure offers retry/cancel without fabricated success. Cancellation returns to the parent flow without completing it. Preserve focus after errors, accessible labels, keyboard navigation, large text, screen-reader status and reduced-motion behavior. Exact labels/appearance in [HTML source](code.html) are historical reference, not a substitute for these rules.
 
