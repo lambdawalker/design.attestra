@@ -6,9 +6,9 @@ Status: historical visual reference; normative behavior is in [the owning flow](
 
 ## Entry, actions and exit
 
-Entry: Signup accepted. Fields/actions: Resend email; Change email address.
+Entry: Signup accepted. Implemented target UI combines the historical wait and code-input references. Fields/actions: one six-digit code field, Verify email using A+C on the initiating device, Resend email, Change email address, plus automatic A+B when a matching email link opens.
 
-Respect server resend cooldown. Open the newest email; no polling that signs another device in.
+Respect server resend cooldown. Open the newest email or enter its code directly. Retain the form through pending network requests and retryable failures; no polling that signs another device in.
 
 Loading follows a real request; transport failure offers retry/cancel without fabricated success. Cancellation returns to the parent flow without completing it. Preserve focus after errors, accessible labels, keyboard navigation, large text, screen-reader status and reduced-motion behavior. Exact labels/appearance in [HTML source](code.html) are historical reference, not a substitute for these rules.
 
