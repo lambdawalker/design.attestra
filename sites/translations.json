@@ -1,32 +1,32 @@
 {
   "docs/agents/index.md": {
     "path": "docs/es/agents/index.md",
-    "source_sha256": "ca6616b6fee987fe05e0923f2042b4fc820ee4176e21cc52d4c7de393ec66629",
-    "provenance": "Spanish prose reviewed against current live card capture behavior and links."
+    "source_sha256": "0b28f622226e8e4779c268b7c9800dfc7dcf7b0d4864a96f3796c03508f3383f",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
   },
   "docs/agents/concepts.md": {
     "path": "docs/es/agents/concepts.md",
-    "source_sha256": "08ed93cf9ce7fd6e7c777982618f1cac6c0cde4d7a8b916968e543696b4c3158",
-    "provenance": "Reviewed Spanish translation, documentation update 2026-10-11"
+    "source_sha256": "b043de3bf954ae6680e5b184bf345ffcee085554b54edf6c539fe1898c1d045b",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
   },
   "docs/agents/journeys.md": {
     "path": "docs/es/agents/journeys.md",
-    "source_sha256": "5ba7eb556a9139011e2c50ede123a51c2d95bf30481660e5913481486c92480c",
-    "provenance": "Reviewed Spanish translation, capture and review documentation"
+    "source_sha256": "4418022362df2a1ac89f91998f24a4ea2c8a08557b01e9d16c39ed279a9e8802",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
   },
   "docs/agents/contracts.md": {
     "path": "docs/es/agents/contracts.md",
-    "source_sha256": "7ac9bcd782e817583511e6d215b9c91d17826eb760d51147e02c6cea6a71d627",
-    "provenance": "Reviewed Spanish translation, capture and review documentation"
+    "source_sha256": "098e282208a9bb0a43214a9d437af0989806944b737265bc6238a005ba661d8b",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
   },
   "docs/agents/ui.md": {
     "path": "docs/es/agents/ui.md",
-    "source_sha256": "d44d83b55ee96f3e5b015e96676b3d09846b4f9513b11960b006f4a2363a7847",
-    "provenance": "Reviewed Spanish translation, capture and review documentation"
+    "source_sha256": "e03f6c7d1cb79f96ca0fedd512790e4191d04b2d913870c9fab5c841e85cc645",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
   },
   "docs/agents/limitations.md": {
     "path": "docs/es/agents/limitations.md",
-    "source_sha256": "c28a02a18456570e49f22731a016892ce133a4ec65ed8e2b8cce673e4265681b",
-    "provenance": "Reviewed Spanish translation, capture and review documentation"
+    "source_sha256": "1a037920f5c35f53f655d646418f12ef39fb4bfec106e2fe0d3bcfdf64d214db",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
   }
 }

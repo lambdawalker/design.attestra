@@ -16,7 +16,7 @@ Gate: cross-account denial; upload expiry/renewal; checksum/size/decode limits; 
 
 ## 3. Parsing vertical slice with deterministic adapter
 
-Implement job creation/status, queue/lease/fencing, synthetic model adapter, schema validation, immutable extraction and revisioned review. Android supports pending/leave/resume, warnings, correction attribution, conflict recovery and “Document details saved.” No validation/provider approval in this slice.
+Implement job creation/status, queue/lease/fencing, synthetic model adapter, schema validation, immutable extraction and revisioned review. Android supports pending/leave/resume, warnings, correction attribution, conflict recovery and an acknowledged saved outcome. Current Android returns automatically after the matching save and opens stored details directly from account review. No validation/provider approval in this slice.
 
 Gate: duplicate delivery, model timeout/refusal/malformed JSON, missing/ambiguous fields, stale workers, deletion during inference, two-device review conflicts, lost responses and reparse invalidating confirmation. Verify limits on retries and calls.
 

@@ -1,39 +1,41 @@
 {
   "schemaVersion": 1,
-  "reviewed_at": "2026-10-11",
+  "reviewed_at": "2026-11-15",
   "repositories": [
     {
       "repository": "lambdawalker/design.attestra",
       "url": "https://github.com/lambdawalker/design.attestra",
       "role": "System architecture, journeys, requirements and UI semantics",
       "ref": "main",
-      "human_site": null,
+      "human_site": "https://lambdawalker.github.io/design.attestra/",
       "agent_entry": "https://raw.githubusercontent.com/lambdawalker/design.attestra/main/docs/agents/index.md",
       "contracts": "Shared evidence design, system decisions, documentation ownership",
-      "documentation_status": "site supplied in this change; hosting not enabled at audit",
-      "scope": "public"
+      "documentation_status": "Pages configuration exists; public endpoint not independently verified in this audit",
+      "scope": "public",
+      "source_ref": "e72f1dededc2afac70f17f778a2c156508f3a52e"
     },
     {
       "repository": "lambdawalker/go.attestra.aws.auth",
       "url": "https://github.com/lambdawalker/go.attestra.aws.auth",
-      "role": "Go AWS backend and environment operator tools",
+      "role": "Historical combined backend and migration source",
       "ref": "main",
       "human_site": null,
       "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md",
       "contracts": "Implemented HTTP serialization, index schema, setup/deploy/teardown",
-      "documentation_status": "Historical combined backend; see separate current Go repositories for capture rollout",
+      "documentation_status": "Legacy; current deployment owner is go.attestra.aws. Historical guides are not current component contracts.",
       "scope": "public"
     },
     {
-      "repository": "lambdawalker/android.attestra.auth",
-      "url": "https://github.com/lambdawalker/android.attestra.auth",
+      "repository": "lambdawalker/android.apexfission.auth",
+      "url": "https://github.com/lambdawalker/android.apexfission.auth",
       "role": "Android authentication and capture client",
       "ref": "main",
-      "human_site": null,
-      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.attestra.auth/main/docs/agents/index.md",
+      "human_site": "https://lambdawalker.github.io/android.apexfission.auth/",
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.apexfission.auth/main/docs/agents/index.md",
       "contracts": "Gradle configuration, lifecycle, protected storage, native credential integration",
-      "documentation_status": "English/Spanish source guides and site build available; public hosting unverified",
-      "scope": "public"
+      "documentation_status": "Merged email, saved-review and camera-disclosure improvements; raw English/Spanish source guides present; public endpoint not independently verified",
+      "scope": "public",
+      "source_ref": "f356a5b3e168f720ed6b542647b89d89e3e60234"
     },
     {
       "repository": "lambdawalker/android.apexfission.permissions",
@@ -43,8 +45,9 @@
       "human_site": "https://lambdawalker.github.io/android.apexfission.permissions/",
       "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.apexfission.permissions/main/docs/agents/index.md",
       "contracts": "Permission component API and release installation",
-      "documentation_status": "site and agent guide present",
-      "scope": "public"
+      "documentation_status": "Source guide reviewed at the recorded immutable ref; independent releases and runtime readiness remain component-owned",
+      "scope": "public",
+      "source_ref": "9a3e0bf353885b235072bfaf98f63fff2b285c9c"
     },
     {
       "repository": "lambdawalker/android.apexfission.carddetector",
@@ -54,8 +57,9 @@
       "human_site": "https://lambdawalker.github.io/android.apexfission.carddetector/",
       "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.apexfission.carddetector/main/docs/agents/index.md",
       "contracts": "Detector API, bitmap ownership and model artifacts",
-      "documentation_status": "site and agent guide present",
-      "scope": "public"
+      "documentation_status": "Source guide reviewed at the recorded immutable ref; independent releases and runtime readiness remain component-owned",
+      "scope": "public",
+      "source_ref": "e5e798728de5504f356ee7fb27303a336baaa686"
     },
     {
       "repository": "lambdawalker/devops.go.pulumi",
@@ -65,7 +69,7 @@
       "human_site": null,
       "agent_entry": null,
       "contracts": "Local workflow planning, readiness and journals",
-      "documentation_status": "README/integration docs only; dedicated site/agent entry not established",
+      "documentation_status": "Historical adjacent tooling; not part of the reviewed current application composition and not re-audited in this synchronization",
       "scope": "public"
     },
     {
@@ -76,8 +80,9 @@
       "human_site": null,
       "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md",
       "contracts": "Capture HTTP, upload, retakes, OCR and review",
-      "documentation_status": "Source guide and central journey available; no standalone site verified",
-      "scope": "public"
+      "documentation_status": "Source guide reviewed at the recorded immutable ref; independent releases and runtime readiness remain component-owned",
+      "scope": "public",
+      "source_ref": "1c035cece6b22e7817fd94bde050184a4a0c8570"
     },
     {
       "repository": "lambdawalker/go.apexfission.aws.auth",
@@ -87,8 +92,9 @@
       "human_site": null,
       "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.apexfission.aws.auth/main/docs/agents/index.md",
       "contracts": "Identity, consent bindings and reset integration",
-      "documentation_status": "Source guide and central journey available; no standalone site verified",
-      "scope": "public"
+      "documentation_status": "Source guide reviewed at the recorded immutable ref; independent releases and runtime readiness remain component-owned",
+      "scope": "public",
+      "source_ref": "42cbb957a34e7706d5f88f60ea96b4abef47a382"
     },
     {
       "repository": "lambdawalker/go.attestra.aws",
@@ -96,9 +102,46 @@
       "role": "Application composition and rollout",
       "ref": "main",
       "human_site": null,
-      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.attestra.aws/main/docs/card-capture-composition.md",
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.attestra.aws/main/README.md",
       "contracts": "Dependency pins, Lambda artifacts and environment deployment",
-      "documentation_status": "Source guide and central journey available; no standalone site verified",
+      "documentation_status": "Application composition, pinned dependencies and operator guides reviewed; live deployment not verified",
+      "scope": "public",
+      "source_ref": "b4e087bc06310da882a2bf35e4feaa474d745656"
+    },
+    {
+      "repository": "lambdawalker/go.apexfission.aws.verifyemail",
+      "url": "https://github.com/lambdawalker/go.apexfission.aws.verifyemail",
+      "role": "Independent email-verification feature",
+      "ref": "main",
+      "source_ref": "80a378e39926cb74ef64e37f2695ef852911e636",
+      "human_site": null,
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.apexfission.aws.verifyemail/main/README.md",
+      "contracts": "A+B / A+C / B+C proofs, SES, transaction store and native adapter",
+      "documentation_status": "Source reviewed; use the component guide for independent release and readiness evidence",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/go.infra.composer",
+      "url": "https://github.com/lambdawalker/go.infra.composer",
+      "role": "Generic Go composition framework",
+      "ref": "main",
+      "source_ref": "ad4cfd268616a1ef94b324fe88266f845294f57a",
+      "human_site": null,
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/go.infra.composer/main/README.md",
+      "contracts": "Provider contracts, validated plans and optional native adapters",
+      "documentation_status": "Source reviewed; use the component guide for independent release and readiness evidence",
+      "scope": "public"
+    },
+    {
+      "repository": "lambdawalker/android.ui.common",
+      "url": "https://github.com/lambdawalker/android.ui.common",
+      "role": "Reusable Android UI",
+      "ref": "main",
+      "source_ref": "d9399aa350a47b311b1998bd3cb0f2f79b1c54e5",
+      "human_site": null,
+      "agent_entry": "https://raw.githubusercontent.com/lambdawalker/android.ui.common/main/README.md",
+      "contracts": "Shared components and source integration; not auth state ownership",
+      "documentation_status": "Source reviewed; use the component guide for independent release and readiness evidence",
       "scope": "public"
     }
   ]

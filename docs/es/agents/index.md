@@ -5,10 +5,12 @@ Alcance: diseño actual de `main`, con evidencia en [compatibilidad](../../compa
 | Tarea | Guía canónica | Implementación |
 | --- | --- | --- |
 | Límites y términos | [Arquitectura](../../../architecture.md), [conceptos](concepts.md) | [Catálogo](../../repositories.md) |
-| Onboarding y recuperación | [Flujos](journeys.md) | [Agente backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/index.md) |
+| Onboarding y recuperación | [Flujos](journeys.md) | [Agente backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws/main/README.md) |
 | Captura/parsing | [Contratos](contracts.md) | [Captura backend](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md) |
-| Descubrimiento/despliegue | [Ciclo de entornos](../../../operations/environments.md) | [Operación backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/operations.md) |
+| Descubrimiento/despliegue | [Ciclo de entornos](../../../operations/environments.md) | [Operación backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws/main/README.md) |
 | Interfaz y comportamiento real | [Semántica UI](ui.md) | Archivos `spec.md`, no temporizadores del prototipo |
 | Compatibilidad y pendientes | [Limitaciones](limitations.md) | [Responsabilidades](../../../DOCUMENTATION.md) |
 
 Invariantes: confirmar correo no verifica identidad; solo el cliente que confirma recibe sesión; la plataforma conserva passkeys; capture ready es evidencia inmutable, no extracción ni aprobación; parsing no invoca validación silenciosamente; el índice público nunca contiene secretos o datos de identificación. Conserva refs y distingue diseño, implementación, pruebas, reporte del operador y trabajo diferido.
+
+Integración Android: [guía actual para agentes](https://raw.githubusercontent.com/lambdawalker/android.apexfission.auth/main/docs/agents/index.md). Pruebas de correo: [módulo verify-email](https://raw.githubusercontent.com/lambdawalker/go.apexfission.aws.verifyemail/main/README.md). La aplicación compuesta conserva la responsabilidad del despliegue.

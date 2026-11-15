@@ -1,6 +1,6 @@
 # ID parsing data model
 
-This is the shared semantic contract, not a deployed API schema. Exact serialization/OpenAPI schemas and schema validators belong in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth). [Parsing architecture](architecture.md) owns behavior.
+This is the shared semantic contract, not a deployed API schema. Exact serialization/OpenAPI schemas and schema validators belong in the [Go backend](https://github.com/lambdawalker/go.appexfission.aws.card-capture/blob/main/docs/agents/index.md). [Parsing architecture](architecture.md) owns behavior.
 
 ## Records
 

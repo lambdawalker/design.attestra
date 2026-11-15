@@ -1,6 +1,6 @@
 # ID parsing AWS design
 
-**Planned.** [Architecture](architecture.md) defines behavior; [capture AWS](../id-capture/aws.md) owns evidence storage. No model/provider is declared production-ready by this plan.
+**Target architecture with an implemented capture-record extraction worker.** Independent parse-job resources and richer provenance described here remain proposed; use the [current flow](flow.md) and [implementation guide](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md) for the implemented subset. [Architecture](architecture.md) defines behavior; [capture AWS](../id-capture/aws.md) owns evidence storage. No model/provider is declared production-ready by this plan.
 
 | Component | Responsibility |
 | --- | --- |

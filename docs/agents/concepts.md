@@ -7,3 +7,5 @@ A **proof** authorizes email confirmation under the onboarding protocol. A **ses
 The **environment index** publishes public client configuration. Its configuration hash identifies configuration content; it does not identify deployed code, certify health or authenticate a mobile user. Local deployment receipts coordinate writes and recovery; they are not user sessions.
 
 The [catalog](../repositories.md) records source owners and known documentation availability. Follow exact implementation guides for configuration, APIs and platform limitations. Central specifications do not allocate library release numbers.
+
+The backend is composed from independent authentication, email-verification and card-capture features. `go.attestra.aws` owns application configuration, admin/index and rollout; `go.infra.composer` validates their contracts. `android.ui.common` is shared reusable UI, not a replacement for the live auth controllers. The legacy combined backend is a migration source, not an interchangeable deployment target.

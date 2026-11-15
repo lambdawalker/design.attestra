@@ -14,7 +14,7 @@ Loading follows a real request; transport failure offers retry/cancel without fa
 
 ## Service and ownership
 
-Read [the canonical contract](../../../../../verification/id-validation/architecture.md) and [backend integration](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/api.md). Android owns device interaction; [its app and UI catalog](https://github.com/lambdawalker/android.attestra.auth) are the runnable implementation. These prototypes cannot prove that app renders this exact screen. Parsing/validation-specific behavior remains proposed.
+Read [the canonical contract](../../../../../verification/id-validation/architecture.md) and [backend integration](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md). Android owns device interaction; [its app and UI catalog](https://github.com/lambdawalker/android.apexfission.auth) are the runnable implementation. These prototypes cannot prove that app renders this exact screen. Capture-record extraction and review are implemented; richer independent parsing contracts and ID validation remain proposed. This HTML/PNG remains a historical visual reference.
 
 ## Evidence and missing states
 

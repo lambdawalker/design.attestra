@@ -1,6 +1,8 @@
 # Compatibility and evidence ledger
 
-Audit date: 2026-10-11 UTC (2026-10-10 in Ciudad Juárez). Documentation scope is `main`, not a coordinated product release.
+Latest source synchronization: **2026-11-15**. The October audit and observations below remain historical; the latest section supersedes their current-flow descriptions.
+
+Historical audit date: 2026-10-11 UTC (2026-10-10 in Ciudad Juárez). Documentation scope is `main`, not a coordinated product release.
 
 | Area | Designed | Implemented evidence | Verification / gap |
 | --- | --- | --- | --- |
@@ -36,3 +38,35 @@ See the [documentation audit](documentation-audit.md) for the checks actually ex
 ## Capture/review update — 2026-10-28 (Ciudad Juárez)
 
 Reviewed the merged source refs above and the coordinated finish-screen change. Capture, extraction and review are distinct outcomes. A failed extraction may still produce a saved manual review; pending extraction and unsafe/unvalidated files may not. `reviewed` confirms data persistence; `id_captured`/`onboarding_complete` do not. The finish screen makes no identity-verification claim. Existing audit evidence for unrelated features remains dated above; no deployment or device validation is implied by this update.
+
+## Source synchronization 2026-11-15
+
+| Area | Merged source evidence | Current contract and verification boundary |
+| --- | --- | --- |
+| Unified email entry | [Android #78](https://github.com/lambdawalker/android.apexfission.auth/pull/78), [verify-email #6](https://github.com/lambdawalker/go.apexfission.aws.verifyemail/pull/6), [design #15](https://github.com/lambdawalker/design.attestra/pull/15) | One waiting/code surface. A+B is automatic on matching link open; A+C and B+C require explicit code submission. Proof pairs remain transaction-bound and share manual-code budgets. |
+| Saved ID review | [Android #79](https://github.com/lambdawalker/android.apexfission.auth/pull/79) | Save and continue returns automatically only after matching server-reviewed data and origin. Account review opens the saved form directly. Legacy saved-state components are not a mandatory success handoff. |
+| Camera permission | [Android #80](https://github.com/lambdawalker/android.apexfission.auth/pull/80) | After accepted disclosure and the fresh policy check, request native permission without a duplicate explanation. Preserve denial/Settings/no-camera recovery; standalone camera entry remains explanation-first. Real-device prompt/lifecycle validation remains separate. |
+| Composition | [Application #31](https://github.com/lambdawalker/go.attestra.aws/pull/31) | Root, infrastructure and deploy modules pin verify-email `v0.0.0-20261115061044-1963f90999f5`, which supports A+C. The later email-copy-only [#7](https://github.com/lambdawalker/go.apexfission.aws.verifyemail/pull/7) is on feature main but is not included in this application pin. No rollout is certified. |
+| Source licensing | [Android #81](https://github.com/lambdawalker/android.apexfission.auth/pull/81) | Project-owned modules declare Apache 2.0; component repositories own license/third-party notices. This is not a package publication. |
+
+The immutable source refs for the nine inspected implementation repositories are recorded in [repositories.json](repositories.json). Source observations were captured on 2026-11-15 at 19:25 UTC. The Android main ref was rechecked during completion and still matched `f356a5b3e168f720ed6b542647b89d89e3e60234`.
+
+The catalog now includes the independent email-verification feature, `go.infra.composer`, and `android.ui.common`. The legacy combined backend remains a separate migration source. Current deployment and feature binding belong to `go.attestra.aws`; changing a repository name or dependency does not migrate live state.
+
+**Documentation drift outside this repository:** some Android consumer-guide sentences still list only A+B/B+C, and some module README links retain older names or task branches. Source validation and the current central contract take precedence; those implementation-owned guide corrections are follow-up work, not evidence that the source lacks A+C.
+
+**Still not implemented by these changes:** automatic submission of the sixth code digit, removing all optional enrollment interruptions, continuous front/back capture, a combined photo/data review screen, richer independent parse-job endpoints, ID validation, and complete web/iOS clients. These remain design or follow-up work, not implicit outcomes of fewer screens.
+
+**Hosting and readiness:** GitHub reports Pages enabled for central design and Android, which supersedes the old disabled-hosting assumption. This audit could not independently retrieve the public HTTP pages. No AWS deployment, real email delivery, live ID upload, state migration, package release, or real-device test was performed.
+
+**Older PR reconciliation:** #14's missing A+C diagram/AWS details and one-time-code semantics are incorporated without restoring its extra Enter verification code button. #11's useful Android raw-guide/catalog links are incorporated with current repository names. Historical screenshots remain byte-identical; their existing provenance is retained. The older branches should not be merged over the newer flow.
+
+### Validation of this synchronization
+
+- `python sites/test_build.py`: four renderer/link-transformation tests passed.
+- `python sites/test_current_contracts.py`: six regression tests passed for proof-pair coverage, review routing, permission boundaries, source ownership, translation bindings and temporary-file cleanup. These tests failed against the pre-update content.
+- `python sites/catalog.py --check`: generated catalog matches its JSON source.
+- `python sites/build.py`: 72 canonical pages rendered as English/Spanish views, with 145 HTML pages validated for local links, anchors and project-base routing.
+- `git diff --check`: no whitespace errors. Current external source-file targets were checked against the downloaded implementation snapshots; live external HTTP reachability is not implied.
+
+No historical HTML or PNG asset was changed. No `sites/dist`, transfer payload, temporary workflow, credential or runtime receipt is part of the final change.

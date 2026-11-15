@@ -1,6 +1,6 @@
 # ID capture architecture
 
-**Status: planned.** Part of [onboarding](../architecture.md); depends on an authenticated account. [Shared contracts](../id-evidence-contracts.md) define the handoff to [ID parsing](../id-parsing/architecture.md). This design supersedes the earlier combined capture/extraction/provider proposal.
+**Status: implemented subset with a broader target contract.** Private uploads, file finalization, capture-record extraction/review and Android capture are implemented in source. The [current flow](flow.md) and [evidence ledger](../../../docs/compatibility.md) identify what is shipped in source versus remaining target requirements; deployment is not certified. Part of [onboarding](../architecture.md); depends on an authenticated account. [Shared contracts](../id-evidence-contracts.md) define the handoff to [ID parsing](../id-parsing/architecture.md). This design supersedes the earlier combined capture/extraction/provider proposal.
 
 ## Responsibility and success condition
 

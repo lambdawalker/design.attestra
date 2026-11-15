@@ -6,9 +6,9 @@ Every maintained explanation has one owner. Other repositories link to that expl
 | --- | --- |
 | System architecture, trust boundaries, module interactions, shared requirements and decisions | `design.attestra` |
 | User journeys, recovery rules, screen specifications, identity/address policy | Feature folders in `design.attestra` |
-| Go package structure, exact request/response serialization, implementation limits and provider adapters | `go.attestra.aws.auth` |
-| Backend build, Lambda packaging, Pulumi deployment, AWS/SES/DNS setup and operational gotchas | `go.attestra.aws.auth` |
-| Android modules, Gradle/build/install instructions, Ktor adapters, storage, Credential Manager, App Links and device troubleshooting | `android.attestra.auth` |
+| Go package structure, request/response serialization and provider adapters | The independent `go.apexfission.aws.auth`, `go.apexfission.aws.verifyemail` and `go.appexfission.aws.card-capture` features |
+| Backend build, Lambda packaging, Pulumi deployment, AWS/SES/DNS setup and operational gotchas | `go.attestra.aws` |
+| Android modules, Gradle/build/install instructions, Ktor adapters, storage, Credential Manager, App Links and device troubleshooting | `android.apexfission.auth` |
 | Historical module implementation plans | The corresponding implementation repository, clearly labeled historical |
 
 ## Editing rules
@@ -26,9 +26,13 @@ Every maintained explanation has one owner. Other repositories link to that expl
 - [System architecture](architecture.md)
 - [Onboarding](auth/onboarding/README.md), [session recovery](auth/onboarding/resume.md), and [login](auth/login/architecture.md)
 - [ID capture and parsing contracts](auth/onboarding/id-evidence-contracts.md) and [implementation sequence](auth/onboarding/id-evidence-plan.md)
-- [Backend implementation and operations](https://github.com/lambdawalker/go.attestra.aws.auth)
-- [Android implementation and device setup](https://github.com/lambdawalker/android.attestra.auth)
+- [Backend implementation and operations](https://github.com/lambdawalker/go.attestra.aws/blob/main/README.md)
+- [Android implementation and device setup](https://github.com/lambdawalker/android.apexfission.auth)
 
 ## Human and agent publication
 
 Both target repositories render their own Markdown into HTML and publish raw agent entry points. The [repository catalog](docs/repositories.json) owns repeated component-directory metadata; `sites/catalog.py --check` validates generated tables. [Compatibility](docs/compatibility.md) separates designed, implemented and operator-reported status. Translation hashes bind Spanish guides to the canonical source; missing/stale translations fall back visibly to English at the same source scope. Sites are documentation-only and must never trigger application deployment or package publication. See [maintenance](sites/README.md).
+
+## Current composition boundary
+
+`go.attestra.aws` is the application, not a feature library. `go.infra.composer` owns generic composition contracts; reusable features own runtime code and optional native infrastructure modules. The legacy `go.attestra.aws.auth` is not the current deployment owner and remains a separate migration source. No import or documentation rename migrates live users, tables, sessions or Pulumi state. See the [application migration guide](https://github.com/lambdawalker/go.attestra.aws/blob/main/docs/migration.md).

@@ -8,13 +8,13 @@ Status: historical visual reference; normative behavior is in [the owning flow](
 
 Entry: Designed validated extraction available. Fields/actions: Extracted fields; corrections; save review.
 
-Keep provenance and review revision. Details saved is not identity approval. Production parser/review API remains planned.
+Keep provenance and review revision. Details saved is not identity approval. Capture-record extraction and revisioned review are implemented; independent parse-job APIs remain proposed.
 
 Loading follows a real request; transport failure offers retry/cancel without fabricated success. Cancellation returns to the parent flow without completing it. Preserve focus after errors, accessible labels, keyboard navigation, large text, screen-reader status and reduced-motion behavior. Exact labels/appearance in [HTML source](code.html) are historical reference, not a substitute for these rules.
 
 ## Service and ownership
 
-Read [the canonical contract](../../../id-evidence-contracts.md) and [backend integration](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/api.md). Android owns device interaction; [its app and UI catalog](https://github.com/lambdawalker/android.attestra.auth) are the runnable implementation. These prototypes cannot prove that app renders this exact screen. Parsing/validation-specific behavior remains proposed.
+Read [the canonical contract](../../../id-evidence-contracts.md) and [backend integration](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md). Android owns device interaction; [its app and UI catalog](https://github.com/lambdawalker/android.apexfission.auth) are the runnable implementation. These prototypes cannot prove that app renders this exact screen. Capture-record extraction and review are implemented; richer independent parsing contracts and ID validation remain proposed. This HTML/PNG remains a historical visual reference.
 
 ## Evidence and missing states
 

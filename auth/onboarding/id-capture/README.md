@@ -4,7 +4,7 @@
 
 **Status: designed here and implemented in backend/Android source. Runtime policy controls availability. Real-device and S3 verification require environment evidence.**
 
-See [backend API and operations](https://github.com/lambdawalker/go.appexfission.aws.card-capture/blob/main/docs/agents/index.md), [Android integration](https://github.com/lambdawalker/android.attestra.auth/blob/main/docs/identity-capture.md), and the [evidence ledger](../../../docs/compatibility.md).
+See [backend API and operations](https://github.com/lambdawalker/go.appexfission.aws.card-capture/blob/main/docs/agents/index.md), [Android integration](https://github.com/lambdawalker/android.apexfission.auth/blob/main/docs/identity-capture.md), and the [evidence ledger](../../../docs/compatibility.md).
 
 ID capture obtains document photos, lets the user review them, uploads them to private S3 storage, and finalizes a complete, immutable evidence manifest. It ends at `capture.ready`. It does not extract personal fields or decide whether an identity is valid.
 

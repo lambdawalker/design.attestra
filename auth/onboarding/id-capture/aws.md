@@ -1,6 +1,6 @@
 # ID capture AWS design
 
-**Planned infrastructure; not a deployment claim.** [Architecture](architecture.md) · [Shared contracts](../id-evidence-contracts.md). Pulumi configuration and exact IAM policies belong in the Go implementation repository.
+**Infrastructure design with an implemented native capture adapter; not a deployment claim.** Current resource factories and IAM belong to [go.appexfission.aws.card-capture](https://github.com/lambdawalker/go.appexfission.aws.card-capture/tree/main/infrastructure), composed by [go.attestra.aws](https://github.com/lambdawalker/go.attestra.aws). Remaining target features are not implied by source availability. [Architecture](architecture.md) · [Shared contracts](../id-evidence-contracts.md). Pulumi configuration and exact IAM policies belong in the Go implementation repository.
 
 ## Components
 

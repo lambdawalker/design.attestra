@@ -8,4 +8,6 @@ One index currently serves a single AWS account/region. Production account isola
 
 Documentation is current-source English with Spanish integration guides and same-revision English fallback for untranslated detailed specifications. There are no confirmed system releases or historical release manuals yet. The central site cannot claim a library release merely because a design is approved; publishing owners maintain installation metadata.
 
-The [documentation ownership policy](../../DOCUMENTATION.md) is authoritative. Release automation is audited, not changed into package publication. Other repositories' missing sites or agent entries are recorded as gaps; this task updates only the backend and central design repositories.
+The [documentation ownership policy](../../DOCUMENTATION.md) is authoritative. Release automation is audited, not changed into package publication. Other repositories' missing sites or agent entries are recorded as gaps; this synchronization changes only central documentation and its validation.
+
+The composed application pins the A+C-capable verification implementation but not the later email wording-only commit. Repository main, a dependency pin and a deployed revision are different evidence levels. Other friction reductions, including optional-enrollment deferral and continuous two-sided capture, are not claimed implemented by this update.

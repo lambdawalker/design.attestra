@@ -1,6 +1,6 @@
 # Environment lifecycle and discovery
 
-Status: implemented by the backend source at `64f4fae`; operational commands belong in [backend operations](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/agents/operations.md). This page owns the cross-component boundaries and lifecycle decisions.
+Status: implemented by the backend source at `64f4fae`; operational commands belong in [backend operations](https://github.com/lambdawalker/go.attestra.aws/blob/main/README.md). This page owns the cross-component boundaries and lifecycle decisions.
 
 Each environment has independent application state, public API identity, Cognito identifiers and sender domain. Naming uses `<env>.<base-domain>` for app links, `<env>.api.<base-domain>` for the API, and `<env>.info.<base-domain>` for email. App hosting and platform association files remain separate responsibilities.
 
