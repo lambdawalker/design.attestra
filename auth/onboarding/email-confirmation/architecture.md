@@ -5,8 +5,8 @@
 ## Boundaries and protocol
 
 1. The client generates cryptographically random A, retains it for this request, and sends its SHA-256 challenge with the email to `POST /signup`. The server returns an opaque `request_id` with a generic response; an eligible pending transaction generates independent B (link token) and six-digit C (email text). Cognito user creation occurs after the proof is claimed.
-2. The server binds normalized email, `request_id`, challenge, B digest, keyed C digest, expiry, resend generation, failed-attempt budgets, and transaction state. The confirming request must contain B plus **exactly one** matching A or C. B alone and C alone are insufficient.
-3. The link route reads B without mutating server state. With matching local A, the client submits A+B automatically; otherwise it renders an empty code field and submits B+C only after an explicit Verify action.
+2. The server binds normalized email, `request_id`, challenge, B digest, keyed C digest, expiry, resend generation, failed-attempt budgets, and transaction state. The confirming request must contain exactly one matching combination: **A+B**, **A+C**, or **B+C**. Each is scoped to the same transaction. A, B, or C alone is insufficient; both code paths share retry and account budgets.
+3. The link route reads B without mutating server state. With matching local A, the client submits A+B automatically on a link open. The initiating device already shows an empty code field while waiting and can submit A+C without opening the link. When local A is absent, opening the link allows B+C after an explicit Verify action.
 4. The backend atomically claims a valid, unused transaction before provider side effects. Confirmation and session issuance are tracked separately for retries, races, and partial failures. Only the successful confirming client receives tokens.
 5. A confirmed account without a usable session uses email OTP sign-in recovery. Passkey creation requires that session; email confirmation never asserts passkey or identity approval.
 
@@ -14,7 +14,7 @@
 
 | State | Allowed transition |
 | --- | --- |
-| Pending | Confirm with matching A+B or B+C; resend rotates B and C while preserving the A challenge and request ID |
+| Pending | Confirm with matching A+B, A+C, or B+C; resend rotates B and C while preserving the A challenge and request ID |
 | Confirming | One claimant performs provider confirmation/session exchange; competitors receive safe in-progress/already-used results |
 | Confirmed, session issued | Return the session only to the confirming request; clear pending client A and secrets |
 | Confirmed, session unavailable | Return a stable sign-in-required result; never replay confirmation |
