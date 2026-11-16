@@ -11,8 +11,8 @@
   },
   "docs/agents/journeys.md": {
     "path": "docs/es/agents/journeys.md",
-    "source_sha256": "4418022362df2a1ac89f91998f24a4ea2c8a08557b01e9d16c39ed279a9e8802",
-    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, source pins versus deployment; executable identifiers preserved."
+    "source_sha256": "4ac6f3e2dbfb47b784b0e44aeab5e65ac542adc41f903ecf9463db9ab8165fe1",
+    "provenance": "English and Spanish guides reviewed together on 2026-11-15: current repository owners, A+B/A+C/B+C, direct saved review, camera permission boundaries, successful onboarding handoff, source pins versus deployment; executable identifiers preserved."
   },
   "docs/agents/contracts.md": {
     "path": "docs/es/agents/contracts.md",

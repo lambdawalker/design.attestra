@@ -1,6 +1,6 @@
 # Persistent authentication tasks
 
-Status: approved interaction direction on 2026-11-15; implementation is proposed on Android branch `feat/persistent-auth-flow-20261115`. This contract does not assert a merge, publication, or deployment. It builds on the [onboarding journey](onboarding/architecture.md) and [returning login](login/architecture.md). This document supersedes their separate loading/error destinations and repeated optional-onboarding offers for the updated Android host; security requirements and platform consent remain unchanged. Legacy exported screen functions and custom policy routing may remain for source compatibility.
+Status: persistent sign-in, inline passkey recovery, and optional account actions are merged in Android source at `659d208fd933cea97bb448b8581bfc6532b57be4`; the distinct successful-completion callback and demo handoff are proposed on branch `feat/onboarding-completion-handoff-20261115`. This contract does not assert publication or deployment. It builds on the [onboarding journey](onboarding/architecture.md) and [returning login](login/architecture.md). This document supersedes their separate loading/error destinations and repeated optional-onboarding offers for the updated Android host; security requirements and platform consent remain unchanged. Legacy exported screen functions and custom policy routing may remain for source compatibility.
 
 ## Returning sign-in
 
@@ -38,7 +38,7 @@ The completed account view exposes Add passkey, Add password, and Add ID only fo
 
 The library can preserve the legacy optional-offer `OnboardingPolicy.next` API for existing custom hosts. The updated bundled host uses required-only routing plus server-confirmed account actions. This is an intentional live-host interaction change, not a backend contract or credential-policy change.
 
-A completed account view may continue to the consuming app through its existing exit integration. It must never label email/passkey completion or saved document data as identity validation. A dedicated completed-onboarding callback is a separate future API decision.
+A completed account view exposes a dedicated successful-onboarding handoff that is distinct from cancel/back/defer. The success action is reachable only after required steps and backend `onboarding_complete` have produced the completed account destination; it must not be emitted from authentication, capture, or local UI state alone. Back/cancel continues through the existing exit/defer integration. Consumers that do not adopt the dedicated callback may retain the legacy exit behavior. Neither path may label email/passkey completion or saved document data as identity validation.
 
 ## Acceptance evidence
 
