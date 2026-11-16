@@ -7,3 +7,5 @@ Una **prueba** autoriza confirmar correo. Una **sesión** autoriza solicitudes a
 El **índice de entornos** publica configuración cliente. Su hash identifica contenido de configuración; no código desplegado, salud ni autenticación móvil. Los recibos de despliegue coordinan escrituras y recuperación, no son sesiones de usuario.
 
 El [catálogo](../../repositories.md) registra responsables y disponibilidad de documentación. Sigue las guías concretas para configuración, API y limitaciones. Las especificaciones centrales no asignan números de versión a bibliotecas.
+
+El backend se compone de módulos independientes de autenticación, verificación de correo y captura. `go.attestra.aws` controla la configuración, administración, índice y despliegue; `go.infra.composer` valida sus contratos. `android.ui.common` contiene interfaz reutilizable, no sustituye los controladores de auth. El backend combinado anterior es una fuente de migración, no un destino de despliegue intercambiable.

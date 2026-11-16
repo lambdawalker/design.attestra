@@ -40,7 +40,7 @@ Model jobs use separate parse IDs from capture IDs. Evidence versions are server
 
 ## Current Android mock migration
 
-The existing [Android prototype PR](https://github.com/lambdawalker/android.attestra.auth/pull/12) models a combined identity submission, binary uploads through an API, synchronous extraction, and mock provider decisions. It is a prototype, not the architectural contract for this split.
+The existing [Android prototype PR](https://github.com/lambdawalker/android.apexfission.auth/pull/12) models a combined identity submission, binary uploads through an API, synchronous extraction, and mock provider decisions. It is a prototype, not the architectural contract for this split.
 
 Implement the new design by separating capture and parsing gateways/state, mocking upload instructions + S3 transport + finalize/status + parse-job status, and confirming details without simulated identity approval in the onboarding flow. Keep an explicit mock-only label and isolate any retained validation demo outside these two features. Replace the echoed `extracted` submit body with server-owned extraction references and attributed corrections. Preserve session/account isolation and reconcile-before-retry behavior.
 

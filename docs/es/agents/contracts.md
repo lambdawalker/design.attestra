@@ -2,10 +2,10 @@
 
 | Contrato | Responsable | Representación exacta |
 | --- | --- | --- |
-| Pruebas de correo, transiciones y privacidad | [Diseño onboarding](../../../auth/onboarding/architecture.md) | [HTTP backend](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/api.md) |
+| Pruebas de correo, transiciones y privacidad | [Diseño onboarding](../../../auth/onboarding/architecture.md) | [HTTP backend](https://raw.githubusercontent.com/lambdawalker/go.apexfission.aws.verifyemail/main/README.md) |
 | Separación captura/parsing y referencias | [Contratos de evidencia](../../../auth/onboarding/id-evidence-contracts.md) | [Captura backend](https://raw.githubusercontent.com/lambdawalker/go.appexfission.aws.card-capture/main/docs/agents/index.md); extracción/revisión forma parte de la captura; los endpoints independientes de parsing siguen propuestos |
-| Descubrimiento público | [Arquitectura de entornos](../../../operations/environments.md) | [Índice](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/environment-index.md), `registry/registry.go` |
-| Configuración Android de compilación | Exportador backend y consumidor Gradle | [Integración](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws.auth/main/docs/agents/integration.md) |
+| Descubrimiento público | [Arquitectura de entornos](../../../operations/environments.md) | [Índice](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws/main/README.md), `registry/registry.go` |
+| Configuración Android de compilación | Exportador backend y consumidor Gradle | [Integración](https://raw.githubusercontent.com/lambdawalker/go.attestra.aws/main/README.md) |
 | Semántica de estados UI | `ui.md` de la función y `spec.md` cercano | [Directorio de pantallas](../../../auth/onboarding/ui-reference/README.md) |
 
 El diseño formal de evidencia conserva su ruta actual. No lo muevas por el simple hecho de existir captura. Tampoco dupliques aquí límites operativos o tipos JSON como otro esquema mantenido a mano. Una ruta propuesta no demuestra una API desplegada.

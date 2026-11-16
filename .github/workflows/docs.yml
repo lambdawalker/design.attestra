@@ -16,6 +16,7 @@ jobs:
           python-version: '3.12'
       - run: pip install -r sites/requirements.txt
       - run: python sites/test_build.py
+      - run: python sites/test_current_contracts.py
       - run: python sites/catalog.py --check
       - run: python sites/build.py
       - uses: actions/upload-pages-artifact@v3

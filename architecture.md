@@ -6,10 +6,13 @@ This repository owns the design of the complete system. See [documentation owner
 
 | Component | Responsibility | Implementation guide |
 | --- | --- | --- |
-| Android client | User interface, protected pending/session state, email link routing, native passkey operations, and policy-controlled document capture/parsing UI | [Android auth](https://github.com/lambdawalker/android.attestra.auth) |
-| Authentication API | Validate email proofs, enforce transaction/retry policy, orchestrate Cognito, and expose registration/sign-in/session operations | [Go auth](https://github.com/lambdawalker/go.attestra.aws.auth) |
+| Android client | User interface, protected pending/session state, email link routing, native passkey operations, and policy-controlled document capture/parsing UI | [Android auth](https://github.com/lambdawalker/android.apexfission.auth) |
+| Authentication feature | Cognito identity, policy, passkey/password/email-OTP sign-in and session operations | [Go auth](https://github.com/lambdawalker/go.apexfission.aws.auth) |
+| Email-verification feature | A+B / A+C / B+C proofs, transaction budgets and SES delivery through injected enrollment contracts | [Verify email](https://github.com/lambdawalker/go.apexfission.aws.verifyemail) |
+| Application composition | Own admin/index, feature bindings, dependency pins and environment rollout | [Go application](https://github.com/lambdawalker/go.attestra.aws) |
+| Composition framework | Contract validation and native infrastructure adapters | [Go infra composer](https://github.com/lambdawalker/go.infra.composer) |
 | DynamoDB proof store | Atomic transaction claims, expiry checks, rate budgets, and one-use session grants | [Email AWS design](auth/onboarding/email-confirmation/aws.md) |
-| SES | Deliver the application-owned verification email | [Backend operations](https://github.com/lambdawalker/go.attestra.aws.auth#deployment) |
+| SES | Deliver the application-owned verification email | [Backend operations](https://github.com/lambdawalker/go.attestra.aws/blob/main/README.md) |
 | Cognito | Stable account identity, session issuance and refresh, email OTP challenges, and public passkey credential registry | [Login](auth/login/architecture.md) and [passkey AWS design](auth/onboarding/passkey-creation/aws.md) |
 | Web/iOS clients | Future platform implementations of the same user journeys; host association and link handling belong to their respective platforms | Not provided by these three repositories |
 | Onboarding ID capture | Private S3 uploads and immutable account-bound evidence | [Capture](auth/onboarding/id-capture/architecture.md) |
@@ -50,7 +53,7 @@ The application supports configurable password enrollment as well as passkeys an
 
 ## Implementation versus readiness
 
-The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. The capture service and Android client implement live capture. Automatic extraction and revisioned review are implemented, including manual entry after extraction failure. The document-data finish screen requires a stored review; capture readiness alone does not confirm the form was saved. See the [compatibility ledger](docs/compatibility.md) for refs and verification limits; do not integrate against the historical combined mock contract. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
+The reviewed Go and Android sources include email confirmation, registration, sign-in, refresh, and passkey status. Android also has an ID-deferral welcome screen. The capture service and Android client implement live capture. Automatic extraction and revisioned review are implemented, including manual entry after extraction failure. Automatic return after Save and continue requires an exact stored review; capture readiness alone does not confirm the form was saved. Review ID details opens that form directly. See the [compatibility ledger](docs/compatibility.md) for refs and verification limits; do not integrate against the historical combined mock contract. ID validation and complete web/iOS clients remain separate work. Local source support does not certify cloud deployment, domain association, or live end-to-end behavior; each module owns its verification and deployment instructions.
 
 ## Onboarding document pipeline
 
@@ -72,4 +75,4 @@ flowchart TD
 
 ## Environment operations
 
-[Environment lifecycle and discovery](operations/environments.md) defines staged readiness, shared-index ownership, publication trust and teardown boundaries. [Backend operator guidance](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/docs/agents/operations.md) owns commands and recovery details.
+[Environment lifecycle and discovery](operations/environments.md) defines staged readiness, shared-index ownership, publication trust and teardown boundaries. [Backend operator guidance](https://github.com/lambdawalker/go.attestra.aws/blob/main/README.md) owns commands and recovery details.

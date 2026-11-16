@@ -17,7 +17,7 @@ The client never calls the model directly, receives provider credentials, or sup
 5. Enforce response size/schema, field lengths, supported types, nullable missing values and normalization rules. Bound malformed-output retries. Unreadable images or ambiguous critical content return recapture/review outcomes rather than invented facts.
 6. Persist the immutable extraction and its provenance, then conditionally publish a successful result using the lease/generation. A stale worker cannot overwrite a newer attempt or current capture pointer. Publish after verifying the capture is still eligible; deletion/cancellation fences late results.
 7. The authenticated client fetches status/result, displays fields and warnings, and submits corrections with the expected extraction and review revisions. The backend loads the original extraction itself; it does not trust an `extracted` object echoed by Android.
-8. Confirm the review revision and return “Document details saved.” Save correction attribution and original values separately. This finishes the optional document-data portion of onboarding, with no call to ID validation in this iteration.
+8. Confirm the review revision and return a saved outcome. Current Android returns automatically to account routing after a matching server-confirmed save; no mandatory Done screen follows. Preserve correction attribution and original values separately in the richer target model. Runtime policy controls whether document capture is required or optional; saving never invokes ID validation.
 
 ## Separate state tracks
 

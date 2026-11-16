@@ -1,6 +1,6 @@
 # Returning users and session recovery
 
-This is the shared product and integration design for returning to onboarding. See [login](../login/architecture.md) for authentication and [onboarding](architecture.md) for the one-use email proof. Exact HTTP shapes belong in the [backend reference](https://github.com/lambdawalker/go.attestra.aws.auth#return-to-onboarding-and-sign-in); platform storage and navigation details belong in the [Android guide](https://github.com/lambdawalker/android.attestra.auth#returning-after-an-unfinished-signup).
+This is the shared product and integration design for returning to onboarding. See [login](../login/architecture.md) for authentication and [onboarding](architecture.md) for the one-use email proof. Exact HTTP shapes belong in the [backend reference](https://github.com/lambdawalker/go.apexfission.aws.auth/blob/main/docs/agents/index.md); platform storage and navigation details belong in the [Android guide](https://github.com/lambdawalker/android.apexfission.auth#returning-after-an-unfinished-signup).
 
 ## Entry and restoration
 

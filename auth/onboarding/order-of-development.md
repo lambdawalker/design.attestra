@@ -2,7 +2,7 @@
 
 Follow the four subfeature folders: [email confirmation](email-confirmation/README.md), [passkey creation](passkey-creation/README.md), [ID capture](id-capture/README.md), and [ID parsing](id-parsing/README.md). Shared layout and loading belong to the overall onboarding flow.
 
-This is a design dependency sequence, not an outstanding-task or deployment checklist. Current implementation details belong in the [Android](https://github.com/lambdawalker/android.attestra.auth) and [Go](https://github.com/lambdawalker/go.attestra.aws.auth) repositories.
+This is a design dependency sequence, not an outstanding-task or deployment checklist. Current implementation details belong in the [Android](https://github.com/lambdawalker/android.apexfission.auth) and [Go](https://github.com/lambdawalker/go.attestra.aws/blob/main/README.md) repositories.
 
 Build the screens in vertical slices so each completed stage can be exercised from its entry point through success and recovery. The HTML mockups are visual references; the architecture defines the actual state transitions.
 
@@ -14,11 +14,11 @@ Build the screens in vertical slices so each completed stage can be exercised fr
 ## 2. Email confirmation
 
 3. Build [Email verification - start](email-confirmation/ui-reference/email_verification_start/code.html), including validation, submission, and the neutral response for addresses that may already exist.
-4. Build [Email verification - wait](email-confirmation/ui-reference/email_verification_wait/code.html), including resend limits and change-email navigation.
+4. Build [Email verification - wait](email-confirmation/ui-reference/email_verification_wait/code.html), with its visible code field, explicit A+C submission, resend limits and change-email navigation. No extra code-entry screen is needed.
 5. Create the verification email template with link B and a separate six-digit code C. This is required to exercise the screens that follow.
 6. Handle the opened link:
     - With matching local A, show the shared processing screen and submit A+B automatically.
-    - Without A, show [Email verification - manual code input](email-confirmation/ui-reference/email_verification_manual_code_input/code.html). Submit B+C only when the user activates Verify email.
+    - Without A, reuse the combined waiting/code form; [Email verification - manual code input](email-confirmation/ui-reference/email_verification_manual_code_input/code.html). Submit B+C only when the user activates Verify email.
 7. Add [incorrect code](email-confirmation/ui-reference/email_verification_incorrect_code/code.html), [attempt limit](email-confirmation/ui-reference/email_verification_attempt_limit/code.html), and [unusable link](email-confirmation/ui-reference/email_verification_link_unusable/code.html). A replacement email supplies a new link and code; old and new values cannot be combined.
 8. Advance only after confirmation **and** an authenticated session are available. If the email was confirmed but session creation failed, route to email sign-in recovery.
 
@@ -32,7 +32,7 @@ Build the screens in vertical slices so each completed stage can be exercised fr
 ## 4. Policy-controlled ID capture
 
 13. Build Add your ID with Skip only for optional capture and document-type policy selection.
-14. Integrate permission, camera, per-side preview and retake; preserve host cancel/error navigation.
+14. Integrate permission, camera, per-side preview and retake. After accepted disclosure, request native camera permission directly; preserve denial, Settings, no-camera and host cancel/error recovery. Standalone camera entry still explains permission first.
 15. Add direct S3 upload progress, instruction renewal and status reconciliation for missing slots.
 16. Finalize and show preparing/pending status until the frozen evidence is ready; invalid images route to recapture.
 
@@ -40,14 +40,14 @@ Build the screens in vertical slices so each completed stage can be exercised fr
 
 17. Create/reconcile an asynchronous parse job for ready evidence. Support bounded waiting and leave/resume.
 18. Build review of extracted fields, missing/ambiguous warnings, user corrections and recapture.
-19. Save/confirm a revision with conflict and lost-response recovery. End at Document details saved, then continue to account.
+19. Save/confirm a revision with conflict and lost-response recovery. After the exact server-confirmed save, return to account routing automatically. Account review opens the saved form directly.
 
 The detailed backend/client sequence and acceptance gates are in the [document pipeline plan](id-evidence-plan.md). ID-validation provider checks, approval/rejection screens and restricted-feature gating are outside these slices. Historical identity-success mockups are not parsing-success screens.
 
 ## Completion checks
 
-- Test the A+B and B+C paths on the web and native clients, including opening the link on another device.
-- Verify that fetching a link alone cannot confirm an email, and that a code cannot confirm without its matching link.
+- Test the A+B, A+C and B+C paths on the web and native clients, including opening the link on another device.
+- Verify that fetching a link alone cannot confirm an email, and that a code cannot confirm without its matching high-entropy A or B proof.
 - Test wrong codes, exhausted attempts, expired or replaced links, resends, network timeouts, and confirmation without a recoverable session.
 - Test passkey success, cancellation, failure, unsupported devices, and deferral.
 - Test capture cancellation/retakes, incomplete uploads, URL expiry, frozen-version races, unreadable parsing, model failures, corrected details, uncertain writes, pending recovery and revision conflicts.

@@ -1,6 +1,6 @@
 # Configurable onboarding policy
 
-The revisioned per-environment runtime document controls enrollment. Email verification remains mandatory. Authentication alone does not establish onboarding completion or identity verification.
+The revisioned per-environment runtime document controls enrollment. Email verification remains mandatory. Authentication alone does not establish onboarding completion or identity verification. The approved [persistent authentication tasks](../persistent-tasks.md) define the updated Android host interaction; their implementation status is recorded separately from this policy contract.
 
 | Control | Modes | New default |
 | --- | --- | --- |
@@ -9,7 +9,7 @@ The revisioned per-environment runtime document controls enrollment. Email verif
 | Password enrollment | Required, Optional, Disabled | Disabled |
 | Password placement | With email, After email verification, Hidden | Hidden |
 
-Required steps block completion until the server confirms their durable fact. Optional steps offer an explicit skip. Disabled steps are omitted from onboarding; disabling enrollment does not revoke existing credentials or disable their sign-in. Current policy applies when unfinished onboarding resumes; local skip/deferred flags cannot bypass a newly required step. Unavailable or invalid settings block new completion and offer retry.
+Required steps block completion until the server confirms their durable fact. The updated host moves incomplete optional steps to explicit account actions after required steps and server-confirmed completion; optional tasks can be deferred without repeated onboarding skip screens. Legacy custom hosts may retain the explicit-skip routing API. Disabled steps are omitted from onboarding; disabling enrollment does not revoke existing credentials or disable their sign-in. Current policy applies when unfinished onboarding resumes; local skip/deferred flags cannot bypass a newly required step. Unavailable or invalid settings block new completion and offer retry.
 
 ## Runtime contract
 
@@ -21,7 +21,7 @@ An old document without `onboarding` preserves historical behavior: ID capture i
 
 ## Password and completion boundaries
 
-With-email placement collects the password beside email but retains it only in memory until verification succeeds. Never include it in signup proofs, URLs, logs, saved state or analytics. Process loss or confirmation on another device asks for the password again after verification. After-verification placement collects it only after the session is established.
+With-email placement collects the password beside email but retains it only in memory until verification and password registration succeed. Never include it in signup proofs, URLs, logs, saved state or analytics. Process loss or confirmation on another device asks for the password again after verification. After-verification placement collects it only after the session is established. A temporary save failure retains the current owner's input for an explicit retry; success, account/environment changes, or exit clear it. An acknowledged save followed by an account-status failure offers a status retry rather than asking the user to resubmit the password.
 
 `POST /auth/password/set` accepts an access-token bearer and `{password}` and returns `{password_registered:true}`. The server validates the verified, pool-bound account and password policy before `AdminSetUserPassword`. Cognito owns the credential; the application does not persist passwords. DynamoDB stores enrollment booleans, not credentials.
 

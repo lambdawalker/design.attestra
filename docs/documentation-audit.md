@@ -1,5 +1,7 @@
 # Documentation audit — 2026-10-11
 
+Historical audit. For current source ownership, onboarding behavior and verification limits, see the [2026-11-15 synchronization](compatibility.md#source-synchronization-2026-11-15). The hosting statements below are dated observations, not current configuration.
+
 This update follows the system-integrated, standalone-library and versioned-multilingual documentation prompts in `lambdawalker/agents.prompts`. It does not deploy application infrastructure or publish a package.
 
 ## Verified locally

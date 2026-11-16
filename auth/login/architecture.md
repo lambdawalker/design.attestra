@@ -1,6 +1,6 @@
 # Authentication / login architecture
 
-**Status:** Email OTP and passkey sign-in, session refresh, and authenticated passkey status endpoints exist in the [Go backend](https://github.com/lambdawalker/go.attestra.aws.auth); the [Android client](https://github.com/lambdawalker/android.attestra.auth) provides their native UI and Credential Manager adapter. Web/iOS clients and deployed integration validation are separate work. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md).
+**Status:** Email OTP and passkey sign-in, session refresh, and authenticated passkey status endpoints exist in the [Go backend](https://github.com/lambdawalker/go.apexfission.aws.auth/blob/main/docs/agents/index.md); the [Android client](https://github.com/lambdawalker/android.apexfission.auth) provides their native UI and Credential Manager adapter. Web/iOS clients and deployed integration validation are separate work. [Shared visual system](../DESIGN.md) · [Stitch screen spec](stitch.md).
 
 ## Scope
 
@@ -35,18 +35,18 @@ flowchart TD
 | Begin fallback | `/auth/email/start` | Issue a fresh Cognito email OTP challenge |
 | Complete fallback | `/auth/email/complete` | Validate the OTP for that challenge and establish a session |
 
-Exact request/response shapes and error codes are maintained in the [backend HTTP reference](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#return-to-onboarding-and-sign-in).
+Exact request/response shapes and error codes are maintained in the [backend HTTP reference](https://github.com/lambdawalker/go.apexfission.aws.auth/blob/main/docs/agents/index.md).
 
 The client keeps the opaque auth session only for its matching challenge. Never place that session, WebAuthn credential response, OTP, or returned tokens in navigation URLs or analytics. The website determines how to store the resulting session securely; the API's token response uses `Cache-Control: no-store`.
 
 ## Recovery and constraints
 
 - A passkey prompt may be cancelled without treating the account as invalid. Return to the email entry state or offer **Use an email code instead**. Do not imply that failure proves no account or no passkey exists.
-- If an email OTP code or Cognito challenge session expires, offer a fresh start. Show safe failure and retry copy without raw Cognito details. Current transport error names are documented in the [backend API reference](https://github.com/lambdawalker/go.attestra.aws.auth/blob/main/README.md#return-to-onboarding-and-sign-in); do not assume a provider-specific error is exposed.
+- If an email OTP code or Cognito challenge session expires, offer a fresh start. Show safe failure and retry copy without raw Cognito details. Current transport error names are documented in the [backend API reference](https://github.com/lambdawalker/go.apexfission.aws.auth/blob/main/docs/agents/index.md); do not assume a provider-specific error is exposed.
 - The application should not disclose whether an email is registered in pre-authentication copy. Cognito client configuration enables user-existence protection; product copy should not undo it.
 - The platform owns passkey approval and user verification. The Go service forwards challenge data and the credential assertion to Cognito; it never receives or stores the passkey private key.
 - Email OTP fallback is an account recovery path and a lower assurance factor than a device-bound passkey. Future sensitive actions can require a fresh passkey assertion or an independently defined step-up policy; successful OTP alone must not claim passkey possession.
-- If onboarding confirmation succeeded but its automatic sign-in session expired, use this OTP path to resume passkey setup. Identity and address status are evaluated separately by feature policy.
+- If onboarding confirmation succeeded but its automatic sign-in session expired, use this OTP path to resume the next unmet policy-controlled enrollment step. Identity and address status are evaluated separately by feature policy.
 
 ## Outstanding client decisions
 
